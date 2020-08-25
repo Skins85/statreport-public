@@ -1,0 +1,30 @@
+.banner {
+    min-height: 15vh;
+    height: fit-content;
+    margin-bottom: $rem--four;
+    @include twenty-grid;
+
+    &[data-banner-content='false'] {
+        margin-bottom: 0;
+    }
+
+    .banner__content {
+        grid-column: 2 / -2;
+        @media screen and (min-width: $tablet) {
+            grid-column: 2 / -5;
+        }
+        @media screen and (min-width: $desktop) {
+            grid-column: 2 / 9;
+        }
+
+        margin-top: $rem--four;
+        margin-bottom: -$rem--three;
+        background-color: rgba(247, 247, 247, 0.9);
+        border-left: $border-thick solid $red50;
+        padding: $rem--one;
+
+        h1 {
+            margin: 0;
+        }
+    }
+}

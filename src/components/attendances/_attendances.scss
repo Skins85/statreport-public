@@ -1,0 +1,8 @@
+canvas {
+    &[data-display='true'] {
+        display: block;
+    }
+    &[data-display='false'] {
+        display: none;
+    }
+}

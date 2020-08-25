@@ -1,0 +1,18 @@
+.CookieConsent {
+    a {
+        color: white;
+    }
+
+    // Override inline styles created by cookie consent script
+    #rcc-confirm-button {
+        background-color: $red60 !important;
+        color: white !important;
+        font-size: $rem--one !important;
+        padding: $rem--one !important;
+        border-radius: $rem--quarter !important;
+
+        &:hover {
+            background-color: $red50 !important;
+        }
+    }
+}

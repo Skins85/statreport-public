@@ -1,0 +1,14 @@
+.add-result {
+    padding: $rem--two;
+    background: $gray10;
+
+    section {
+        border-bottom: $rem--eighth solid $gray30;
+
+        &.starts-subs {
+            .wrapper--starts-subs-select {
+                display: flex;
+            }
+        }
+    }
+}

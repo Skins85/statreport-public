@@ -1,0 +1,51 @@
+select {
+    display: block;
+    font-size: $rem--one;
+    margin: $rem--one $rem--one-quarter $rem--one 0;
+    border: $border-narrow solid $gray80;
+    padding: $rem--half 50px $rem--half $rem--half;
+
+    /** Styled arrows modified from Codepen originally produced by <a href="https://codepen.io/vkjgr">Veiko</a> 
+        on <a href="https://codepen.io/vkjgr/pen/VYMeXp">Codepen</a>.
+    **/
+
+    // Remove default arrow
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    // Create custom arrows
+    background-image:
+        linear-gradient(45deg, transparent 50%, $blue70 50%),
+        linear-gradient(135deg, $blue70 50%, transparent 50%),
+        linear-gradient(to right, $blue20, $blue20);
+    background-position:
+        calc(100% - 20px) calc(1rem),
+        calc(100% - 15px) calc(1rem),
+        100% 0;
+    background-size:
+        5px 5px,
+        5px 5px,
+        $rem--two-half $rem--two-half;
+    background-repeat: no-repeat;
+
+    &:focus {
+        background-image:
+            linear-gradient(45deg, white 50%, transparent 50%),
+            linear-gradient(135deg, transparent 50%, white 50%),
+            linear-gradient(to right, $gray70, $gray70);
+        background-position:
+            calc(100% - 15px) $rem--one,
+            calc(100% - 20px) $rem--one,
+            100% 0;
+        background-size:
+            5px 5px,
+            5px 5px,
+            $rem--two-half $rem--two-half;
+        background-repeat: no-repeat;
+        border-color: $gray90;
+        outline: 0;
+    }
+}

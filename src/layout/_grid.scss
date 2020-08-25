@@ -1,0 +1,58 @@
+@mixin standard-grid() {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    grid-column-gap: $rem--one;
+}
+
+@mixin sixteen-grid() {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-column-gap: $rem--one;
+}
+
+@mixin twenty-grid() {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-column-gap: $rem--one;
+}
+
+.content {
+    @include standard-grid();
+    /** // Background pattern 'Graphy (Light)' by <a href="http://www.wearepixel8.com/">We Are Pixel8</a> sourced through
+    <a href="https://www.transparenttextures.com/">Transparent Textures</a> and
+    <a href="https://www.toptal.com/designers/subtlepatterns">Toptal Subtle Patterns</a>**/
+    background-image: url('/images/patterns/graphy.png'); 
+    background-color: $blue10;
+
+    &.content--default {
+        > .content-wrapper {
+            background-color: white;
+            grid-column: 1/-1;
+            @media screen and (min-width: $tablet) {
+                grid-column: 2/-2;
+            }
+            @media screen and (min-width: $small) {
+                grid-column: 3/-3;
+            }
+            @include twenty-grid;
+            > .content__inpage {
+                padding: 0 $rem--one;
+                grid-column: 1/-1;
+                min-height: 60vh;
+                @media screen and (min-width: $tablet) {
+                    grid-column: 2/-2;
+                }
+                @media screen and (min-width: $small) {
+                    grid-column: 3/-3;
+                }
+                @media screen and (min-width: $desktop) {
+                    grid-column: 4/-4;
+                }
+            }
+            > .banner {
+                grid-column: 1/-1;
+            }
+        }
+        
+    }
+}

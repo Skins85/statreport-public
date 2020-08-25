@@ -1,0 +1,19 @@
+footer {
+    background-color: $gray70;
+    min-height: 3vh;
+    @include standard-grid;
+    padding: $rem--one 0;
+    ul {
+        list-style-type: none;
+        display: flex;
+        grid-column: 4/-4;
+        margin: 0;
+        padding: 0;
+        li {
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+}

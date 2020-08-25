@@ -1,0 +1,38 @@
+body {
+    font-family: 'Josefin Slab', 'Jura', serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    h1, h2 {
+        display: block;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: $rem--two;
+    }
+
+    h2 {
+        margin: $rem--one 0 $rem--half;
+    }
+
+    p {
+        font-size: 1.1rem;
+        line-height: $rem--one-half;
+        font-weight: 300;
+        &.standfirst {
+            font-weight: 400;
+            font-size: $rem--one-quarter;
+        }
+    }
+
+    // Text alignment
+    .text-align--left {
+        text-align: left;
+    }
+    .text-align--right {
+        text-align: right;
+    }
+    .text-align--center {
+        text-align: center;
+    }
+
+}

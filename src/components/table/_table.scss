@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0;
+    border: $border-fine solid $gray20;
+
+    thead {
+        text-align: right;
+        background-color: $blue10;
+    }
+    
+    tr {
+        border-top: $border-fine solid $gray20;
+        td, th {
+            padding: $rem--half $rem--half;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                background: $gray10;
+            }
+            td {
+                &[data-type='num'] {
+                    text-align: right;
+                }
+                &[data-type='text'] {
+                    text-align: left;
+                }
+            }
+        }
+    }
+}

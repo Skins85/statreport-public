@@ -1,0 +1,11 @@
+@mixin flex-wrapper() {
+    display: flex;
+}
+
+.flex-wrapper {
+    @include flex-wrapper();
+}
+
+[data-content-align='left'] {
+    text-align: left;
+}

@@ -1,0 +1,10 @@
+.wrapper--homepage__link-block {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.homepage__link-block {
+    flex: 1;
+    padding: $rem--two;
+}

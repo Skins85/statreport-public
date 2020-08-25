@@ -1,0 +1,12 @@
+{
+    "sections": [
+        { "name": "Home", "path": "/" },
+        { "name": "Results", "path": "/results" },
+        { "name": "Players", "path": "/players", "pages": [
+            {"name": "Goalscorers", "path": "/players/goalscorers" }
+        ] },
+        { "name": "About", "path": "/about", "pages": [
+            {"name": "Bio", "path": "/about/bio" }
+        ]}
+    ]
+}

@@ -1,0 +1,10 @@
+.banner .banner__content {
+    grid-column-gap: 4/-9;
+}
+
+.circle {
+    @include circle($gray80, 50px);
+    &:hover {
+        background-color: $gray70;
+    }
+}

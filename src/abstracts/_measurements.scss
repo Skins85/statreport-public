@@ -1,0 +1,148 @@
+$rem--eighth: 0.125rem;
+.width--eighth {
+    width: $rem--eighth;
+}
+.height--eighth {
+    height: $rem--eighth;
+}
+
+$rem--quarter: 0.25rem;
+.width--quarter {
+    width: $rem--quarter;
+}
+.height--quarter {
+    height: $rem--quarter;
+}
+
+$rem--half: 0.5rem;
+.width--half {
+    width: $rem--half;
+}
+.height--half {
+    height: $rem--half;
+}
+
+$rem--threequarters: 0.75rem;
+.width--threequarters {
+    width: $rem--threequarters;
+}
+.height--tiny2 {
+    height: $rem--threequarters;
+}
+
+$rem--one: 1rem;
+.width--one {
+    width: $rem--one;
+}
+.height--one {
+    height: $rem--one;
+}
+
+$rem--one-quarter: 1.25rem;
+.width--one-quarter {
+    width: $rem--one-quarter;
+}
+.height--small1 {
+    height: $rem--one-quarter;
+}
+
+$rem--one-half: 1.5rem;
+.width--one-half {
+    width: $rem--one-half;
+}
+.height--one-half {
+    height: $rem--one-half;
+}
+
+$rem--one-threequarters: 1.75rem;
+.width--one-threequarters {
+    width: $rem--one-threequarters;
+}
+.height--one-threequarters {
+    height: $rem--one-threequarters;
+}
+
+$rem--two: 2rem;
+.width--two {
+    width: $rem--two;
+}
+.height--two {
+    height: $rem--two;
+}
+
+$rem--two-quarter: 2.25rem;
+.width--two-quarter {
+    width: $rem--two-quarter;
+}
+.height--two-quarter {
+    height: $rem--two-quarter;
+}
+
+$rem--two-half: 2.5rem;
+.width--two-half {
+    width: $rem--two-half;
+}
+.height--two-half {
+    height: $rem--two-half;
+}
+
+$rem--two-threequarters: 2.75rem;
+.width--two-threequarters {
+    width: $rem--two-threequarters;
+}
+.height--two-threequarters {
+    height: $rem--two-threequarters;
+}
+
+$rem--three: 3rem;
+.width--three {
+    width: $rem--three;
+}
+.height--three {
+    height: $rem--three;
+}
+
+$rem--three-quarter: 3.25rem;
+.width--three-quarter {
+    width: $rem--three-quarter;
+}
+.height--three-quarter {
+    height: $rem--three-quarter;
+}
+
+$rem--three-half: 3.5rem;
+.width--three-half {
+    width: $rem--three-half;
+}
+.height--three-half {
+    height: $rem--three-half;
+}
+
+$rem--three-threequarters: 3.75rem;
+.width--three-threequarters {
+    width: $rem--three-threequarters;
+}
+.height--three-threequarters {
+    height: $rem--three-threequarters;
+}
+
+$rem--four: 4rem;
+.width--four {
+    width: $rem--four
+}
+.height--four {
+    height: $rem--four;
+}
+
+$border-fine: 1px;
+$border-narrow: 2px;
+$border-medium: 3px;
+$border-thick: 4px;
+$border-verythick: 5px;
+
+.width--50 {
+    width: 50%;
+    @media screen and (max-width: $small) {
+        width: 100%;
+    }
+}

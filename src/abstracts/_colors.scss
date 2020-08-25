@@ -1,0 +1,182 @@
+
+// Variables
+$blue10: #e8f0fc;
+$blue20: #bbd1f7;
+$blue30: #8eb2f1;
+$blue40: #6094eb;
+$blue50: #3375e6;
+$blue60: #195ccc;
+$blue70: #14479f;
+$blue80: #0e3371;
+$blue90: #081f44;
+$blue100: #030a17;
+
+$red10: #fde7ea;
+$red20: #fab7c1;
+$red30: #f78798;
+$red40: #f4576e;
+$red50: #f12745;
+$red60: #d80e2b;
+$red70: #a80b22;
+$red80: #780818;
+$red90: #48050e;
+$red100: #180205;
+
+$gray10: #f7f7f7;
+$gray20: #d9d9d9;
+$gray30: #bfbfbf;
+$gray40: #a6a6a6;
+$gray50: #8c8c8c;
+$gray60: #737373;
+$gray70: #595959;
+$gray80: #404040;
+$gray90: #262626;
+$gray100: #0d0d0d;
+
+$colors: (
+    blue10: (
+        color: $blue10,
+        background-color: $blue10
+    ),
+    blue20: (
+        color: $blue20,
+        background-color: $blue20
+        
+    ),
+    blue30: (
+        color: $blue30,
+        background-color: $blue30
+    ),
+    blue40: (
+        color: $blue40,
+        background-color: $blue40
+    ),
+    blue50: (
+        color: $blue50,
+        background-color: $blue50
+    ),
+    blue60: (
+        color: $blue60,
+        background-color: $blue60
+    ),
+    blue70: (
+        color: $blue70,
+        background-color: $blue70
+    ),
+    blue80: (
+        color: $blue80,
+        background-color: $blue80
+    ),
+    blue90: (
+        color: $blue90,
+        background-color: $blue90
+    ),
+    blue100: (
+        color: $blue100,
+        background-color: $blue100
+    ),
+    red10: (
+        color: $red10,
+        background-color: $red10
+    ),
+    red20: (
+        color: $red20,
+        background-color: $red20
+    ),
+    red30: (
+        color: $red30,
+        background-color: $red30
+    ),
+    red40: (
+        color: $red40,
+        background-color: $red40
+    ),
+    red50: (
+        color: $red50,
+        background-color: $red50
+    ),
+    red60: (
+        color: $red60,
+        background-color: $red60
+    ),
+    red70: (
+        color: $red70,
+        background-color: $red70
+    ),
+    red80: (
+        color: $red80,
+        background-color: $red80
+    ),
+    red90: (
+        color: $red90,
+        background-color: $red90
+    ),
+    red100: (
+        color: $red100,
+        background-color: $red100
+    ),
+    gray10: (
+        color: $gray10,
+        background-color: $gray10
+    ),
+    gray20: (
+        color: $gray20,
+        background-color: $gray20
+    ),
+    gray30: (
+        color: $gray30,
+        background-color: $gray30
+    ),
+    gray40: (
+        color: $gray40,
+        background-color: $gray40
+    ),
+    gray50: (
+        color: $gray50,
+        background-color: $gray50
+    ),
+    gray60: (
+        color: $gray60,
+        background-color: $gray60
+    ),
+    gray70: (
+        color: $gray70,
+        background-color: $gray70
+    ),
+    gray80: (
+        color: $gray80,
+        background-color: $gray80
+    ),
+    gray90: (
+        color: $gray90,
+        background-color: $gray90
+    ),
+    gray100: (
+        color: $gray100,
+        background-color: $gray100
+    )
+);
+
+@mixin itemColor ($color) {
+    color: $color;
+}
+
+@mixin itemBackgroundColor ($background-color) {
+    background-color: $background-color;
+}
+
+@each $name, $value in $colors {
+    .#{$name} {
+        @include itemColor(
+            map-get($value, color),
+        );
+    }
+}
+
+@each $name, $value in $colors {
+    .background-#{$name} {
+        @include itemBackgroundColor(
+            map-get($value, background-color)
+        );
+    }
+}
