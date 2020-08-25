@@ -7,33 +7,22 @@ export default function Bio() {
             <div className='content__inpage'>
                 <div className='about about--bio'>
                     <h1>Bio</h1>
+
+                     <p class='standfirst'>
+                        My love of the Daggers dates back to the late 1990s. I've seen the highs and 
+                        lows from the Ryman League to League 1 with many magical Cup runs in between. I hope 
+                        the site is of interest to Daggers fans old and new and serves as a reminder to some of 
+                        the great matches and players we've been able to watch over the years.
+                    </p>
                     
                     <p>
                         I first began coding in 2010 following a career change from journalism. Beginning 
-                        as a CMS Editor, I learnt on the job and in my own time, initially understanding 
-                        HTML and CSS before using JavaScript to interact with the DOM. Whilst learning the 
-                        fundamentals of JavaScript, I also learned how to use third-party libraries such as 
-                        jQuery and jQueryUI.
+                        as a CMS Editor, I learnt on the job and in my own time.
                     </p>
 
                     <p>
-                        Over time I became interested in combining front-end design with 
-                        data. Around 2013 I began learning PHP and the first iteration of this site was built 
-                        in this language (see <a href="https://github.com/Skins85/statreport">GitHub repository</a>). 
-                        It was a great learning curve as I became familiar with creating JSON feeds to populate 
-                        data-rich templates. As my projects became more involved, I learned the 
-                        value of version control and code integrity using Git.
-                    </p>
-
-                    <p>
-                        At the end of 2019 I decided the time was right to rewrite StatReport 
-                        in React and Node as JavaScript has become my primar programming language. Whilst it's 
-                        been a big undertaking, the scope and possibilities of modern JS frameworks has allowed 
-                        me to develop a more agile UI and moduralise my site into components. 
-                    </p>
-
-                    <p>
-                        As time goes by I hope to add to this site with new technologies and ideas. My full 
+                        The site was initially written in PHP, but at the end of 2019 I switched the site
+                        to React on the front-end. As time goes by I hope to add to this site with new technologies and ideas. My full 
                         tech stack is listed below and further information is available on&nbsp;
                         <a href="https://www.linkedin.com/in/mark-skinsley-9b4635a7">LinkedIn</a>.
                     </p>

@@ -11,7 +11,7 @@ const attendancesList = (props) => {
                 <td>{props.attendance.toLocaleString()}</td>
                 <td>Daggers
                     &nbsp;
-                    <a href={`../matches/match/${props.match_id}`}> 
+                    <a href={`../matches/?m=${props.match_id}`}> 
                         {props.home_goals}-{props.away_goals}
                     </a>
                     &nbsp;
