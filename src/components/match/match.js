@@ -174,7 +174,7 @@ export default function Matches() {
                         <a href={`../../players/${m.sub_4}`}>{sub_4}</a>
                     </p>
                     <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
-                    {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${m.attendance_away} away)` : null}</p>
+                    {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                     <p><strong>League position</strong> {m.league_position}</p>
                     <p><strong>Referee</strong> {m.referee}</p>
                 </div>
