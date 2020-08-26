@@ -4,6 +4,7 @@ import Banner from '../../components/banner/banner';
 import Result from '../../components/result/result';
 import Spinner from '../../components/ui/spinner/spinner';
 import axios from 'axios';
+import { setupCache } from 'axios-cache-adapter';
 
 class Results extends Component {
     constructor(props) {
@@ -30,14 +31,31 @@ class Results extends Component {
     }
 
     async componentDidMount() {
-      await axios.get('https://www.statreport.co.uk/api/json/data-matches.php')
-        .then((response) => {
-          this.setState({data: response.data});
-      });
-      await axios.get('https://www.statreport.co.uk/api/json/data-teams.php')
-        .then((response) => {
-          this.setState({teamsData: response.data});
-      });
+
+      // Create Axios cache adapter instance
+      const cache = setupCache({
+        maxAge: 15 * 60 * 1000
+      })
+      
+      // Create Axios instance passing the newly created cache adapter
+      const api = axios.create({
+        adapter: cache.adapter
+      })
+
+      // Send GET request to some REST API
+      api({
+        url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+        method: 'get'
+      }).then(async (response) => {
+        this.setState({data: response.data})
+      })
+
+      api({
+        url: 'https://www.statreport.co.uk/api/json/data-teams.php',
+        method: 'get'
+      }).then(async (response) => {
+        this.setState({teamsData: response.data})
+      })
       await this.setState({dataLoaded: true})
     }
 
