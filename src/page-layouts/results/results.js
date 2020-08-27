@@ -31,18 +31,23 @@ class Results extends Component {
     }
 
     async componentDidMount() {
+      // Cache GET requests
+      let cache;
+      function cacheReq() {
+        
+        // Define cache adapter and manage properties
+        cache = setupCache({
+          maxAge: 15 * 60 * 1000
+        })
+      }
+      cacheReq(cache);
 
-      // Create Axios cache adapter instance
-      const cache = setupCache({
-        maxAge: 15 * 60 * 1000
-      })
-      
-      // Create Axios instance passing the newly created cache adapter
+      // Create cache adapter instance
       const api = axios.create({
         adapter: cache.adapter
       })
-
-      // Send GET request to some REST API
+      
+      // Cache GET responses and save in state
       api({
         url: 'https://www.statreport.co.uk/api/json/data-matches.php',
         method: 'get'
@@ -56,6 +61,7 @@ class Results extends Component {
       }).then(async (response) => {
         this.setState({teamsData: response.data})
       })
+      
       await this.setState({dataLoaded: true})
     }
 

@@ -1,3 +1,6 @@
+// import axios from 'axios';
+// import { setupCache } from 'axios-cache-adapter';
+
 const groupArrayOfObjects = (arr, property) => {
     return arr.reduce(function(memo, x) {
         if (!memo[x[property]]) { memo[x[property]] = []; }
