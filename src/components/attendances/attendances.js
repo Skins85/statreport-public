@@ -7,6 +7,7 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import axios from 'axios';
+import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
     const [hasError, setErrors] = useState(false);
@@ -21,10 +22,30 @@ export default function Attendances() {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get('https://www.statreport.co.uk/api/json/data-attendances.php')
-                .then((response) => {
-                setData(response.data)
-            });
+            
+            // Cache GET requests
+            let cache;
+            function cacheReq() {
+            
+                // Define cache adapter and manage properties
+                cache = setupCache({
+                    maxAge: 15 * 60 * 1000
+                })
+            }
+            await cacheReq(cache);
+
+            // Create cache adapter instance
+            const api = axios.create({
+                adapter: cache.adapter
+            })
+        
+            // Cache GET responses and save in state
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-attendances.php',
+                method: 'get'
+            }).then(async (response) => {
+                setData(response.data);
+            })
             await setDataLoaded(true);
         }
         fetchData();

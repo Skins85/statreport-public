@@ -4,6 +4,7 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
+import { setupCache } from 'axios-cache-adapter';
 
 export default function Scorers() {
     const [hasError, setErrors] = useState(false);
@@ -17,15 +18,36 @@ export default function Scorers() {
     useEffect(() => {
         async function fetchData() {
 
-            await axios.get('https://www.statreport.co.uk/api/json/data-players-goals-all.php')
-                .then((response) => {
-                    setData(response.data);
-            });
+            // Cache GET requests
+            let cache;
+            function cacheReq() {
+                
+                // Define cache adapter and manage properties
+                cache = setupCache({
+                maxAge: 15 * 60 * 1000
+                })
+            }
+            await cacheReq(cache);
 
-            await axios.get('https://www.statreport.co.uk/api/json/data-player-goals-total.php')
-                .then((response) => {
-                    setTotalGoalsData(response.data);
-            });
+            // Create cache adapter instance
+            const api = axios.create({
+                adapter: cache.adapter
+            })
+            
+            // Cache GET responses and save in state
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players-goals-all.php',
+                method: 'get'
+            }).then(async (response) => {
+                setData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-player-goals-total.php',
+                method: 'get'
+            }).then(async (response) => {
+                setTotalGoalsData(response.data);
+            })
 
             await setDataLoaded(true);
  

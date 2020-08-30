@@ -40,7 +40,7 @@ class Results extends Component {
           maxAge: 15 * 60 * 1000
         })
       }
-      cacheReq(cache);
+      await cacheReq(cache);
 
       // Create cache adapter instance
       const api = axios.create({
@@ -48,14 +48,14 @@ class Results extends Component {
       })
       
       // Cache GET responses and save in state
-      api({
+      await api({
         url: 'https://www.statreport.co.uk/api/json/data-matches.php',
         method: 'get'
       }).then(async (response) => {
         this.setState({data: response.data})
       })
 
-      api({
+      await api({
         url: 'https://www.statreport.co.uk/api/json/data-teams.php',
         method: 'get'
       }).then(async (response) => {

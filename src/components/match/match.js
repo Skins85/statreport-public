@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
 import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
+import { setupCache } from 'axios-cache-adapter';
 
 export default function Matches() {
     document.title = 'Matches';
@@ -15,15 +16,37 @@ export default function Matches() {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get('https://www.statreport.co.uk/api/json/data-matches.php')
-                .then((response) => {
-                    setData(response.data);
-            });
+            
+            // Cache GET requests
+            let cache;
+            function cacheReq() {
+            
+                // Define cache adapter and manage properties
+                cache = setupCache({
+                    maxAge: 15 * 60 * 1000
+                })
+            }
+            await cacheReq(cache);
 
-            await axios.get('https://www.statreport.co.uk/api/json/data-players.php')
-                .then((response) => {
-                    setPlayerData(response.data);
-            });
+            // Create cache adapter instance
+            const api = axios.create({
+                adapter: cache.adapter
+            })
+        
+            // Cache GET responses and save in state
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+                method: 'get'
+            }).then(async (response) => {
+                setData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players.php',
+                method: 'get'
+            }).then(async (response) => {
+                setPlayerData(response.data);
+            })
             await setDataLoaded(true);
         }
         fetchData();

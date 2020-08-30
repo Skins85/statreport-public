@@ -6,6 +6,7 @@ import PlayerResults from '../../components/player/player-results';
 import Spinner from '../../components/ui/spinner/spinner';
 import axios from 'axios';
 import {groupArrayOfObjects} from '../../util';
+import { setupCache } from 'axios-cache-adapter';
 
 document.title = 'Players';
 
@@ -35,20 +36,44 @@ class Players extends Component {
 
   	async componentDidMount() {
 
-        await axios.get('https://www.statreport.co.uk/api/json/data-players.php')
-            .then((response) => {
-                this.setState({playersData: response.data.results})
-        });
+        // Cache GET requests
+        let cache;
+        function cacheReq() {
+            
+            // Define cache adapter and manage properties
+            cache = setupCache({
+            maxAge: 15 * 60 * 1000
+            })
+        }
+        await cacheReq(cache);
 
-        await axios.get('https://www.statreport.co.uk/api/json/data-matches.php')
-            .then((response) => {
-                this.setState({allData: response.data.results})
-        });
+        // Create cache adapter instance
+        const api = axios.create({
+            adapter: cache.adapter
+        })
+        
+        // Cache GET responses and save in state
+        await api({
+            url: 'https://www.statreport.co.uk/api/json/data-players.php',
+            method: 'get'
+        }).then(async (response) => {
+            console.log(response.data);
+            this.setState({playersData: response.data.results})
+        })
 
-        await axios.get('https://www.statreport.co.uk/api/json/data-players-goals-all.php')
-            .then((response) => {
-                this.setState({goalsData: response.data.results})
-        });
+        await api({
+            url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+            method: 'get'
+        }).then(async (response) => {
+            this.setState({allData: response.data.results})
+        })
+
+        await api({
+            url: 'https://www.statreport.co.uk/api/json/data-players-goals-all.php',
+            method: 'get'
+        }).then(async (response) => {
+            this.setState({goalsData: response.data.results})
+        })
 
         await this.setState({dataLoaded: true})
     }

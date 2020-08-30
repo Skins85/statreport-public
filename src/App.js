@@ -19,7 +19,6 @@ import LeaguePositions from './components/league-positions/league-positions';
 import Login from './components/login/login';
 import Matches from './components/match/match';
 import Players from './page-layouts/players/players';
-import axios from 'axios';
 
 export default withRouter(function App({ location }) {
 
@@ -44,7 +43,7 @@ export default withRouter(function App({ location }) {
           <Route path="/disclaimer" component={Disclaimer} />
           <Route path="/matches/attendances" component={Attendances} />
           <Route path="/matches/league-positions" component={LeaguePositions} />
-          <Route path="/matches" component={Matches} />
+          <Route exact path="/matches" component={Matches} />
           <Route path="/players/scorers" component={Goalscorers} />
           <Route exact path="/players" component={Players} />
           <Route path="/players/" component={Players} />
