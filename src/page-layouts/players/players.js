@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Banner from '../../components/banner/banner';
+import Input from '../../components/form/ui/input/input';
 import Player from '../../components/player/player';
 import PlayerResults from '../../components/player/player-results';
 import Spinner from '../../components/ui/spinner/spinner';
@@ -21,7 +22,8 @@ class Players extends Component {
 			goalsData: '',
 			playerSelected: false,
             showMatches: false,
-            dataLoaded: false
+            dataLoaded: false,
+            playerSearchText: ''
 		};
 	};
 
@@ -348,7 +350,24 @@ class Players extends Component {
                         )
                     })
                 }
-                indexTemplate = filterPlayersNoName.map(p => 
+
+                // Filter results based on search input
+                let filteredSearchResults = filterPlayersNoName.filter(
+                    (name) => {
+                        return name.first_name.toLowerCase().indexOf(this.state.playerSearchText.toLowerCase()) !== -1
+                        || name.surname.toLowerCase().indexOf(this.state.playerSearchText.toLowerCase()) !== -1;
+
+                    }
+                )
+
+                // Filter players with at least 50 appearances
+                let fiftyApps = filterPlayersNoName.filter(
+                    (name) => {
+                        return name.count >= 50;
+                    }
+                )
+
+                indexTemplate = filteredSearchResults.map(p => 
                     <p key={`${p.Player}`}>
                         {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
                     </p>
@@ -365,6 +384,13 @@ class Players extends Component {
                     />
                     <div className='content__inpage'>
                         <p>Dagenham & Redbridge players ordered by number of appearances.</p>
+                        <Input 
+                            inputType={`text`} 
+                            placeholderText={`Search for players`} 
+                            inputId={`search-players`} 
+                            inputName={`search-players`}
+                            onChange={(event) => this.setState({playerSearchText: event.target.value})} 
+                        />
                         {indexTemplate}
                     </div>
                 </React.Fragment>
