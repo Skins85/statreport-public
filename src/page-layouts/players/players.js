@@ -367,11 +367,17 @@ class Players extends Component {
                     }
                 )
 
-                indexTemplate = filteredSearchResults.map(p => 
-                    <p key={`${p.Player}`}>
-                        {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
-                    </p>
-                )
+                if (filteredSearchResults.length > 0) {
+                    indexTemplate = filteredSearchResults.map(p => 
+                        <p key={`${p.Player}`}>
+                            {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
+                        </p>
+                    )
+                } else {
+                    indexTemplate = <p>No results were returned. Please enter another search term.</p>
+                }
+
+                
             }
             if (this.state.dataLoaded) {
             return (
@@ -384,13 +390,15 @@ class Players extends Component {
                     />
                     <div className='content__inpage'>
                         <p>Dagenham & Redbridge players ordered by number of appearances.</p>
-                        <Input 
-                            inputType={`text`} 
-                            placeholderText={`Search for players`} 
-                            inputId={`search-players`} 
-                            inputName={`search-players`}
-                            onChange={(event) => this.setState({playerSearchText: event.target.value})} 
-                        />
+                        <div className='wrapper--input'>
+                            <Input 
+                                inputType={`text`} 
+                                placeholderText={`Search for players`} 
+                                inputId={`search-players`} 
+                                inputName={`search-players`}
+                                onChange={(event) => this.setState({playerSearchText: event.target.value})} 
+                            />
+                        </div>
                         {indexTemplate}
                     </div>
                 </React.Fragment>

@@ -15,6 +15,8 @@ const input = (props) => {
                 checked={props.checked}
                 onChange={props.onChange}
                 disabled={props.inputDisabled}
+                onFocus={(e) => e.target.placeholder = ''} 
+                onBlur={(e) => e.target.placeholder = props.placeholderText}
             >
                 {props.children}
             </input>

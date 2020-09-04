@@ -2,3 +2,21 @@ input {
     font-size: $rem--one-quarter;
     margin: $rem--half $rem--half 0 0;
 }
+
+@mixin input-wrapper($primaryColor, $secondaryColor) {
+    transition: background-color 0.5s ease;
+    background: $primaryColor;
+    padding: $rem--one;
+    input {
+        margin: 0;
+        box-sizing: border-box;
+        padding: $rem--half;
+        width: 100%;
+    }
+    &:focus-within {
+        background-color: $secondaryColor;
+    }
+}
+.wrapper--input {
+    @include input-wrapper($blue80, $blue70);
+}
