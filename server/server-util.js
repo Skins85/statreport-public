@@ -1,4 +1,13 @@
-const db = require('../config/db');
+// const db = require('../config/db');
+// Create connection
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "root",
+    database: "statrepo_football"
+})
 
 
 /**

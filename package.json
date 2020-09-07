@@ -2,10 +2,12 @@
   "name": "statreport-public",
   "version": "0.1.0",
   "private": true,
+  "main": "server/index.js",
   "dependencies": {
     "axios": "^0.19.2",
     "axios-cache-adapter": "^2.5.0",
     "chart.js": "^2.9.3",
+    "concurrently": "^5.3.0",
     "history": "^4.10.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
@@ -25,9 +27,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node-env-run server --exec nodemon | pino-colada",
-    "dev": "run-p server start"
+    "dev": "run-p server start",
+    "start1": "node server/index.js",
+    "server1": "nodemon babel-node server/index.js",
+    "dev1": "concurrently \"npm run server1\" \"npm run start\""
   },
-  "proxy": "http://localhost:8080/api",
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -44,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/node": "^7.10.5",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",

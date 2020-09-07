@@ -23,6 +23,7 @@ yarn-error.log*
 # config
 config/*.ini
 config/keys.js
+config/db-local.js
 config/db-live.php
 config/db-local.php
 
