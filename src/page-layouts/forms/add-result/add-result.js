@@ -259,6 +259,14 @@ class Form extends Component {
                         <Input 
                             inputType={`checkbox`} 
                             labelRequired 
+                            labelText={`Penalty`} 
+                            inputId={`scorer-${i}-pen`} 
+                            inputValue={`pen`}
+                            inputName={`match_scorers.drfc_goal_${i}_pen`}
+                        />
+                        <Input 
+                            inputType={`checkbox`} 
+                            labelRequired 
                             labelText={`Own goal`} 
                             inputId={`scorer-${i}-own-goal`} 
                             inputValue={`ownGoal${i}`}
@@ -274,6 +282,23 @@ class Form extends Component {
                     </div>
                 )
             }
+
+            // Opponents' goals
+            let oppGoals = 0;
+            if (this.state.homeTeam === 'Dagenham & Redbridge') {
+                oppGoals = this.state.awayGoals;
+            } else if (this.state.awayTeam === 'Dagenham & Redbridge') {
+                oppGoals = this.state.homeGoals;
+            }
+
+            let oppScorers = 
+                <Input 
+                    inputType={`text`} 
+                    placeholderText={`Opposition scorers`} 
+                    inputId={`opposition-scorers`} 
+                    inputName={`results.opp_scorers`}
+                />
+
 
             let leaguePosition = [];
             for (let i = 1; i <= 24; i++) {
@@ -404,7 +429,9 @@ class Form extends Component {
                             </div>
                         </section>
 
-                        {daggersGoals !==0 ? <section><h2>Goalscorers</h2>{scorerSelect}</section>: null}
+                        {/* Conditionally render goalscorer fields */}
+                        {daggersGoals > 0 ? <section><h2>Dag & Red goalscorers</h2>{scorerSelect}</section>: null}
+                        {oppGoals > 0 ? <section><h2>Opponent goalscorers</h2>{oppScorers}</section> : null}
 
                         <section class="additional-data">
                             <h2>Additional data</h2>

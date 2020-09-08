@@ -4,6 +4,8 @@
 
     section {
         border-bottom: $rem--eighth solid $gray30;
+        padding-bottom: $rem--one-half;
+        margin-bottom: $rem--one-half; 
 
         &.starts-subs {
             .wrapper--starts-subs-select {
