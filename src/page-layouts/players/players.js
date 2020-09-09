@@ -250,9 +250,9 @@ class Players extends Component {
                     <tr>
                         <th>Date</th>
                         <th>Season</th>
-                        <th>Home</th>
                         <th></th>
-                        <th>Away</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>;
                 filteredAllAppearances.sort((a, b) => (a.date < b.date) ? 1 : -1)

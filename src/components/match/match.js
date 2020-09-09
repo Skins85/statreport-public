@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
 import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
+import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Matches() {
@@ -143,7 +144,7 @@ export default function Matches() {
         return(
             <React.Fragment>
                 <div className='content__inpage'>
-                    <h1>{m.team_home} {m.goals_home}-{m.goals_away} {m.team_away}</h1>
+                    <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
                     <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                     <p>
                         <span><strong>Competition:</strong> {m.competition}  </span>

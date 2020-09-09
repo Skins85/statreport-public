@@ -2,6 +2,7 @@ import 'moment-timezone';
 
 import Moment from 'react-moment';
 import React from 'react';
+import { nameFormat } from '../../util';
 
 const player = (props) => {
     return (
@@ -14,7 +15,7 @@ const player = (props) => {
                 </span>
                 <span>&nbsp; 
                     <a href={`../matches?m=${props.debut_match_id}`}>
-                        {props.debut_team_home} {props.debut_goals_home}-{props.debut_goals_away} {props.debut_team_away}
+                        {nameFormat(props.debut_team_home)} {props.debut_goals_home}-{props.debut_goals_away} {nameFormat(props.debut_team_away)}
                     </a>
                 </span>
             </p>
