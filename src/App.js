@@ -19,6 +19,7 @@ import LeaguePositions from './components/league-positions/league-positions';
 import Login from './components/login/login';
 import Matches from './components/match/match';
 import Players from './page-layouts/players/players';
+import Teams from './components/teams/teams';
 
 export default withRouter(function App({ location }) {
 
@@ -50,6 +51,7 @@ export default withRouter(function App({ location }) {
           <Route path="/admin/add-result" component={AddResultForm} />
           <Route path="/admin/add-result-complete" component={AddResultsComplete} />
           <Route path="/login" component={Login} />
+          <Route exact path="/teams" component={Teams} />
           {/* <Route path="*" component={() => "404 not found"} /> */}
         </Switch>
       </ContentWrapper>
