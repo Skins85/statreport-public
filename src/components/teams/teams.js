@@ -78,6 +78,7 @@ export default function Scorers() {
             <div className='content__inpage'>
                 <h1>Teams</h1>
                 {/* {teamsUnique} */}
+                <p data-testid='abc'>test</p>
                 {teamsIndex}
             </div>
         </React.Fragment>
