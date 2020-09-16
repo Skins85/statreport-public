@@ -8,7 +8,7 @@ import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
-export default function Scorers() {
+export default function Teams() {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState({});
     const [totalGoalsData, setTotalGoalsData] = useState({});
@@ -58,12 +58,14 @@ export default function Scorers() {
     let teamsIndex;
     let teamsArray = [];
     let teams = data.results;
-
+    let testVar;
+    
     if (teams) {
-        // console.log(teams);
         for (const t of teams) {
             teamsArray.push(t);
         }
+        testVar = <p data-testid='abc'>test</p>;
+
         teamsIndex = teams.map(t => <p><a href={`${t.team_id}`}>{t.team_name}</a></p>);
     }
     
@@ -78,7 +80,7 @@ export default function Scorers() {
             <div className='content__inpage'>
                 <h1>Teams</h1>
                 {/* {teamsUnique} */}
-                <p data-testid='abc'>test</p>
+                {testVar}
                 {teamsIndex}
             </div>
         </React.Fragment>

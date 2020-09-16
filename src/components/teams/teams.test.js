@@ -1,24 +1,37 @@
-import '@testing-library/jest-dom/extend-expect';
+// import '@testing-library/jest-dom/extend-expect';
+
+import '@testing-library/jest-dom';
+
+import { act, render, screen } from '@testing-library/react';
+import { mount, shallow } from 'enzyme';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Teams from './teams';
 import {fetchData} from './Teams';
-import { render } from '@testing-library/react';
-import { shallow } from 'enzyme';
 
 describe("Teams component tests", () => {
 
-    it('renders without crashing', async () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<Teams></Teams>, div);
-        // const title = await {fetchData};
-        // expect(title).toEqual('a'); 
+    let wrapper;
+    beforeEach(() => {
+        wrapper = mount(<Teams />);
+        // console.log(wrapper.debug());
     });
 
-    it ('renders test p tag', () => {
-        const {getByTestId} = render(<p data-testid='abc'>test</p>);
-        expect(getByTestId('abc')).toHaveTextContent('test');
-    })
+    test('Data after re-render', async () => {
+        render(<Teams />);
+    
+        expect(screen.queryByText(/test/)).toBeNull();
+    
+        expect(await screen.findByText(/test/)).toBeInTheDocument();
+    });
+
+    
+
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+
 
 })
