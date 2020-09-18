@@ -10,7 +10,8 @@ import { setupCache } from 'axios-cache-adapter';
 
 export default function Teams() {
     const [hasError, setErrors] = useState(false);
-    const [data, setData] = useState({});
+    const [teamsData, setTeamsData] = useState({});
+    const [matchesData, setMatchesData] = useState({});
     const [totalGoalsData, setTotalGoalsData] = useState({});
     const [season, setSeason] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -41,7 +42,14 @@ export default function Teams() {
                 url: 'https://www.statreport.co.uk/api/json/data-teams.php',
                 method: 'get'
             }).then(async (response) => {
-                setData(response.data);
+                setTeamsData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+                method: 'get'
+            }).then(async (response) => {
+                setMatchesData(response.data);
             })
 
             await setDataLoaded(true);
@@ -55,20 +63,36 @@ export default function Teams() {
     }
 
     // Variables
-    let teamsIndex;
-    let teamsArray = [];
-    let teams = data.results;
-    let testVar;
-    
-    if (teams) {
-        for (const t of teams) {
-            teamsArray.push(t);
-        }
-        testVar = <p data-testid='abc'>test</p>;
+    let teamsTemplate,
+        teamsWrapper,
+        teamsArray = [],
+        teams = teamsData.results,
+        matches = matchesData.results,
+        teamId = window.location.pathname.split("/").pop(),
+        filteredTeam;
 
-        teamsIndex = teams.map(t => <p><a href={`${t.team_id}`}>{t.team_name}</a></p>);
-    }
+        console.log(matches);
     
+    // If teams data returned
+    if (teams && matches) {
+        // TDD test
+        teamsWrapper = <div title='teams-index'>test</div>;
+
+        // If team selected
+        if (teamId !== 'teams') {
+            // Filter unique team data based on team ID
+            filteredTeam = matches.filter(function(result) {
+                return (
+                    result.attendance === teamId
+                )
+            });
+            console.log(filteredTeam);
+        } else { // Teams index
+            teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
+        } // End check if team selected
+
+    } // End if teams data returned
+
     return (
         <React.Fragment>
             <Banner
@@ -78,10 +102,13 @@ export default function Teams() {
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
             <div className='content__inpage'>
-                <h1>Teams</h1>
-                {/* {teamsUnique} */}
-                {testVar}
-                {teamsIndex}
+                <h1
+                    title={ dataLoaded ? 'data' : 'no-data' }
+                >Teams</h1>
+                <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                    {teamsTemplate}
+                    {teamsWrapper}
+                </div>
             </div>
         </React.Fragment>
     )

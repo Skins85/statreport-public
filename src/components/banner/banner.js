@@ -7,7 +7,7 @@ export default function Banner(props, { value, onChange }) {
     // Display banner content if name or description provided
     if (props.name || props.description) {
         bannerContent =
-            <div class='banner__content bg-blue100'>
+            <div className='banner__content bg-blue100'>
                 <h1>{props.name}</h1>
                 <p>{props.description}</p>
             </div>;
@@ -15,7 +15,7 @@ export default function Banner(props, { value, onChange }) {
     return (
         <React.Fragment>
             <div 
-                class='banner'
+                className='banner'
                 data-banner-image={props.image}
                 data-banner-content={props.name && props.description ? `true` : `false`}
                 style={{backgroundImage: `url('${props.image}')`}}
