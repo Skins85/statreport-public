@@ -3,6 +3,7 @@ import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
 import Result from '../result/result';
+import ResultsSummary from '../result/result-summary';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
@@ -81,7 +82,13 @@ export default function Teams() {
         allMatches = [],
         teamId = window.location.pathname.split("/").pop(),
         filteredTeam,
-        resultsTable;
+        resultsTable,
+        resultsSummary,
+        wins = 0,
+        draws = 0,
+        losses = 0,
+        goalsFor = 0,
+        goalsAgainst = 0;
     
     // If teams data returned
     if (teams && teams) {
@@ -102,6 +109,7 @@ export default function Teams() {
                 )
             });
 
+            // Results template
             resultsTable = filteredTeam.map(key => 
                 <Result
                     id={key.match_id}
@@ -114,6 +122,28 @@ export default function Teams() {
                     competition={key.competition}
                 />
             )
+
+            // Results summary template
+            for (const m of filteredTeam) {
+                console.log(m.team_home)
+                if (m.goals_home === m.goals_away) {
+                    draws += 1;
+                } else if (m.team_home === 'Dagenham & Redbridge' && m.goals_home > m.goals_away || m.team_away == 'Dagenham & Redbridge' && m.goals_away > m.goals_home) {
+                    wins += 1;
+                } else if (m.team_home === 'Dagenham & Redbridge' && m.goals_home < m.goals_away || m.team_away == 'Dagenham & Redbridge' && m.goals_away < m.goals_home) {
+                    losses += 1;
+                }
+            }
+
+            for (const m of filteredTeam) {
+                if (m.team_home === 'Dagenham & Redbridge') {
+                    goalsFor += parseInt(m.goals_home);
+                    goalsAgainst += parseInt(m.goals_away);
+                } else if (m.team_away === 'Dagenham & Redbridge') {
+                    goalsFor += parseInt(m.goals_away);
+                    goalsAgainst += parseInt(m.goals_home);
+                }
+            }
                 
         } else { // Teams index
             teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
@@ -135,10 +165,34 @@ export default function Teams() {
                 >Teams</h1>
                 <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                     {teamsTemplate}
-                    {teamsWrapper}
+                    <h2>Summary</h2>
+                    <table className='text-align--right'>
+                        <thead>
+                            <tr>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>F</th>
+                                <th>A</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ResultsSummary
+                                played={wins + draws + losses}
+                                wins={wins}
+                                draws={draws}
+                                losses={losses}
+                                goalsFor={goalsFor}
+                                goalsAgainst={goalsAgainst}
+                            />
+                        </tbody>
+                    </table>
+                    <h2>Results</h2>
                     <table>
                         {resultsTable}
                     </table>
+                    {teamsWrapper}
                 </div>
             </div>
         </React.Fragment>
