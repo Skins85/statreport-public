@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
+import Result from '../result/result';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
@@ -11,7 +12,8 @@ import { setupCache } from 'axios-cache-adapter';
 export default function Teams() {
     const [hasError, setErrors] = useState(false);
     const [teamsData, setTeamsData] = useState({});
-    const [matchesData, setMatchesData] = useState({});
+    const [homeMatchesData, sethomeMatchesData] = useState({});
+    const [awayMatchesData, setawayMatchesData] = useState({});
     const [totalGoalsData, setTotalGoalsData] = useState({});
     const [season, setSeason] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -46,10 +48,17 @@ export default function Teams() {
             })
 
             await api({
-                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+                url: 'https://www.statreport.co.uk/api/json/data-matches-home.php',
                 method: 'get'
             }).then(async (response) => {
-                setMatchesData(response.data);
+                sethomeMatchesData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-matches-away.php',
+                method: 'get'
+            }).then(async (response) => {
+                setawayMatchesData(response.data);
             })
 
             await setDataLoaded(true);
@@ -67,26 +76,45 @@ export default function Teams() {
         teamsWrapper,
         teamsArray = [],
         teams = teamsData.results,
-        matches = matchesData.results,
+        homeMatches = homeMatchesData.results,
+        awayMatches = awayMatchesData.results,
+        allMatches = [],
         teamId = window.location.pathname.split("/").pop(),
-        filteredTeam;
-
-        console.log(matches);
+        filteredTeam,
+        resultsTable;
     
     // If teams data returned
-    if (teams && matches) {
+    if (teams && teams) {
         // TDD test
         teamsWrapper = <div title='teams-index'>test</div>;
 
         // If team selected
-        if (teamId !== 'teams') {
+        if (teamId !== 'teams' && homeMatchesData && awayMatches) {
+            // Merge home and away matches
+            allMatches = homeMatches.concat(awayMatches);
+            console.log(allMatches);
+            console.log(teamId);
+            
             // Filter unique team data based on team ID
-            filteredTeam = matches.filter(function(result) {
+            filteredTeam = allMatches.filter(function(result) {
                 return (
-                    result.attendance === teamId
+                    result.opponent_id === teamId
                 )
             });
-            console.log(filteredTeam);
+
+            resultsTable = filteredTeam.map(key => 
+                <Result
+                    id={key.match_id}
+                    match_id={key.match_id}
+                    date={key.date}
+                    team_home={key.team_home}
+                    team_away={key.team_away}
+                    goals_home={key.goals_home}
+                    goals_away={key.goals_away}
+                    competition={key.competition}
+                />
+            )
+                
         } else { // Teams index
             teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
         } // End check if team selected
@@ -108,6 +136,9 @@ export default function Teams() {
                 <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                     {teamsTemplate}
                     {teamsWrapper}
+                    <table>
+                        {resultsTable}
+                    </table>
                 </div>
             </div>
         </React.Fragment>
