@@ -87,8 +87,16 @@ export default function Teams() {
         wins = 0,
         draws = 0,
         losses = 0,
-        goalsFor = 0,
-        goalsAgainst = 0;
+        homeWins = 0,
+        homeDraws = 0,
+        homeLosses = 0,
+        homeGoalsFor = 0,
+        homeGoalsAgainst = 0,
+        awayWins = 0,
+        awayDraws = 0,
+        awayLosses = 0,
+        awayGoalsFor = 0,
+        awayGoalsAgainst = 0;
     
     // If teams data returned
     if (teams && teams) {
@@ -99,8 +107,6 @@ export default function Teams() {
         if (teamId !== 'teams' && homeMatchesData && awayMatches) {
             // Merge home and away matches
             allMatches = homeMatches.concat(awayMatches);
-            console.log(allMatches);
-            console.log(teamId);
             
             // Filter unique team data based on team ID
             filteredTeam = allMatches.filter(function(result) {
@@ -125,7 +131,6 @@ export default function Teams() {
 
             // Results summary template
             for (const m of filteredTeam) {
-                console.log(m.team_home)
                 if (m.goals_home === m.goals_away) {
                     draws += 1;
                 } else if (m.team_home === 'Dagenham & Redbridge' && m.goals_home > m.goals_away || m.team_away == 'Dagenham & Redbridge' && m.goals_away > m.goals_home) {
@@ -137,11 +142,25 @@ export default function Teams() {
 
             for (const m of filteredTeam) {
                 if (m.team_home === 'Dagenham & Redbridge') {
-                    goalsFor += parseInt(m.goals_home);
-                    goalsAgainst += parseInt(m.goals_away);
+                    homeGoalsFor += parseInt(m.goals_home);
+                    homeGoalsAgainst += parseInt(m.goals_away);
+                    if (m.goals_home === m.goals_away) {
+                        homeDraws += 1;
+                    } else if (m.goals_home > m.goals_away) {
+                        homeWins += 1;
+                    } else if (m.goals_away > m.goals_home) {
+                        homeLosses += 1;
+                    }
                 } else if (m.team_away === 'Dagenham & Redbridge') {
-                    goalsFor += parseInt(m.goals_away);
-                    goalsAgainst += parseInt(m.goals_home);
+                    awayGoalsFor += parseInt(m.goals_away);
+                    awayGoalsAgainst += parseInt(m.goals_home);
+                    if (m.goals_home === m.goals_away) {
+                        awayDraws += 1;
+                    } else if (m.goals_away > m.goals_home) {
+                        awayWins += 1;
+                    } else if (m.goals_away < m.goals_home) {
+                        awayLosses += 1;
+                    }
                 }
             }
                 
@@ -169,6 +188,7 @@ export default function Teams() {
                     <table className='text-align--right'>
                         <thead>
                             <tr>
+                                <th />
                                 <th>P</th>
                                 <th>W</th>
                                 <th>D</th>
@@ -179,12 +199,31 @@ export default function Teams() {
                         </thead>
                         <tbody>
                             <ResultsSummary
+                                label='Home'
+                                played={homeWins + homeDraws + homeLosses}
+                                wins={homeWins}
+                                draws={homeDraws}
+                                losses={homeLosses}
+                                goalsFor={homeGoalsFor}
+                                goalsAgainst={homeGoalsAgainst}
+                            />
+                            <ResultsSummary
+                                label='Away'
+                                played={awayWins + awayDraws + awayLosses}
+                                wins={awayWins}
+                                draws={awayDraws}
+                                losses={awayLosses}
+                                goalsFor={awayGoalsFor}
+                                goalsAgainst={awayGoalsAgainst}
+                            />
+                            <ResultsSummary
+                                label='Total'
                                 played={wins + draws + losses}
                                 wins={wins}
                                 draws={draws}
                                 losses={losses}
-                                goalsFor={goalsFor}
-                                goalsAgainst={goalsAgainst}
+                                goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
                             />
                         </tbody>
                     </table>
