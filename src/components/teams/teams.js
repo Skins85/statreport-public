@@ -92,11 +92,23 @@ export default function Teams() {
         homeLosses = 0,
         homeGoalsFor = 0,
         homeGoalsAgainst = 0,
+        homeWinLargest,
+        homeLossLargest,
         awayWins = 0,
         awayDraws = 0,
         awayLosses = 0,
         awayGoalsFor = 0,
-        awayGoalsAgainst = 0;
+        awayGoalsAgainst = 0,
+        homeWinMargins = [],
+        homeLossMargins = [],
+        awayWinMargins = [],
+        awayLossMargins = [],
+        awayWinLargest,
+        awayLossLargest,
+        largestHomeWinTemplate,
+        largestHomeLossTemplate,
+        largestAwayWinemplate,
+        largestAwayLossTemplate;
     
     // If teams data returned
     if (teams && teams) {
@@ -140,6 +152,8 @@ export default function Teams() {
                 }
             }
 
+            let homeWinMargins = [];
+
             for (const m of filteredTeam) {
                 if (m.team_home === 'Dagenham & Redbridge') {
                     homeGoalsFor += parseInt(m.goals_home);
@@ -148,8 +162,12 @@ export default function Teams() {
                         homeDraws += 1;
                     } else if (m.goals_home > m.goals_away) {
                         homeWins += 1;
+                        m.homeWinMargin = m.goals_home - m.goals_away;
+                        homeWinMargins.push(m.homeWinMargin);
                     } else if (m.goals_away > m.goals_home) {
                         homeLosses += 1;
+                        m.homeLossMargin = m.goals_away - m.goals_home;
+                        homeLossMargins.push(m.homeLossMargin)
                     }
                 } else if (m.team_away === 'Dagenham & Redbridge') {
                     awayGoalsFor += parseInt(m.goals_away);
@@ -163,6 +181,43 @@ export default function Teams() {
                     }
                 }
             }
+            // Results summary template
+
+
+            homeWinLargest = Math.max.apply( null, homeWinMargins );
+            homeLossLargest = Math.max.apply( null, homeLossMargins );
+
+            let largestHomeWins = allMatches.filter(function(result) {
+                return (
+                    result.homeWinMargin === homeWinLargest
+                )
+            });
+
+            let largestHomeLosses = allMatches.filter(function(result) {
+                return (
+                    result.homeLossMargin === homeLossLargest
+                )
+            });
+            
+            function largestMargins(arr) {
+                if (arr.length > 0) {
+                    let res = arr.map(key => {
+                        return (
+                            <p>{key.team_home}&nbsp;
+                                <a href={`../matches/?m=${key.match_id}`}>
+                                {key.goals_home}-{key.goals_away}
+                                </a>&nbsp;
+                                {key.team_away}
+                            </p>
+                        )
+                    });
+                    return res;
+                }
+            }
+
+            largestHomeWinTemplate = largestMargins(largestHomeWins);
+            largestHomeLossTemplate = largestMargins(largestHomeLosses);
+
                 
         } else { // Teams index
             teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
@@ -232,6 +287,9 @@ export default function Teams() {
                         {resultsTable}
                     </table>
                     {teamsWrapper}
+                    <h2>Largest victories/defeats</h2>
+                    {largestHomeWinTemplate}
+                    {largestHomeLossTemplate}
                 </div>
             </div>
         </React.Fragment>
