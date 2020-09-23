@@ -171,13 +171,6 @@ export default function Teams() {
                     losses += 1;
                 }
             }
-
-            // Flatten scorers arrays into one array to enable count by scorer ID
-            if (scorersByOpponentAll) {
-                let allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
-                console.log(allScorersArray);
-            }
-
             
             for (const m of filteredTeam) {
                 if (m.team_home === 'Dagenham & Redbridge') {
@@ -215,6 +208,20 @@ export default function Teams() {
             homeLossLargest = Math.max.apply( null, homeLossMargins );
             awayWinLargest = Math.max.apply( null, awayWinMargins );
             awayLossLargest = Math.max.apply( null, awayLossMargins );
+
+            let allScorersArray;
+             // Flatten scorers arrays into one array to enable count by scorer ID
+            if (scorersByOpponentAll) {
+                allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
+                // console.log(allScorersArray);
+            }
+            if (scorersByOpponentAll[0] !== undefined) {
+                for (const s of allScorersArray) {
+                    console.log(s.scorer_id)
+                }
+            }
+            
+
 
             let largestHomeWins = homeMatches.filter(function(result) {
                 return (
