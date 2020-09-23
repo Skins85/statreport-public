@@ -15,7 +15,7 @@ export default function Teams() {
     const [teamsData, setTeamsData] = useState({});
     const [homeMatchesData, sethomeMatchesData] = useState({});
     const [awayMatchesData, setawayMatchesData] = useState({});
-    const [totalGoalsData, setTotalGoalsData] = useState({});
+    const [goalsData, setGoalsData] = useState({});
     const [season, setSeason] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -60,6 +60,13 @@ export default function Teams() {
                 method: 'get'
             }).then(async (response) => {
                 setawayMatchesData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players-goals-all.php',
+                method: 'get'
+            }).then(async (response) => {
+                setGoalsData(response.data);
             })
 
             await setDataLoaded(true);
@@ -108,7 +115,10 @@ export default function Teams() {
         largestHomeWinTemplate,
         largestHomeLossTemplate,
         largestAwayWinTemplate,
-        largestAwayLossTemplate;
+        largestAwayLossTemplate,
+        scorers = goalsData.results,
+        scorersByOpponent,
+        scorersByOpponentAll = [];
     
     // If teams data returned
     if (teams && teams) {
@@ -140,9 +150,19 @@ export default function Teams() {
                     competition={key.competition}
                 />
             )
-
             // Results summary template
             for (const m of filteredTeam) {
+
+                // console.log(m.match_id);
+                if (scorers) {
+                    scorersByOpponent = scorers.filter(function(result) {
+                        return (
+                            result.match_id === m.match_id
+                        )
+                    });
+                }
+                scorersByOpponentAll.push(scorersByOpponent);
+
                 if (m.goals_home === m.goals_away) {
                     draws += 1;
                 } else if (m.team_home === 'Dagenham & Redbridge' && m.goals_home > m.goals_away || m.team_away == 'Dagenham & Redbridge' && m.goals_away > m.goals_home) {
@@ -152,8 +172,13 @@ export default function Teams() {
                 }
             }
 
-            let homeWinMargins = [];
+            // Flatten scorers arrays into one array to enable count by scorer ID
+            if (scorersByOpponentAll) {
+                let allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
+                console.log(allScorersArray);
+            }
 
+            
             for (const m of filteredTeam) {
                 if (m.team_home === 'Dagenham & Redbridge') {
                     homeGoalsFor += parseInt(m.goals_home);
@@ -186,8 +211,6 @@ export default function Teams() {
                 }
             }
             // Results summary template
-                        console.log(awayLossMargins);
-
             homeWinLargest = Math.max.apply( null, homeWinMargins );
             homeLossLargest = Math.max.apply( null, homeLossMargins );
             awayWinLargest = Math.max.apply( null, awayWinMargins );
