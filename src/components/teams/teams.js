@@ -86,6 +86,7 @@ export default function Teams() {
         teams = teamsData.results,
         homeMatches = homeMatchesData.results,
         awayMatches = awayMatchesData.results,
+        goals = goalsData.results,
         allMatches = [],
         teamId = window.location.pathname.split("/").pop(),
         filteredTeam,
@@ -118,7 +119,10 @@ export default function Teams() {
         largestAwayLossTemplate,
         scorers = goalsData.results,
         scorersByOpponent,
-        scorersByOpponentAll = [];
+        scorersByOpponentAll = [],
+        playerString = [],
+        formattedPlayerList,
+        playerGoalsTemplate;
     
     // If teams data returned
     if (teams && teams) {
@@ -214,11 +218,52 @@ export default function Teams() {
             if (scorersByOpponentAll) {
                 allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
                 // console.log(allScorersArray);
-            }
-            if (scorersByOpponentAll[0] !== undefined) {
-                for (const s of allScorersArray) {
-                    console.log(s.scorer_id)
+            
+
+                let scorersArray = [];
+                if (scorersByOpponentAll[0] !== undefined) {
+                    for (const s of allScorersArray) {
+                        scorersArray.push(s.scorer_id)
+                    }
+                    
+                    // Create object for scorers, e.g. { balanta_angelo: 2, wilkinson_conor: 3, ... }
+                    let playerGoalCount = { };
+                    for (let i = 0, j = scorersArray.length; i < j; i++) {
+                        playerGoalCount[scorersArray[i]] = (playerGoalCount[scorersArray[i]] || 0) + 1;
+                    }
+
+                    // Convert object to array in order to sort values, e.g.
+                    // 0: (2) ["Hawkins", 17]
+                    // 1: (2) ["Whitely", 14]
+                    // 2: (2) ["Maguire-Drew", 10]
+                    // 3: (2) ["Okenabirhie", 6]
+                    let orderedScorersArray = [];
+                    for (const g in playerGoalCount) {
+                        orderedScorersArray.push([g, playerGoalCount[g]]);
+                    }
+                    orderedScorersArray.sort(function(a, b) {
+                        return b[1] - a[1];
+                    });
+
+                    for (const o of orderedScorersArray) {
+                        let formattedPlayerList = goals.filter(function(result) {
+                            return (
+                                result.scorer_id === o[0]
+                            )
+                        });
+                        playerString.push(`${formattedPlayerList[0]['first_name']} ${formattedPlayerList[0]['surname']} ${o[1]}`);
+                    }
+
+                    playerGoalsTemplate = playerString.map(p => {
+                        return (
+                            <p>{p}</p>
+                        )
+                    })
+                    
+
                 }
+
+                
             }
             
 
@@ -287,6 +332,7 @@ export default function Teams() {
                 <h1
                     title={ dataLoaded ? 'data' : 'no-data' }
                 >Teams</h1>
+                {playerGoalsTemplate}
                 <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                     {teamsTemplate}
                     <h2>Summary</h2>
