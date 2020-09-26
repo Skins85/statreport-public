@@ -120,9 +120,17 @@ export default function Teams() {
         scorers = goalsData.results,
         scorersByOpponent,
         scorersByOpponentAll = [],
-        playerString = [],
-        formattedPlayerList,
-        playerGoalsTemplate;
+        allScorersTemplate = [],
+        topScorersTemplate = [],
+        allScorersList,
+        topScorersList,
+        test;
+
+    var stringToHTML = function (str) {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(str, 'text/html');
+                        return doc.body;
+                    };
     
     // If teams data returned
     if (teams && teams) {
@@ -157,7 +165,6 @@ export default function Teams() {
             // Results summary template
             for (const m of filteredTeam) {
 
-                // console.log(m.match_id);
                 if (scorers) {
                     scorersByOpponent = scorers.filter(function(result) {
                         return (
@@ -217,7 +224,6 @@ export default function Teams() {
              // Flatten scorers arrays into one array to enable count by scorer ID
             if (scorersByOpponentAll) {
                 allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
-                // console.log(allScorersArray);
             
 
                 let scorersArray = [];
@@ -245,20 +251,56 @@ export default function Teams() {
                         return b[1] - a[1];
                     });
 
+                    let goalTotals = [];
                     for (const o of orderedScorersArray) {
-                        let formattedPlayerList = goals.filter(function(result) {
+                        // Push different goal totals to array
+                        goalTotals.push(o[1])
+                    }
+                    // Reduce array of goal totals to unique values, e.g. [5,4,2]
+                    let uniqueGoalTotals = [...new Set(goalTotals)];
+                    
+                    // Customise top scorer display based on number of unique goal total values 
+                    switch (true) {
+                        case (uniqueGoalTotals.length >=4):
+                            goalTotals = uniqueGoalTotals[2]
+                            break;
+                        case (uniqueGoalTotals.length === 3):
+                            goalTotals = uniqueGoalTotals[1]
+                            break;
+                        case (uniqueGoalTotals.length === 2):
+                            goalTotals = uniqueGoalTotals[0]
+                            break;
+                        default: 
+                            goalTotals = uniqueGoalTotals[0]
+                    }
+                    
+                    for (const o of orderedScorersArray) {
+                        allScorersList = goals.filter(function(result) {
                             return (
                                 result.scorer_id === o[0]
                             )
                         });
-                        playerString.push(`${formattedPlayerList[0]['first_name']} ${formattedPlayerList[0]['surname']} ${o[1]}`);
+
+                        if (o[1] >= goalTotals) {
+                            topScorersList = goals.filter(function(result) {
+                                return (
+                                    result.scorer_id === o[0]
+                                )
+                            });
+                        }
+
+                        // Top scorers template
+                        if (o[1] >= goalTotals) {
+                            topScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
+                        }
+
+                        // All scorers template
+                        allScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
+
+                        
                     }
 
-                    playerGoalsTemplate = playerString.map(p => {
-                        return (
-                            <p>{p}</p>
-                        )
-                    })
+                    
                     
 
                 }
@@ -332,7 +374,11 @@ export default function Teams() {
                 <h1
                     title={ dataLoaded ? 'data' : 'no-data' }
                 >Teams</h1>
-                {playerGoalsTemplate}
+                {test}
+                <h3>Top scorers</h3>
+                {topScorersTemplate}
+                <h3>All scorers</h3>
+                {allScorersTemplate}
                 <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                     {teamsTemplate}
                     <h2>Summary</h2>
