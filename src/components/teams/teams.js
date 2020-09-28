@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { arrayInstancesToObject, filterArrayofObjects, objectInstancesToArray } from '../../util';
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
@@ -124,6 +125,7 @@ export default function Teams() {
         topScorersTemplate = [],
         allScorersList,
         topScorersList,
+        playerGoalCount = {},
         test;
 
     var stringToHTML = function (str) {
@@ -214,46 +216,39 @@ export default function Teams() {
                     }
                 }
             }
-            // Results summary template
+            
+            // Get largest wins/defeat margins
             homeWinLargest = Math.max.apply( null, homeWinMargins );
             homeLossLargest = Math.max.apply( null, homeLossMargins );
             awayWinLargest = Math.max.apply( null, awayWinMargins );
             awayLossLargest = Math.max.apply( null, awayLossMargins );
 
             let allScorersArray;
-             // Flatten scorers arrays into one array to enable count by scorer ID
             if (scorersByOpponentAll) {
-                allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
-            
 
+                // Flatten scorers arrays into one array to enable count by scorer ID
+                allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
+
+                // Array of scorer IDs, e.g. ["balanta-angelo", "balanta-angelo", "wilkinson-conor"]
                 let scorersArray = [];
                 if (scorersByOpponentAll[0] !== undefined) {
                     for (const s of allScorersArray) {
                         scorersArray.push(s.scorer_id)
                     }
                     
-                    // Create object for scorers, e.g. { balanta_angelo: 2, wilkinson_conor: 3, ... }
-                    let playerGoalCount = { };
-                    for (let i = 0, j = scorersArray.length; i < j; i++) {
-                        playerGoalCount[scorersArray[i]] = (playerGoalCount[scorersArray[i]] || 0) + 1;
-                    }
-
-                    // Convert object to array in order to sort values, e.g.
-                    // 0: (2) ["Hawkins", 17]
-                    // 1: (2) ["Whitely", 14]
-                    // 2: (2) ["Maguire-Drew", 10]
-                    // 3: (2) ["Okenabirhie", 6]
+                    // Create object for scorers, e.g. { balanta_angelo: 2, wilkinson_conor: 3 }
+                    arrayInstancesToObject(scorersArray, playerGoalCount);
+                
+                    // Convert goalscorer totals objects into array and sort by descending
+                    // e.g. { balanta_angelo: 2, wilkinson_conor: 3, ... }
+                    // Result => 0: (2) ["wilkinson_conor", 3]
+                    //           1: (2) ["balanta_angelo", 2]
                     let orderedScorersArray = [];
-                    for (const g in playerGoalCount) {
-                        orderedScorersArray.push([g, playerGoalCount[g]]);
-                    }
-                    orderedScorersArray.sort(function(a, b) {
-                        return b[1] - a[1];
-                    });
+                    objectInstancesToArray(playerGoalCount, orderedScorersArray, 'desc');
 
+                    // Extract win/loss margins into numeric array
                     let goalTotals = [];
                     for (const o of orderedScorersArray) {
-                        // Push different goal totals to array
                         goalTotals.push(o[1])
                     }
                     // Reduce array of goal totals to unique values, e.g. [5,4,2]
@@ -275,65 +270,25 @@ export default function Teams() {
                     }
                     
                     for (const o of orderedScorersArray) {
-                        allScorersList = goals.filter(function(result) {
-                            return (
-                                result.scorer_id === o[0]
-                            )
-                        });
-
-                        if (o[1] >= goalTotals) {
-                            topScorersList = goals.filter(function(result) {
-                                return (
-                                    result.scorer_id === o[0]
-                                )
-                            });
-                        }
-
-                        // Top scorers template
-                        if (o[1] >= goalTotals) {
-                            topScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
-                        }
-
-                        // All scorers template
+                        
+                        // Always build all goalscorers' totals list
+                        allScorersList = goals.filter((result) => result.scorer_id === o[0] );
                         allScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
-
+                        
+                        // Display top scorers list depending on number of different goal values exist (see switch statement)
+                        (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
+                        topScorersList ? topScorersTemplate.push(<p><a href={`../players/${topScorersList[0]['scorer_id']}`}>{topScorersList[0]['first_name']} {topScorersList[0]['surname']}</a> {o[1]}</p>) : topScorersList = '';
                         
                     }
-
-                    
-                    
-
-                }
-
-                
+                }                
             }
-            
+           
+            // Filter match data and create an array of objects containing match data for largest margins
+            let largestHomeWins = filterArrayofObjects(homeMatches, 'homeWinMargin', homeWinLargest)
+            let largestHomeLosses = filterArrayofObjects(homeMatches, 'homeLossMargin', homeLossLargest);
+            let largestAwayWins = filterArrayofObjects(awayMatches, 'awayWinMargin', awayWinLargest);
+            let largestAwayLosses = filterArrayofObjects(awayMatches, 'awayLossMargin', awayLossLargest);
 
-
-            let largestHomeWins = homeMatches.filter(function(result) {
-                return (
-                    result.homeWinMargin === homeWinLargest
-                )
-            });
-
-            let largestHomeLosses = homeMatches.filter(function(result) {
-                return (
-                    result.homeLossMargin === homeLossLargest
-                )
-            });
-
-            let largestAwayWins = awayMatches.filter(function(result) {
-                return (
-                    result.awayWinMargin === awayWinLargest
-                )
-            });
-
-            let largestAwayLosses = awayMatches.filter(function(result) {
-                return (
-                    result.awayLossMargin === awayLossLargest
-                )
-            });
-            
             function largestMargins(arr) {
                 if (arr.length > 0) {
                     let res = arr.map(key => {
