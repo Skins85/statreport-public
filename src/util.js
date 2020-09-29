@@ -58,10 +58,18 @@ const filterArrayofObjects = (data, key, val) => {
     return data.filter((r) => r[key] === val);
 }
 
+const toggleState = (el, setStateRef, value, defaultText, toggledText) => {
+    setStateRef(!value);
+    el.target.innerText === defaultText 
+        ? el.target.innerText = toggledText
+        : el.target.innerText = defaultText;
+}
+
 module.exports = {
     groupArrayOfObjects,
     nameFormat,
     arrayInstancesToObject,
     objectInstancesToArray,
-    filterArrayofObjects
+    filterArrayofObjects,
+    toggleState
 }

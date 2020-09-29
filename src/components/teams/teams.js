@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { arrayInstancesToObject, filterArrayofObjects, objectInstancesToArray } from '../../util';
+import { arrayInstancesToObject, filterArrayofObjects, objectInstancesToArray, toggleState } from '../../util';
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
@@ -17,13 +17,14 @@ export default function Teams() {
     const [homeMatchesData, sethomeMatchesData] = useState({});
     const [awayMatchesData, setawayMatchesData] = useState({});
     const [goalsData, setGoalsData] = useState({});
-    const [season, setSeason] = useState({});
+    const [allScorersShow, setAllScorersShow] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
 
     document.title = 'Teams';
 
     useEffect(() => {
         async function fetchData() {
+            
 
             // Cache GET requests
             let cache;
@@ -76,9 +77,15 @@ export default function Teams() {
         fetchData();
     },[]);
 
-    let seasonChange = e => { 
-        window.location.pathname = `/players/scorers/${e.target.value}`;
-    }
+    // let toggleAllScorersHandler = e => {
+    //     setAllScorersShow(!allScorersShow);
+    //     e.target.innerText === `Show all goalscorers` 
+    //         ? e.target.innerText = `Hide all goalscorers`
+    //         : e.target.innerText = `Show all goalscorers`;
+    // }
+    let toggleAllScorersHandler = (e) => {
+        toggleState(e, setAllScorersShow, allScorersShow, 'Hide all goalscorers', 'Show all goalscorers')
+    };
 
     // Variables
     let teamsTemplate,
@@ -126,13 +133,8 @@ export default function Teams() {
         allScorersList,
         topScorersList,
         playerGoalCount = {},
+        uniqueGoalTotals,
         test;
-
-    var stringToHTML = function (str) {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(str, 'text/html');
-                        return doc.body;
-                    };
     
     // If teams data returned
     if (teams && teams) {
@@ -252,7 +254,7 @@ export default function Teams() {
                         goalTotals.push(o[1])
                     }
                     // Reduce array of goal totals to unique values, e.g. [5,4,2]
-                    let uniqueGoalTotals = [...new Set(goalTotals)];
+                    uniqueGoalTotals = [...new Set(goalTotals)];
                     
                     // Customise top scorer display based on number of unique goal total values 
                     switch (true) {
@@ -263,10 +265,12 @@ export default function Teams() {
                             goalTotals = uniqueGoalTotals[1]
                             break;
                         case (uniqueGoalTotals.length === 2):
-                            goalTotals = uniqueGoalTotals[0]
+                            goalTotals = uniqueGoalTotals[0];
+                            // setAllScorersShow(true);
                             break;
                         default: 
                             goalTotals = uniqueGoalTotals[0]
+                            // setAllScorersShow(true);
                     }
                     
                     for (const o of orderedScorersArray) {
@@ -274,21 +278,32 @@ export default function Teams() {
                         // Always build all goalscorers' totals list
                         allScorersList = goals.filter((result) => result.scorer_id === o[0] );
                         allScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
-                        
+
                         // Display top scorers list depending on number of different goal values exist (see switch statement)
                         (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
-                        topScorersList ? topScorersTemplate.push(<p><a href={`../players/${topScorersList[0]['scorer_id']}`}>{topScorersList[0]['first_name']} {topScorersList[0]['surname']}</a> {o[1]}</p>) : topScorersList = '';
-                        
+                        topScorersList ? topScorersTemplate.push(
+                            <p>
+                                <a href={`../players/${topScorersList[0]['scorer_id']}`}>
+                                    {topScorersList[0]['first_name']} {topScorersList[0]['surname']}&nbsp;
+                                </a> 
+                                {o[1]}
+                            </p>
+                        ) : topScorersList = '';                        
                     }
                 }                
             }
            
             // Filter match data and create an array of objects containing match data for largest margins
-            let largestHomeWins = filterArrayofObjects(homeMatches, 'homeWinMargin', homeWinLargest)
-            let largestHomeLosses = filterArrayofObjects(homeMatches, 'homeLossMargin', homeLossLargest);
-            let largestAwayWins = filterArrayofObjects(awayMatches, 'awayWinMargin', awayWinLargest);
-            let largestAwayLosses = filterArrayofObjects(awayMatches, 'awayLossMargin', awayLossLargest);
+            let largestHomeWins = filterArrayofObjects(homeMatches, 'homeWinMargin', homeWinLargest),
+                largestHomeLosses = filterArrayofObjects(homeMatches, 'homeLossMargin', homeLossLargest),
+                largestAwayWins = filterArrayofObjects(awayMatches, 'awayWinMargin', awayWinLargest),
+                largestAwayLosses = filterArrayofObjects(awayMatches, 'awayLossMargin', awayLossLargest);
 
+            /**
+             * JSX for largest wins/defeats margins
+             *
+             * @param {Array of Objects} arr - The data associated with the largest margin.
+             **/
             function largestMargins(arr) {
                 if (arr.length > 0) {
                     let res = arr.map(key => {
@@ -309,7 +324,6 @@ export default function Teams() {
             largestHomeLossTemplate = largestMargins(largestHomeLosses);
             largestAwayWinTemplate = largestMargins(largestAwayWins);
             largestAwayLossTemplate = largestMargins(largestAwayLosses)
-
                 
         } else { // Teams index
             teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
@@ -330,10 +344,11 @@ export default function Teams() {
                     title={ dataLoaded ? 'data' : 'no-data' }
                 >Teams</h1>
                 {test}
-                <h3>Top scorers</h3>
-                {topScorersTemplate}
-                <h3>All scorers</h3>
-                {allScorersTemplate}
+                
+                {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<p onClick={toggleAllScorersHandler}>Show all goalscorers</p></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
+                {allScorersShow ? <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment> : null}
+                
+                
                 <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                     {teamsTemplate}
                     <h2>Summary</h2>
