@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { arrayInstancesToObject, filterArrayofObjects, objectInstancesToArray, toggleState } from '../../util';
+import { arrayInstancesToObject, filterArrayofObjects, nameFormat, objectInstancesToArray, toggleState } from '../../util';
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
@@ -304,15 +304,15 @@ export default function Teams() {
              *
              * @param {Array of Objects} arr - The data associated with the largest margin.
              **/
-            function largestMargins(arr) {
+            function largestMargins(arr, type) {
                 if (arr.length > 0) {
                     let res = arr.map(key => {
                         return (
-                            <p>{key.team_home}&nbsp;
+                            <p className={`record__margins__outcome record__margins__outcome--${type}`}>{nameFormat(key.team_home)}&nbsp;
                                 <a href={`../matches/?m=${key.match_id}`}>
                                 {key.goals_home}-{key.goals_away}
                                 </a>&nbsp;
-                                {key.team_away}
+                                {nameFormat(key.team_away)}
                             </p>
                         )
                     });
@@ -320,10 +320,10 @@ export default function Teams() {
                 }
             }
 
-            largestHomeWinTemplate = largestMargins(largestHomeWins);
-            largestHomeLossTemplate = largestMargins(largestHomeLosses);
-            largestAwayWinTemplate = largestMargins(largestAwayWins);
-            largestAwayLossTemplate = largestMargins(largestAwayLosses)
+            largestHomeWinTemplate = largestMargins(largestHomeWins, 'win');
+            largestHomeLossTemplate = largestMargins(largestHomeLosses, 'loss');
+            largestAwayWinTemplate = largestMargins(largestAwayWins, 'win');
+            largestAwayLossTemplate = largestMargins(largestAwayLosses, 'loss')
                 
         } else { // Teams index
             teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
@@ -399,15 +399,28 @@ export default function Teams() {
                         {resultsTable}
                     </table>
                     {teamsWrapper}
-                    <h2>Largest wins/losses</h2>
-                    <h3>Largest home win</h3>
-                    {largestHomeWinTemplate ? largestHomeWinTemplate : <p>No recorded home wins</p>}
-                    <h3>Largest away win</h3>
-                    {largestAwayWinTemplate ? largestAwayWinTemplate : <p>No recorded away wins</p>}
-                    <h3>Largest home loss</h3>
-                    {largestHomeLossTemplate ? largestHomeLossTemplate : <p>No recorded home losses</p>}
-                    <h3>Largest away loss</h3>
-                    {largestAwayLossTemplate ? largestAwayLossTemplate : <p>No recorded away losses</p>}
+                    <h2>Record wins/losses</h2>
+                    <div className='wrapper--record__margins width--75'>
+                        <div className='record__margins record__margins--home'>
+                            <img 
+                                src='../images/icons/house-32-freepik.png' 
+                                alt='House icon' 
+                            />
+                            <div>
+                                {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
+                                {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                            </div>
+                        </div>
+                        <div className='record__margins record__margins--away'>
+                            <img 
+                                src='../images/icons/road-32-freepik.png' 
+                                alt='Road icon' 
+                            />
+                            {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
+                            {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
+                        </div>
+                    </div>
+                    <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                 </div>
             </div>
         </React.Fragment>
