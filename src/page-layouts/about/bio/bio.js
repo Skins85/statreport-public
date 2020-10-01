@@ -4,7 +4,7 @@ export default function Bio() {
     document.title = 'Bio';
     return (
         <React.Fragment>
-            <div className='content__inpage'>
+            <div className='wrapper--content__inpage'>
                 <div className='about about--bio'>
                     <h1>Bio</h1>
 

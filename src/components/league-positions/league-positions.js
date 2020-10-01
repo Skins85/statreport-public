@@ -202,7 +202,7 @@ export default function LeaguePositions() {
     }
     return (
         <React.Fragment>
-            <div className="content__inpage">
+            <div className="wrapper--content__inpage">
                 {season ? <h1>League positions: {season}</h1> : <h1>League positions by season</h1>}
                 <Select 
                     labelRequired 

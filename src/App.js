@@ -51,8 +51,8 @@ export default withRouter(function App({ location }) {
           <Route path="/admin/add-result" component={AddResultForm} />
           <Route path="/admin/add-result-complete" component={AddResultsComplete} />
           <Route path="/login" component={Login} />
-          <Route exact path="/teams" component={Teams} />
-          <Route exact="/teams" component={Teams} />
+          <Route exact path="/teams" component={Teams} /> 
+          <Route exact="/teams" component={Teams}/>
           {/* <Route path="*" component={() => "404 not found"} /> */}
         </Switch>
       </ContentWrapper>

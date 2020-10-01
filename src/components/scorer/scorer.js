@@ -132,7 +132,7 @@ export default function Scorers() {
         if (dataLoaded) {
             return (
                 <React.Fragment>
-                    <div className='content__inpage'>
+                    <div className='wrapper--content__inpage'>
                         <h1>Daggers' goalscorers for {seasonFormatted} season</h1>
                         <Select 
                             labelText={`Season`} 
@@ -166,7 +166,7 @@ export default function Scorers() {
         if (dataLoaded) {
             return (
                 <React.Fragment>
-                    <div className='content__inpage'>
+                    <div className='wrapper--content__inpage'>
                         <h1>Goalscorers</h1>
                         <Select 
                             labelText={`Season`} 

@@ -16,7 +16,7 @@ class wrapper extends Component {
                     <header className="navigation--secondary">
                     </header>
                     <article className="content content--default">
-                        <div className="content-wrapper">
+                        <div className={`content-wrapper`}>
                             {this.props.children}
                         </div>
                     </article>

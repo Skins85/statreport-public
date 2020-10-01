@@ -35,7 +35,8 @@
                 grid-column: 3/-3;
             }
             @include twenty-grid;
-            > .content__inpage {
+            > .wrapper--content__inpage {
+                @include sixteen-grid();
                 padding: 0 $rem--one;
                 grid-column: 1/-1;
                 min-height: 60vh;
@@ -47,6 +48,17 @@
                 }
                 @media screen and (min-width: $desktop) {
                     grid-column: 4/-4;
+                }
+                > .content__inpage--standard {
+                    @media screen and (min-width: $tablet) {
+                        grid-column: 1/-1;
+                    }
+                    @media screen and (min-width: $small) {
+                        grid-column: 2/-2;
+                    }
+                    @media screen and (min-width: $desktop) {
+                        grid-column: 3/-3;
+                    }
                 }
             }
             > .banner {

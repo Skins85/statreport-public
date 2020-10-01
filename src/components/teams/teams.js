@@ -11,7 +11,7 @@ import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
-export default function Teams() {
+export default function Teams(props) {
     const [hasError, setErrors] = useState(false);
     const [teamsData, setTeamsData] = useState({});
     const [homeMatchesData, sethomeMatchesData] = useState({});
@@ -339,88 +339,90 @@ export default function Teams() {
                 image='/images/banner/football-field-alfredo-camacho.jpg'
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
-            <div className='content__inpage'>
-                <h1
-                    title={ dataLoaded ? 'data' : 'no-data' }
-                >Teams</h1>
-                {test}
-                
-                {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<p onClick={toggleAllScorersHandler}>Show all goalscorers</p></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
-                {allScorersShow ? <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment> : null}
-                
-                
-                <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
-                    {teamsTemplate}
-                    <h2>Summary</h2>
-                    <table className='text-align--right'>
-                        <thead>
-                            <tr>
-                                <th />
-                                <th>P</th>
-                                <th>W</th>
-                                <th>D</th>
-                                <th>L</th>
-                                <th>F</th>
-                                <th>A</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ResultsSummary
-                                label='Home'
-                                played={homeWins + homeDraws + homeLosses}
-                                wins={homeWins}
-                                draws={homeDraws}
-                                losses={homeLosses}
-                                goalsFor={homeGoalsFor}
-                                goalsAgainst={homeGoalsAgainst}
-                            />
-                            <ResultsSummary
-                                label='Away'
-                                played={awayWins + awayDraws + awayLosses}
-                                wins={awayWins}
-                                draws={awayDraws}
-                                losses={awayLosses}
-                                goalsFor={awayGoalsFor}
-                                goalsAgainst={awayGoalsAgainst}
-                            />
-                            <ResultsSummary
-                                label='Total'
-                                played={wins + draws + losses}
-                                wins={wins}
-                                draws={draws}
-                                losses={losses}
-                                goalsFor={homeGoalsFor + homeGoalsAgainst}
-                                goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
-                            />
-                        </tbody>
-                    </table>
-                    <h2>Results</h2>
-                    <table>
-                        {resultsTable}
-                    </table>
-                    {teamsWrapper}
-                    <h2>Record wins/losses</h2>
-                    <div className='wrapper--record__margins width--75'>
-                        <div className='record__margins record__margins--home'>
-                            <img 
-                                src='../images/icons/house-32-freepik.png' 
-                                alt='House icon' 
-                            />
-                            <div>
-                                {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
-                                {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+            <div className='wrapper--content__inpage'>
+                <div className='content__inpage content__inpage--standard'>
+                    <h1
+                        title={ dataLoaded ? 'data' : 'no-data' }
+                    >Teams</h1>
+                    {test}
+                    
+                    {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<p onClick={toggleAllScorersHandler}>Show all goalscorers</p></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
+                    {allScorersShow ? <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment> : null}
+                    
+                    
+                    <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                        {teamsTemplate}
+                        <h2>Summary</h2>
+                        <table className='text-align--right'>
+                            <thead>
+                                <tr>
+                                    <th />
+                                    <th>P</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>F</th>
+                                    <th>A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ResultsSummary
+                                    label='Home'
+                                    played={homeWins + homeDraws + homeLosses}
+                                    wins={homeWins}
+                                    draws={homeDraws}
+                                    losses={homeLosses}
+                                    goalsFor={homeGoalsFor}
+                                    goalsAgainst={homeGoalsAgainst}
+                                />
+                                <ResultsSummary
+                                    label='Away'
+                                    played={awayWins + awayDraws + awayLosses}
+                                    wins={awayWins}
+                                    draws={awayDraws}
+                                    losses={awayLosses}
+                                    goalsFor={awayGoalsFor}
+                                    goalsAgainst={awayGoalsAgainst}
+                                />
+                                <ResultsSummary
+                                    label='Total'
+                                    played={wins + draws + losses}
+                                    wins={wins}
+                                    draws={draws}
+                                    losses={losses}
+                                    goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                    goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
+                                />
+                            </tbody>
+                        </table>
+                        <h2>Results</h2>
+                        <table>
+                            {resultsTable}
+                        </table>
+                        {teamsWrapper}
+                        <h2>Record wins/losses</h2>
+                        <div className='wrapper--record__margins width--75'>
+                            <div className='record__margins record__margins--home'>
+                                <img 
+                                    src='../images/icons/house-32-freepik.png' 
+                                    alt='House icon' 
+                                />
+                                <div>
+                                    {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
+                                    {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                                </div>
+                            </div>
+                            <div className='record__margins record__margins--away'>
+                                <img 
+                                    src='../images/icons/road-32-freepik.png' 
+                                    alt='Road icon' 
+                                />
+                                {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
+                                {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
                             </div>
                         </div>
-                        <div className='record__margins record__margins--away'>
-                            <img 
-                                src='../images/icons/road-32-freepik.png' 
-                                alt='Road icon' 
-                            />
-                            {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
-                            {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
-                        </div>
+                        <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                     </div>
-                    <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                 </div>
             </div>
         </React.Fragment>

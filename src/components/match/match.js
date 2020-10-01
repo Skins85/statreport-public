@@ -143,7 +143,7 @@ export default function Matches() {
 
         return(
             <React.Fragment>
-                <div className='content__inpage'>
+                <div className='wrapper--content__inpage'>
                     <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
                     <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                     <p>

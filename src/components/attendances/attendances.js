@@ -187,7 +187,7 @@ export default function Attendances() {
     if (dataLoaded) {
         return (
             <React.Fragment>
-                <div className="content__inpage">
+                <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
                     {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }
                     <Select 

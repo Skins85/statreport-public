@@ -11,7 +11,7 @@ export default function home() {
                 image='/images/banner/football-field-alfredo-camacho.jpg'
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
-            <div className='content__inpage'>
+            <div className='wrapper--content__inpage'>
                 <div className='wrapper--homepage__link-block'>
                     <HomepageBlock
                         link='./matches'

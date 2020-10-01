@@ -198,7 +198,7 @@ class Results extends Component {
           return (
             <React.Fragment>
               {banner}
-              <div className='content__inpage'>
+              <div className='wrapper--content__inpage'>
                 <form 
                   className='matches__filter background-gray20'
                   onSubmit={this.handleSubmit}

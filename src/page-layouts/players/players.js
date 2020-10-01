@@ -275,7 +275,7 @@ class Players extends Component {
                         image='/images/banner/football-field-alfredo-camacho.jpg'
                         // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                     />
-                    <div className='content__inpage'>
+                    <div className='wrapper--content__inpage'>
                         <Player 
                             name={selectedPlayerName} 
                             debut_date={debutDate}
@@ -388,7 +388,7 @@ class Players extends Component {
                         image='/images/banner/football-field-alfredo-camacho.jpg'
                         // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                     />
-                    <div className='content__inpage'>
+                    <div className='wrapper--content__inpage'>
                         <p>Dagenham & Redbridge players ordered by number of appearances.</p>
                         <div className='wrapper--input'>
                             <Input 

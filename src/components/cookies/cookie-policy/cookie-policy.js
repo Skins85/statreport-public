@@ -3,7 +3,7 @@ import React from 'react';
 export default function cookiePolicy() {
     return (
         <React.Fragment>
-            <div className='content__inpage'>
+            <div className='wrapper--content__inpage'>
                 <h1>Cookie policy for StatReport</h1>
 
                 <p>This is the Cookie Policy for StatReport, accessible from <a href='https://www.statreport.co.uk'>https://www.statreport.co.uk</a>.</p>
