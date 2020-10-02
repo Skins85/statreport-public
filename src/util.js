@@ -61,8 +61,8 @@ const filterArrayofObjects = (data, key, val) => {
 const toggleState = (el, setStateRef, value, defaultText, toggledText) => {
     setStateRef(!value);
     el.target.innerText === defaultText 
-        ? el.target.innerText = toggledText
-        : el.target.innerText = defaultText;
+        ? (el.target.innerText = toggledText) && (el.target.className = 'toggle toggle--closed')
+        : (el.target.innerText = defaultText) && (el.target.className = 'toggle toggle--open');
 }
 
 module.exports = {

@@ -27,11 +27,15 @@
 @import '../src/components/banner/banner';
 @import '../src/components/cookies/cookie-notice/cookie-notice';
 @import '../src/components/footer/footer';
-@import '../src/components/form/ui/form-ui';
 @import '../src/components/header/header';
 @import '../src/components/homepage/homepage-block';
 @import '../src/components/navigation/navigation';
 @import '../src/components/navigation/secondary/secondary';
 @import '../src/components/table/table';
-@import '../src/components/ui/spinner/spinner';
 @import '../src/components/teams/teams';
+
+// Components / UI
+@import '../src/components/form/ui/form-ui';
+@import '../src/components/ui/spinner/spinner';
+@import '../src/components/ui/toggle/toggle';
+

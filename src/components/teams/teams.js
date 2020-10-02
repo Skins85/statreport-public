@@ -284,8 +284,8 @@ export default function Teams(props) {
                         topScorersList ? topScorersTemplate.push(
                             <p>
                                 <a href={`../players/${topScorersList[0]['scorer_id']}`}>
-                                    {topScorersList[0]['first_name']} {topScorersList[0]['surname']}&nbsp;
-                                </a> 
+                                    {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
+                                </a>&nbsp;
                                 {o[1]}
                             </p>
                         ) : topScorersList = '';                        
@@ -346,7 +346,7 @@ export default function Teams(props) {
                     >Teams</h1>
                     {test}
                     
-                    {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<p onClick={toggleAllScorersHandler}>Show all goalscorers</p></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
+                    {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
                     {allScorersShow ? <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment> : null}
                     
                     
