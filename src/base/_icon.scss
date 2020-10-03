@@ -1,0 +1,11 @@
+.wrapper--icon {
+    & > * {
+        display: inline;
+    }
+    .icon {
+        margin-right: $rem--half;
+        width: $rem--one-half;
+        position: relative;
+        top: $rem--quarter;
+    }
+}

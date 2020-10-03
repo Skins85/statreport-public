@@ -139,7 +139,7 @@ export default function Teams(props) {
     // If teams data returned
     if (teams && teams) {
         // TDD test
-        teamsWrapper = <div title='teams-index'>test</div>;
+        // teamsWrapper = <div title='teams-index'>test</div>;
 
         // If team selected
         if (teamId !== 'teams' && homeMatchesData && awayMatches) {
@@ -277,16 +277,16 @@ export default function Teams(props) {
                         
                         // Always build all goalscorers' totals list
                         allScorersList = goals.filter((result) => result.scorer_id === o[0] );
-                        allScorersTemplate.push(<p><a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a> {o[1]}</p>);
+                        allScorersTemplate.push(<p>{o[1]} <a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a></p>);
 
                         // Display top scorers list depending on number of different goal values exist (see switch statement)
                         (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
                         topScorersList ? topScorersTemplate.push(
                             <p>
+                                {o[1]}&nbsp;
                                 <a href={`../players/${topScorersList[0]['scorer_id']}`}>
                                     {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
-                                </a>&nbsp;
-                                {o[1]}
+                                </a>
                             </p>
                         ) : topScorersList = '';                        
                     }
@@ -344,16 +344,8 @@ export default function Teams(props) {
                     <h1
                         title={ dataLoaded ? 'data' : 'no-data' }
                     >Teams</h1>
-                    {test}
-                    
-                    {topScorersList === '' ? <React.Fragment><h3>Top scorers</h3>{topScorersTemplate}<button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button></React.Fragment> : <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment>}
-                    {allScorersShow ? <React.Fragment><h3>All scorers</h3>{allScorersTemplate}</React.Fragment> : null}
-                    
-                    
-                    <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
-                        {teamsTemplate}
-                        <h2>Summary</h2>
-                        <table className='text-align--right'>
+
+                    <table className='text-align--right'>
                             <thead>
                                 <tr>
                                     <th />
@@ -395,10 +387,28 @@ export default function Teams(props) {
                                 />
                             </tbody>
                         </table>
+
                         <h2>Results</h2>
                         <table>
                             {resultsTable}
                         </table>
+                    
+                    <div className='wrapper--icon'>
+                        <img 
+                            src='../images/icons/football-freepik.png' 
+                            alt='Goal icon'
+                            className='icon'
+                        />
+                        <h2>Goalscorers</h2>
+                    </div>
+                    {topScorersList === '' ? <React.Fragment>{topScorersTemplate}<button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button></React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
+                    {allScorersShow ? <React.Fragment>{allScorersTemplate}</React.Fragment> : null}
+                    
+                    
+                    <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                        {teamsTemplate}
+                        
+                        
                         {teamsWrapper}
                         <h2>Record wins/losses</h2>
                         <div className='wrapper--record__margins width--75'>
@@ -425,6 +435,8 @@ export default function Teams(props) {
                     </div>
                 </div>
             </div>
+            {test}
+
         </React.Fragment>
     )
 }

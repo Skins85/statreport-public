@@ -4,7 +4,7 @@ table {
 
 table {
     border-collapse: collapse;
-    margin: 0;
+    margin: $rem--one 0 $rem--one-half;
     border: $border-fine solid $gray20;
 
     thead {
