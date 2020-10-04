@@ -20,8 +20,6 @@ export default function Teams(props) {
     const [allScorersShow, setAllScorersShow] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    document.title = 'Teams';
-
     useEffect(() => {
         async function fetchData() {
             
@@ -134,10 +132,11 @@ export default function Teams(props) {
         topScorersList,
         playerGoalCount = {},
         uniqueGoalTotals,
+        opponent = 'Teams',
         test;
     
     // If teams data returned
-    if (teams && teams) {
+    if (teams) {
         // TDD test
         // teamsWrapper = <div title='teams-index'>test</div>;
 
@@ -152,6 +151,9 @@ export default function Teams(props) {
                     result.opponent_id === teamId
                 )
             });
+
+            // Get opponent full name
+            filteredTeam[0].team_home === 'Dagenham & Redbridge' ? opponent = filteredTeam[0].team_away : opponent = filteredTeam[0].team_home;
 
             // Results template
             resultsTable = filteredTeam.map(key => 
@@ -331,6 +333,10 @@ export default function Teams(props) {
 
     } // End if teams data returned
 
+    // Document title here, so can change depending on data
+    document.title = `${opponent}`;
+
+    if (dataLoaded) {
     return (
         <React.Fragment>
             <Banner
@@ -343,7 +349,7 @@ export default function Teams(props) {
                 <div className='content__inpage content__inpage--standard'>
                     <h1
                         title={ dataLoaded ? 'data' : 'no-data' }
-                    >Teams</h1>
+                    >{opponent}</h1>
 
                     <table className='text-align--right'>
                             <thead>
@@ -439,4 +445,9 @@ export default function Teams(props) {
 
         </React.Fragment>
     )
+    } else {
+        return (
+            <Spinner />
+        )
+    }
 }
