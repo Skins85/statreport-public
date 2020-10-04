@@ -128,8 +128,10 @@ export default function Teams(props) {
         scorersByOpponentAll = [],
         allScorersTemplate = [],
         topScorersTemplate = [],
+        otherScorersTemplate = [],
         allScorersList,
         topScorersList,
+        otherScorersList,
         playerGoalCount = {},
         uniqueGoalTotals,
         opponent = 'Teams',
@@ -290,7 +292,18 @@ export default function Teams(props) {
                                     {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
                                 </a>
                             </p>
-                        ) : topScorersList = '';                        
+                        ) : topScorersList = '';
+
+                        // Display other scorers, i.e. non-top scorers
+                        (o[1] < goalTotals ? otherScorersList = goals.filter((result) => result.scorer_id === o[0]) : otherScorersList = '');
+                        otherScorersList ? otherScorersTemplate.push(
+                            <p>
+                                {o[1]}&nbsp;
+                                <a href={`../players/${otherScorersList[0]['scorer_id']}`}>
+                                    {otherScorersList[0]['first_name']} {otherScorersList[0]['surname']}
+                                </a>
+                            </p>
+                        ) : otherScorersList = '';
                     }
                 }                
             }
@@ -337,114 +350,115 @@ export default function Teams(props) {
     document.title = `${opponent}`;
 
     if (dataLoaded) {
-    return (
-        <React.Fragment>
-            <Banner
-                name='Teams'
-                description='Teams'
-                image='/images/banner/football-field-alfredo-camacho.jpg'
-                // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-            />
-            <div className='wrapper--content__inpage'>
-                <div className='content__inpage content__inpage--standard'>
-                    <h1
-                        title={ dataLoaded ? 'data' : 'no-data' }
-                    >{opponent}</h1>
+        return (
+            <React.Fragment>
+                <Banner
+                    name='Teams'
+                    description='Teams'
+                    image='/images/banner/football-field-alfredo-camacho.jpg'
+                    // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                />
+                <div className='wrapper--content__inpage'>
+                    <div className='content__inpage content__inpage--standard'>
+                        <h1
+                            title={ dataLoaded ? 'data' : 'no-data' }
+                        >{opponent}</h1>
 
-                    <table className='text-align--right'>
-                            <thead>
-                                <tr>
-                                    <th />
-                                    <th>P</th>
-                                    <th>W</th>
-                                    <th>D</th>
-                                    <th>L</th>
-                                    <th>F</th>
-                                    <th>A</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ResultsSummary
-                                    label='Home'
-                                    played={homeWins + homeDraws + homeLosses}
-                                    wins={homeWins}
-                                    draws={homeDraws}
-                                    losses={homeLosses}
-                                    goalsFor={homeGoalsFor}
-                                    goalsAgainst={homeGoalsAgainst}
-                                />
-                                <ResultsSummary
-                                    label='Away'
-                                    played={awayWins + awayDraws + awayLosses}
-                                    wins={awayWins}
-                                    draws={awayDraws}
-                                    losses={awayLosses}
-                                    goalsFor={awayGoalsFor}
-                                    goalsAgainst={awayGoalsAgainst}
-                                />
-                                <ResultsSummary
-                                    label='Total'
-                                    played={wins + draws + losses}
-                                    wins={wins}
-                                    draws={draws}
-                                    losses={losses}
-                                    goalsFor={homeGoalsFor + homeGoalsAgainst}
-                                    goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
-                                />
-                            </tbody>
-                        </table>
+                        <table className='text-align--right'>
+                                <thead>
+                                    <tr>
+                                        <th />
+                                        <th>P</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th>F</th>
+                                        <th>A</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ResultsSummary
+                                        label='Home'
+                                        played={homeWins + homeDraws + homeLosses}
+                                        wins={homeWins}
+                                        draws={homeDraws}
+                                        losses={homeLosses}
+                                        goalsFor={homeGoalsFor}
+                                        goalsAgainst={homeGoalsAgainst}
+                                    />
+                                    <ResultsSummary
+                                        label='Away'
+                                        played={awayWins + awayDraws + awayLosses}
+                                        wins={awayWins}
+                                        draws={awayDraws}
+                                        losses={awayLosses}
+                                        goalsFor={awayGoalsFor}
+                                        goalsAgainst={awayGoalsAgainst}
+                                    />
+                                    <ResultsSummary
+                                        label='Total'
+                                        played={wins + draws + losses}
+                                        wins={wins}
+                                        draws={draws}
+                                        losses={losses}
+                                        goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                        goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
+                                    />
+                                </tbody>
+                            </table>
 
-                        <h2>Results</h2>
-                        <table>
-                            {resultsTable}
-                        </table>
-                    
-                    <div className='wrapper--icon'>
-                        <img 
-                            src='../images/icons/football-freepik.png' 
-                            alt='Goal icon'
-                            className='icon'
-                        />
-                        <h2>Goalscorers</h2>
-                    </div>
-                    {topScorersList === '' ? <React.Fragment>{topScorersTemplate}<button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button></React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
-                    {allScorersShow ? <React.Fragment>{allScorersTemplate}</React.Fragment> : null}
-                    
-                    
-                    <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
-                        {teamsTemplate}
+                            <h2>Results</h2>
+                            <table>
+                                {resultsTable}
+                            </table>
                         
+                        <div className='wrapper--icon'>
+                            <img 
+                                src='../images/icons/football-freepik.png' 
+                                alt='Goal icon'
+                                className='icon'
+                            />
+                            <h2>Goalscorers</h2>
+                        </div>
+
+                        {/* Display top scorers and all scorers toggle depending on data received */}
+                        {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
+                        {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
+                        {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
                         
-                        {teamsWrapper}
-                        <h2>Record wins/losses</h2>
-                        <div className='wrapper--record__margins width--75'>
-                            <div className='record__margins record__margins--home'>
-                                <img 
-                                    src='../images/icons/house-32-freepik.png' 
-                                    alt='House icon' 
-                                />
-                                <div>
-                                    {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
-                                    {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                        <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                            {teamsTemplate}
+                            
+                            {teamsWrapper}
+                            <h2>Record wins/losses</h2>
+                            <div className='wrapper--record__margins width--75'>
+                                <div className='record__margins record__margins--home'>
+                                    <img 
+                                        src='../images/icons/house-32-freepik.png' 
+                                        alt='House icon' 
+                                    />
+                                    <div>
+                                        {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
+                                        {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                                    </div>
+                                </div>
+                                <div className='record__margins record__margins--away'>
+                                    <img 
+                                        src='../images/icons/road-32-freepik.png' 
+                                        alt='Road icon' 
+                                    />
+                                    {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
+                                    {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
                                 </div>
                             </div>
-                            <div className='record__margins record__margins--away'>
-                                <img 
-                                    src='../images/icons/road-32-freepik.png' 
-                                    alt='Road icon' 
-                                />
-                                {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
-                                {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
-                            </div>
+                            <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                         </div>
-                        <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                     </div>
                 </div>
-            </div>
-            {test}
+                {test}
 
-        </React.Fragment>
-    )
+            </React.Fragment>
+        )
     } else {
         return (
             <Spinner />
