@@ -9,7 +9,9 @@ table {
 
     thead {
         text-align: right;
-        background-color: $blue10;
+        background-color: $blue70;
+        color: white;
+        
     }
     
     tr {
@@ -39,6 +41,9 @@ table {
                 &[data-type='text'] {
                     text-align: left;
                 }
+            }
+            &:last-child {
+                background: $gray20;
             }
         }
     }

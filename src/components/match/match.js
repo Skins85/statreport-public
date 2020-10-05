@@ -144,63 +144,65 @@ export default function Matches() {
         return(
             <React.Fragment>
                 <div className='wrapper--content__inpage'>
-                    <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
-                    <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
-                    <p>
-                        <span><strong>Competition:</strong> {m.competition}  </span>
-                        <span><strong>Opponent step:</strong> {m.step_opponent}</span>
-                    </p>
-                    <h2>Starting XI</h2>
-                    <p>
-                        <a href={`../../players/${m.player_1}`}>{player_1}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_2}`}>{player_2}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_3}`}>{player_3}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_4}`}>{player_4}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_5}`}>{player_5}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_6}`}>{player_6}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_7}`}>{player_7}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_8}`}>{player_8}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_9}`}>{player_9}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_10}`}>{player_10}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.player_11}`}>{player_11}</a>
-                    </p>
-                    <h2>Subs</h2>
-                    <p>
-                        <a href={`../../players/${m.sub_1}`}>{sub_1}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.sub_2}`}>{sub_2}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.sub_3}`}>{sub_3}</a>
-                    </p>
-                    <p>
-                        <a href={`../../players/${m.sub_4}`}>{sub_4}</a>
-                    </p>
-                    <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
-                    {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
-                    <p><strong>League position</strong> {m.league_position}</p>
-                    <p><strong>Referee</strong> {m.referee}</p>
+                    <div className='content__inpage content__inpage--standard'>
+                        <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
+                        <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
+                        <p>
+                            <span><strong>Competition:</strong> {m.competition}  </span>
+                            <span><strong>Opponent step:</strong> {m.step_opponent}</span>
+                        </p>
+                        <h2>Starting XI</h2>
+                        <p>
+                            <a href={`../../players/${m.player_1}`}>{player_1}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_2}`}>{player_2}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_3}`}>{player_3}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_4}`}>{player_4}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_5}`}>{player_5}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_6}`}>{player_6}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_7}`}>{player_7}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_8}`}>{player_8}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_9}`}>{player_9}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_10}`}>{player_10}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.player_11}`}>{player_11}</a>
+                        </p>
+                        <h2>Subs</h2>
+                        <p>
+                            <a href={`../../players/${m.sub_1}`}>{sub_1}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.sub_2}`}>{sub_2}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.sub_3}`}>{sub_3}</a>
+                        </p>
+                        <p>
+                            <a href={`../../players/${m.sub_4}`}>{sub_4}</a>
+                        </p>
+                        <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
+                        {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
+                        <p><strong>League position</strong> {m.league_position}</p>
+                        <p><strong>Referee</strong> {m.referee}</p>
+                    </div>
                 </div>
             </React.Fragment>
         )

@@ -3,6 +3,7 @@ import { arrayInstancesToObject, filterArrayofObjects, nameFormat, objectInstanc
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
+import Moment from 'moment';
 import Result from '../result/result';
 import ResultsSummary from '../result/result-summary';
 import SeasonOptions from '../form/options/season';
@@ -135,6 +136,7 @@ export default function Teams(props) {
         playerGoalCount = {},
         uniqueGoalTotals,
         opponent = 'Teams',
+        firstMatchDate,
         test;
     
     // If teams data returned
@@ -153,6 +155,7 @@ export default function Teams(props) {
                     result.opponent_id === teamId
                 )
             });
+            firstMatchDate = filteredTeam[filteredTeam.length -1]['date'];
 
             // Get opponent full name
             filteredTeam[0].team_home === 'Dagenham & Redbridge' ? opponent = filteredTeam[0].team_away : opponent = filteredTeam[0].team_home;
@@ -359,11 +362,12 @@ export default function Teams(props) {
                     // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                 />
                 <div className='wrapper--content__inpage'>
-                    <div className='content__inpage content__inpage--standard'>
+                    <div className='teams content__inpage content__inpage--standard'>
                         <h1
                             title={ dataLoaded ? 'data' : 'no-data' }
                         >{opponent}</h1>
-
+                        <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}.</p>
+                        <h2>Results</h2>
                         <table className='text-align--right'>
                                 <thead>
                                     <tr>
@@ -406,9 +410,8 @@ export default function Teams(props) {
                                     />
                                 </tbody>
                             </table>
-
-                            <h2>Results</h2>
-                            <table>
+                            <h2>Matches</h2>
+                            <table className='results'>
                                 {resultsTable}
                             </table>
                         

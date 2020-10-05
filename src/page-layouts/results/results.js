@@ -221,6 +221,7 @@ class Results extends Component {
                 <table>
                   <thead data-content-align='left'>
                     <tr>
+                      <th />
                       <th>Date</th>
                       <th>Competition</th>
                       <th></th>
