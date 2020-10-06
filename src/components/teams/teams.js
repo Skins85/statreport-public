@@ -20,10 +20,10 @@ export default function Teams(props) {
     const [goalsData, setGoalsData] = useState({});
     const [allScorersShow, setAllScorersShow] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [matchDisplayNumber, setMatchDisplayNumber] = useState(3);
 
     useEffect(() => {
         async function fetchData() {
-            
 
             // Cache GET requests
             let cache;
@@ -138,6 +138,11 @@ export default function Teams(props) {
         opponent = 'Teams',
         firstMatchDate,
         test;
+
+    // Change the number of results that are visible in the results table
+    let matchNumberHandler = e => {
+        e.target.value === 'all' ? setMatchDisplayNumber((filteredTeam.length + 1)) : setMatchDisplayNumber(e.target.value);
+    } 
     
     // If teams data returned
     if (teams) {
@@ -161,7 +166,7 @@ export default function Teams(props) {
             filteredTeam[0].team_home === 'Dagenham & Redbridge' ? opponent = filteredTeam[0].team_away : opponent = filteredTeam[0].team_home;
 
             // Results template
-            resultsTable = filteredTeam.map(key => 
+            resultsTable = filteredTeam.slice(0,matchDisplayNumber).map(key => 
                 <Result
                     id={key.match_id}
                     match_id={key.match_id}
@@ -420,7 +425,7 @@ export default function Teams(props) {
                                 labelTarget={`matches-select`}
                                 selectId={`matches-select`}
                                 selectName={`matches-select`}
-                                onChange=''
+                                onChange={matchNumberHandler}
                             >
                                 <option value="3" name="3">3</option>
                                 <option value="4" name="4">4</option>
