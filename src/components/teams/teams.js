@@ -366,8 +366,10 @@ export default function Teams(props) {
                         <h1
                             title={ dataLoaded ? 'data' : 'no-data' }
                         >{opponent}</h1>
-                        <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}.</p>
+                        <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
+                        with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
                         <h2>Results</h2>
+                        <p>Summary of overall record against {opponent}.</p>
                         <table className='text-align--right'>
                                 <thead>
                                     <tr>
@@ -411,6 +413,23 @@ export default function Teams(props) {
                                 </tbody>
                             </table>
                             <h2>Matches</h2>
+                            <p>Match outcomes and links to match reports.</p>
+                            <Select
+                                labelRequired
+                                labelText={`Choose number of matches to display`} 
+                                labelTarget={`matches-select`}
+                                selectId={`matches-select`}
+                                selectName={`matches-select`}
+                                onChange=''
+                            >
+                                <option value="3" name="3">3</option>
+                                <option value="4" name="4">4</option>
+                                <option value="5" name="5">5</option>
+                                <option value="6" name="6">6</option>
+                                <option value="7" name="7">7</option>
+                                <option value="8" name="8">8</option>
+                                <option value="all" name="all">All</option>
+                            </Select>
                             <table className='results'>
                                 {resultsTable}
                             </table>
@@ -423,6 +442,7 @@ export default function Teams(props) {
                             />
                             <h2>Goalscorers</h2>
                         </div>
+                        <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
 
                         {/* Display top scorers and all scorers toggle depending on data received */}
                         {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
@@ -434,6 +454,7 @@ export default function Teams(props) {
                             
                             {teamsWrapper}
                             <h2>Record wins/losses</h2>
+                            <p>Largest margins of victory and defeat both at home and on the road.</p>
                             <div className='wrapper--record__margins width--75'>
                                 <div className='record__margins record__margins--home'>
                                     <img 
