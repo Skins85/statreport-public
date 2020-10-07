@@ -137,6 +137,8 @@ export default function Teams(props) {
         uniqueGoalTotals,
         opponent = 'Teams',
         firstMatchDate,
+        homeAttendancesArray = [],
+        attendancesTemplate,
         test;
 
     // Change the number of results that are visible in the results table
@@ -180,7 +182,6 @@ export default function Teams(props) {
             )
             // Results summary template
             for (const m of filteredTeam) {
-
                 if (scorers) {
                     scorersByOpponent = scorers.filter(function(result) {
                         return (
@@ -203,6 +204,7 @@ export default function Teams(props) {
                 if (m.team_home === 'Dagenham & Redbridge') {
                     homeGoalsFor += parseInt(m.goals_home);
                     homeGoalsAgainst += parseInt(m.goals_away);
+                    homeAttendancesArray.push(parseInt(m.attendance));
                     if (m.goals_home === m.goals_away) {
                         homeDraws += 1;
                     } else if (m.goals_home > m.goals_away) {
@@ -230,6 +232,15 @@ export default function Teams(props) {
                     }
                 }
             }
+            
+            // Sort attendances and build template
+            homeAttendancesArray = homeAttendancesArray.sort((a, b) => b - a);
+            attendancesTemplate =
+                <React.Fragment>
+                    <p>Highest: {homeAttendancesArray[0]}</p>
+                    <p>Lowest: {homeAttendancesArray[homeAttendancesArray.length -1]}</p>
+                    <p>Average: {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length)}</p>
+                </React.Fragment>
             
             // Get largest wins/defeat margins
             homeWinLargest = Math.max.apply( null, homeWinMargins );
@@ -417,7 +428,14 @@ export default function Teams(props) {
                                     />
                                 </tbody>
                             </table>
-                            <h2>Matches</h2>
+                            <div className='wrapper--icon'>
+                                <img 
+                                    src='../images/icons/football-pitch-freepik.png' 
+                                    alt='Football pitch icon'
+                                    className='icon'
+                                />
+                                <h2>Matches</h2>
+                            </div>
                             <p>Match outcomes and links to match reports.</p>
                             <Select
                                 labelRequired
@@ -454,11 +472,27 @@ export default function Teams(props) {
                         {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
                         {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
                         
+                        <div className='wrapper--icon'>
+                            <img 
+                                src='../images/icons/crowd-freepik-1.png' 
+                                alt='Crowd icon icon'
+                                className='icon'
+                            />
+                            <h2>Attendances</h2>
+                        </div>
+                        {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
                         <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
                             {teamsTemplate}
                             
                             {teamsWrapper}
-                            <h2>Record wins/losses</h2>
+                            <div className='wrapper--icon'>
+                                <img 
+                                    src='../images/icons/up-down-arrow-freepik.png' 
+                                    alt='Up/down arrow icon'
+                                    className='icon'
+                                />
+                                <h2>Win/loss margins</h2>
+                            </div>
                             <p>Largest margins of victory and defeat both at home and on the road.</p>
                             <div className='wrapper--record__margins width--75'>
                                 <div className='record__margins record__margins--home'>

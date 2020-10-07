@@ -1,4 +1,4 @@
-import Outcome from '../outcome/outcome';
+// import Outcome from '../ui/outcome-indicator/outcome-indicator';
 import React from 'react';
 import moment from 'moment';
 import { nameFormat } from '../../util';
