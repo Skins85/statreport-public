@@ -237,9 +237,9 @@ export default function Teams(props) {
             homeAttendancesArray = homeAttendancesArray.sort((a, b) => b - a);
             attendancesTemplate =
                 <React.Fragment>
-                    <p>Highest: {homeAttendancesArray[0]}</p>
-                    <p>Lowest: {homeAttendancesArray[homeAttendancesArray.length -1]}</p>
-                    <p>Average: {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length)}</p>
+                    <p><strong>Highest:</strong> {homeAttendancesArray[0].toLocaleString()}</p>
+                    <p><strong>Lowest:</strong> {homeAttendancesArray[homeAttendancesArray.length -1].toLocaleString()}</p>
+                    <p><strong>Average:</strong> {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()}</p>
                 </React.Fragment>
             
             // Get largest wins/defeat margins
@@ -377,16 +377,17 @@ export default function Teams(props) {
                     image='/images/banner/football-field-alfredo-camacho.jpg'
                     // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                 />
-                <div className='wrapper--content__inpage'>
-                    <div className='teams content__inpage content__inpage--standard'>
+                <div className='wrapper--content__inpage teams-layout'>
+                    <div className='teams content__inpage content__inpage'>
                         <h1
                             title={ dataLoaded ? 'data' : 'no-data' }
                         >{opponent}</h1>
                         <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
                         with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
-                        <h2>Results</h2>
-                        <p>Summary of overall record against {opponent}.</p>
-                        <table className='text-align--right'>
+                        <section id='section--results'>
+                            <h2>Results</h2>
+                            <p>Summary of overall record against {opponent}.</p>
+                            <table className='text-align--right width--75'>
                                 <thead>
                                     <tr>
                                         <th />
@@ -400,19 +401,19 @@ export default function Teams(props) {
                                 </thead>
                                 <tbody>
                                     <ResultsSummary
-                                        label='Home'
-                                        played={homeWins + homeDraws + homeLosses}
-                                        wins={homeWins}
-                                        draws={homeDraws}
-                                        losses={homeLosses}
-                                        goalsFor={homeGoalsFor}
-                                        goalsAgainst={homeGoalsAgainst}
-                                    />
-                                    <ResultsSummary
-                                        label='Away'
-                                        played={awayWins + awayDraws + awayLosses}
-                                        wins={awayWins}
-                                        draws={awayDraws}
+                                            label='Home'
+                                            played={homeWins + homeDraws + homeLosses}
+                                            wins={homeWins}
+                                            draws={homeDraws}
+                                            losses={homeLosses}
+                                            goalsFor={homeGoalsFor}
+                                            goalsAgainst={homeGoalsAgainst}
+                                        />
+                                        <ResultsSummary
+                                            label='Away'
+                                            played={awayWins + awayDraws + awayLosses}
+                                            wins={awayWins}
+                                            draws={awayDraws}
                                         losses={awayLosses}
                                         goalsFor={awayGoalsFor}
                                         goalsAgainst={awayGoalsAgainst}
@@ -428,6 +429,8 @@ export default function Teams(props) {
                                     />
                                 </tbody>
                             </table>
+                        </section>
+                        <section id='section--results'>
                             <div className='wrapper--icon'>
                                 <img 
                                     src='../images/icons/football-pitch-freepik.png' 
@@ -437,9 +440,9 @@ export default function Teams(props) {
                                 <h2>Matches</h2>
                             </div>
                             <p>Match outcomes and links to match reports.</p>
-                            <Select
+                            {filteredTeam.length > 3 ? <Select
                                 labelRequired
-                                labelText={`Choose number of matches to display`} 
+                                labelText={`Matches to display`} 
                                 labelTarget={`matches-select`}
                                 selectId={`matches-select`}
                                 selectName={`matches-select`}
@@ -452,39 +455,48 @@ export default function Teams(props) {
                                 <option value="7" name="7">7</option>
                                 <option value="8" name="8">8</option>
                                 <option value="all" name="all">All</option>
-                            </Select>
-                            <table className='results'>
+                            </Select> : null }
+                            <table className='results width--75'>
                                 {resultsTable}
                             </table>
+                        </section>
                         
-                        <div className='wrapper--icon'>
-                            <img 
-                                src='../images/icons/football-freepik.png' 
-                                alt='Goal icon'
-                                className='icon'
-                            />
-                            <h2>Goalscorers</h2>
-                        </div>
-                        <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
+                        <section id='section--goalscorers-attendances'>
+                            <div className='wrapper--goalscorers__attendances'>
+                                <div className='goalscorers'>
+                                    <div className='wrapper--icon'>
+                                        <img 
+                                            src='../images/icons/football-freepik.png' 
+                                            alt='Goal icon'
+                                            className='icon'
+                                        />
+                                        <h2>Goalscorers</h2>
+                                    </div>
+                                    <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
 
-                        {/* Display top scorers and all scorers toggle depending on data received */}
-                        {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
-                        {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
-                        {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
-                        
-                        <div className='wrapper--icon'>
-                            <img 
-                                src='../images/icons/crowd-freepik-1.png' 
-                                alt='Crowd icon icon'
-                                className='icon'
-                            />
-                            <h2>Attendances</h2>
-                        </div>
-                        {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
-                        <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
-                            {teamsTemplate}
-                            
-                            {teamsWrapper}
+                                    {/* Display top scorers and all scorers toggle depending on data received */}
+                                    {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
+                                    {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
+                                    {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
+                                </div>
+                                <div className='attendances'>
+                                    <div className='wrapper--icon'>
+                                        <img 
+                                            src='../images/icons/crowd-freepik-1.png' 
+                                            alt='Crowd icon icon'
+                                            className='icon'
+                                        />
+                                        <h2>Attendances</h2>
+                                    </div>
+                                    <p>Attendance data for home games against {opponent}.</p>
+                                    {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
+                                </div>
+                            </div>
+                        </section>
+                            <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                                {teamsTemplate}
+                                
+                                {teamsWrapper}
                             <div className='wrapper--icon'>
                                 <img 
                                     src='../images/icons/up-down-arrow-freepik.png' 
@@ -494,7 +506,7 @@ export default function Teams(props) {
                                 <h2>Win/loss margins</h2>
                             </div>
                             <p>Largest margins of victory and defeat both at home and on the road.</p>
-                            <div className='wrapper--record__margins width--75'>
+                            <div className='wrapper--record__margins'>
                                 <div className='record__margins record__margins--home'>
                                     <img 
                                         src='../images/icons/house-32-freepik.png' 

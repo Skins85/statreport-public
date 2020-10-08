@@ -8,6 +8,29 @@
         }
     }
 
+    .wrapper--goalscorers__attendances {
+        @include sixteen-grid;
+
+        .goalscorers {
+            grid-column: 1/8;
+            @media screen and (max-width: $tablet) {
+                grid-column: 1/-1;
+            }
+        }
+        .attendances {
+            grid-column: 9/-1;
+            @media screen and (max-width: $tablet) {
+                grid-column: 1/-1;
+            }
+        }
+    }
+
+    section {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
     .wrapper--record__margins {
         display: flex;
         @media screen and (max-width: $mobile) {

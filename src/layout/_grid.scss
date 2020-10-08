@@ -4,6 +4,12 @@
     grid-column-gap: $rem--one;
 }
 
+@mixin fourteen-grid() {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-column-gap: $rem--one;
+}
+
 @mixin sixteen-grid() {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
@@ -36,7 +42,7 @@
             }
             @include twenty-grid;
             > .wrapper--content__inpage {
-                @include sixteen-grid();
+                // @include sixteen-grid();
                 padding: 0 $rem--one;
                 grid-column: 1/-1;
                 min-height: 60vh;
