@@ -22,6 +22,24 @@
             @media screen and (max-width: $tablet) {
                 grid-column: 1/-1;
             }
+            .icon {
+                &.arrow {
+                    width: $rem--one-quarter;
+                }
+            }
+        }
+
+        table {
+            border: 0;
+            tr {
+                border: 0;
+                .outcome {
+                    padding: 0;
+                    &:before {
+                        margin: $rem--quarter 0 0 0;
+                    }
+                }
+            }
         }
     }
 

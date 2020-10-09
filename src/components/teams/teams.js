@@ -254,8 +254,14 @@ export default function Teams(props) {
             
             attendancesTemplate = 
                 <React.Fragment>
-
-                    <p><strong>Highest</strong></p>
+                    <div className='wrapper--icon'>
+                        <img 
+                            src='../images/icons/arrow-up-freepik-1.png' 
+                            alt='Up arrow icon'
+                            className='icon arrow'
+                        />
+                        <h3>Highest</h3>
+                    </div>
                     <table>
                         <Result
                             id={highestAttendanceMatch[0]['match_id']}
@@ -266,10 +272,18 @@ export default function Teams(props) {
                             goals_home={highestAttendanceMatch[0]['goals_home']}
                             goals_away={highestAttendanceMatch[0]['goals_away']}
                             competition={highestAttendanceMatch[0]['competition']}
+                            attendance={highestAttendanceMatch[0]['attendance']}
                         />
                     </table>
 
-                    <p><strong>Lowest</strong></p>
+                    <div className='wrapper--icon'>
+                        <img 
+                            src='../images/icons/arrow-up-freepik-1.png' 
+                            alt='Up arrow icon'
+                            className='icon arrow inverse'
+                        />
+                        <h3>Lowest</h3>
+                    </div>
                     <table>
                         <Result
                             id={lowestAttendanceMatch[0]['match_id']}
@@ -280,6 +294,7 @@ export default function Teams(props) {
                             goals_home={lowestAttendanceMatch[0]['goals_home']}
                             goals_away={lowestAttendanceMatch[0]['goals_away']}
                             competition={lowestAttendanceMatch[0]['competition']}
+                            attendance={lowestAttendanceMatch[0]['attendance']}
                         />
                     </table>
                 </React.Fragment>
@@ -531,7 +546,7 @@ export default function Teams(props) {
                                         <h2>Attendances</h2>
                                     </div>                    
                                     
-                                    <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}</p>
+                                    <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
 
                                     {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
                                 </div>

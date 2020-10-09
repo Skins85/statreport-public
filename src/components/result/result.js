@@ -29,14 +29,15 @@ const result = (props) => {
         <tr key={props.id}>
             <td className={outcome} />
             <td>{moment(props.date).format('DD/MM/YYYY')}</td>
+            {props.attendance ? <td>{parseInt(props.attendance).toLocaleString()}</td> : null}
             <td>{props.competition}</td>
-            <td>{nameFormat(props.team_home)}</td>
+            <td className='no-wrap'>{nameFormat(props.team_home)}</td>
             <td className='no-wrap'>
                 <a href={`matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
                 </a>
             </td>
-            <td className='team_away'>{nameFormat(props.team_away)}
+            <td className='team_away no-wrap'>{nameFormat(props.team_away)}
             </td>
         </tr>
     )
