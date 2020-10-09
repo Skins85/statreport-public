@@ -235,11 +235,53 @@ export default function Teams(props) {
             
             // Sort attendances and build template
             homeAttendancesArray = homeAttendancesArray.sort((a, b) => b - a);
-            attendancesTemplate =
+            
+            let highestAttendanceMatch, lowestAttendanceMatch;
+            if (filteredTeam) {
+                highestAttendanceMatch = filteredTeam.filter(function(result) {
+                    return (
+                        parseInt(result.attendance) === homeAttendancesArray[0] &&
+                        result.team_home === 'Dagenham & Redbridge'
+                    )
+                });
+                lowestAttendanceMatch = filteredTeam.filter(function(result) {
+                    return (
+                        parseInt(result.attendance) === homeAttendancesArray[homeAttendancesArray.length -1] &&
+                        result.team_home === 'Dagenham & Redbridge'
+                    )
+                });
+            }
+            
+            attendancesTemplate = 
                 <React.Fragment>
-                    <p><strong>Highest:</strong> {homeAttendancesArray[0].toLocaleString()}</p>
-                    <p><strong>Lowest:</strong> {homeAttendancesArray[homeAttendancesArray.length -1].toLocaleString()}</p>
-                    <p><strong>Average:</strong> {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()}</p>
+
+                    <p><strong>Highest</strong></p>
+                    <table>
+                        <Result
+                            id={highestAttendanceMatch[0]['match_id']}
+                            match_id={highestAttendanceMatch[0]['match_id']}
+                            date={highestAttendanceMatch[0].date}
+                            team_home={'Dagenham & Redbridge'}
+                            team_away={opponent}
+                            goals_home={highestAttendanceMatch[0]['goals_home']}
+                            goals_away={highestAttendanceMatch[0]['goals_away']}
+                            competition={highestAttendanceMatch[0]['competition']}
+                        />
+                    </table>
+
+                    <p><strong>Lowest</strong></p>
+                    <table>
+                        <Result
+                            id={lowestAttendanceMatch[0]['match_id']}
+                            match_id={lowestAttendanceMatch[0]['match_id']}
+                            date={lowestAttendanceMatch[0].date}
+                            team_home={'Dagenham & Redbridge'}
+                            team_away={opponent}
+                            goals_home={lowestAttendanceMatch[0]['goals_home']}
+                            goals_away={lowestAttendanceMatch[0]['goals_away']}
+                            competition={lowestAttendanceMatch[0]['competition']}
+                        />
+                    </table>
                 </React.Fragment>
             
             // Get largest wins/defeat margins
@@ -487,8 +529,10 @@ export default function Teams(props) {
                                             className='icon'
                                         />
                                         <h2>Attendances</h2>
-                                    </div>
-                                    <p>Attendance data for home games against {opponent}.</p>
+                                    </div>                    
+                                    
+                                    <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}</p>
+
                                     {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
                                 </div>
                             </div>
