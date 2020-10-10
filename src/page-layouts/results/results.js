@@ -12,7 +12,7 @@ class Results extends Component {
         this.state = {
           data: '',
           location: '',
-          season: '2018-19',
+          season: '2019-20',
           opposition: 'all',
           teamsData: '',
           filteredResults: '',
@@ -139,6 +139,7 @@ class Results extends Component {
                     goals_home={result.goals_home}
                     goals_away={result.goals_away}
                     team_away={result.team_away}
+                    link_enabled
                   />
                 )
               })

@@ -180,6 +180,7 @@ export default function Teams(props) {
                     competition={key.competition}
                 />
             )
+
             // Results summary template
             for (const m of filteredTeam) {
                 if (scorers) {
@@ -299,303 +300,328 @@ export default function Teams(props) {
                     </table>
                 </React.Fragment>
             
-            // Get largest wins/defeat margins
-            homeWinLargest = Math.max.apply( null, homeWinMargins );
-            homeLossLargest = Math.max.apply( null, homeLossMargins );
-            awayWinLargest = Math.max.apply( null, awayWinMargins );
-            awayLossLargest = Math.max.apply( null, awayLossMargins );
+                // Get largest wins/defeat margins
+                homeWinLargest = Math.max.apply( null, homeWinMargins );
+                homeLossLargest = Math.max.apply( null, homeLossMargins );
+                awayWinLargest = Math.max.apply( null, awayWinMargins );
+                awayLossLargest = Math.max.apply( null, awayLossMargins );
 
-            let allScorersArray;
-            if (scorersByOpponentAll) {
+                let allScorersArray;
+                if (scorersByOpponentAll) {
 
-                // Flatten scorers arrays into one array to enable count by scorer ID
-                allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
+                    // Flatten scorers arrays into one array to enable count by scorer ID
+                    allScorersArray = Array.prototype.concat.apply([], scorersByOpponentAll);
 
-                // Array of scorer IDs, e.g. ["balanta-angelo", "balanta-angelo", "wilkinson-conor"]
-                let scorersArray = [];
-                if (scorersByOpponentAll[0] !== undefined) {
-                    for (const s of allScorersArray) {
-                        scorersArray.push(s.scorer_id)
-                    }
-                    
-                    // Create object for scorers, e.g. { balanta_angelo: 2, wilkinson_conor: 3 }
-                    arrayInstancesToObject(scorersArray, playerGoalCount);
-                
-                    // Convert goalscorer totals objects into array and sort by descending
-                    // e.g. { balanta_angelo: 2, wilkinson_conor: 3, ... }
-                    // Result => 0: (2) ["wilkinson_conor", 3]
-                    //           1: (2) ["balanta_angelo", 2]
-                    let orderedScorersArray = [];
-                    objectInstancesToArray(playerGoalCount, orderedScorersArray, 'desc');
-
-                    // Extract win/loss margins into numeric array
-                    let goalTotals = [];
-                    for (const o of orderedScorersArray) {
-                        goalTotals.push(o[1])
-                    }
-                    // Reduce array of goal totals to unique values, e.g. [5,4,2]
-                    uniqueGoalTotals = [...new Set(goalTotals)];
-                    
-                    // Customise top scorer display based on number of unique goal total values 
-                    switch (true) {
-                        case (uniqueGoalTotals.length >=4):
-                            goalTotals = uniqueGoalTotals[2]
-                            break;
-                        case (uniqueGoalTotals.length === 3):
-                            goalTotals = uniqueGoalTotals[1]
-                            break;
-                        case (uniqueGoalTotals.length === 2):
-                            goalTotals = uniqueGoalTotals[0];
-                            // setAllScorersShow(true);
-                            break;
-                        default: 
-                            goalTotals = uniqueGoalTotals[0]
-                            // setAllScorersShow(true);
-                    }
-                    
-                    for (const o of orderedScorersArray) {
+                    // Array of scorer IDs, e.g. ["balanta-angelo", "balanta-angelo", "wilkinson-conor"]
+                    let scorersArray = [];
+                    if (scorersByOpponentAll[0] !== undefined) {
+                        for (const s of allScorersArray) {
+                            scorersArray.push(s.scorer_id)
+                        }
                         
-                        // Always build all goalscorers' totals list
-                        allScorersList = goals.filter((result) => result.scorer_id === o[0] );
-                        allScorersTemplate.push(<p>{o[1]} <a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a></p>);
+                        // Create object for scorers, e.g. { balanta_angelo: 2, wilkinson_conor: 3 }
+                        arrayInstancesToObject(scorersArray, playerGoalCount);
+                
+                        // Convert goalscorer totals objects into array and sort by descending
+                        // e.g. { balanta_angelo: 2, wilkinson_conor: 3, ... }
+                        // Result => 0: (2) ["wilkinson_conor", 3]
+                        //           1: (2) ["balanta_angelo", 2]
+                        let orderedScorersArray = [];
+                        objectInstancesToArray(playerGoalCount, orderedScorersArray, 'desc');
 
-                        // Display top scorers list depending on number of different goal values exist (see switch statement)
-                        (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
-                        topScorersList ? topScorersTemplate.push(
-                            <p>
-                                {o[1]}&nbsp;
-                                <a href={`../players/${topScorersList[0]['scorer_id']}`}>
-                                    {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
-                                </a>
-                            </p>
-                        ) : topScorersList = '';
+                        // Extract win/loss margins into numeric array
+                        let goalTotals = [];
+                        for (const o of orderedScorersArray) {
+                            goalTotals.push(o[1])
+                        }
+                        // Reduce array of goal totals to unique values, e.g. [5,4,2]
+                        uniqueGoalTotals = [...new Set(goalTotals)];
+                        
+                        // Customise top scorer display based on number of unique goal total values 
+                        switch (true) {
+                            case (uniqueGoalTotals.length >=4):
+                                goalTotals = uniqueGoalTotals[2]
+                                break;
+                            case (uniqueGoalTotals.length === 3):
+                                goalTotals = uniqueGoalTotals[1]
+                                break;
+                            case (uniqueGoalTotals.length === 2):
+                                goalTotals = uniqueGoalTotals[0];
+                                // setAllScorersShow(true);
+                                break;
+                            default: 
+                                goalTotals = uniqueGoalTotals[0]
+                                // setAllScorersShow(true);
+                        }
+                        
+                        for (const o of orderedScorersArray) {
+                            
+                            // Always build all goalscorers' totals list
+                            allScorersList = goals.filter((result) => result.scorer_id === o[0] );
+                            allScorersTemplate.push(<p>{o[1]} <a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a></p>);
 
-                        // Display other scorers, i.e. non-top scorers
-                        (o[1] < goalTotals ? otherScorersList = goals.filter((result) => result.scorer_id === o[0]) : otherScorersList = '');
-                        otherScorersList ? otherScorersTemplate.push(
-                            <p>
-                                {o[1]}&nbsp;
-                                <a href={`../players/${otherScorersList[0]['scorer_id']}`}>
-                                    {otherScorersList[0]['first_name']} {otherScorersList[0]['surname']}
-                                </a>
-                            </p>
-                        ) : otherScorersList = '';
-                    }
-                }                
-            }
-           
-            // Filter match data and create an array of objects containing match data for largest margins
-            let largestHomeWins = filterArrayofObjects(homeMatches, 'homeWinMargin', homeWinLargest),
-                largestHomeLosses = filterArrayofObjects(homeMatches, 'homeLossMargin', homeLossLargest),
-                largestAwayWins = filterArrayofObjects(awayMatches, 'awayWinMargin', awayWinLargest),
-                largestAwayLosses = filterArrayofObjects(awayMatches, 'awayLossMargin', awayLossLargest);
+                            // Display top scorers list depending on number of different goal values exist (see switch statement)
+                            (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
+                            topScorersList ? topScorersTemplate.push(
+                                <p>
+                                    {o[1]}&nbsp;
+                                    <a href={`../players/${topScorersList[0]['scorer_id']}`}>
+                                        {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
+                                    </a>
+                                </p>
+                            ) : topScorersList = '';
 
-            /**
-             * JSX for largest wins/defeats margins
-             *
-             * @param {Array of Objects} arr - The data associated with the largest margin.
-             **/
-            function largestMargins(arr, type) {
-                if (arr.length > 0) {
-                    let res = arr.map(key => {
-                        return (
-                            <p className={`record__margins__outcome record__margins__outcome--${type}`}>{nameFormat(key.team_home)}&nbsp;
-                                <a href={`../matches/?m=${key.match_id}`}>
-                                {key.goals_home}-{key.goals_away}
-                                </a>&nbsp;
-                                {nameFormat(key.team_away)}
-                            </p>
-                        )
-                    });
-                    return res;
+                            // Display other scorers, i.e. non-top scorers
+                            (o[1] < goalTotals ? otherScorersList = goals.filter((result) => result.scorer_id === o[0]) : otherScorersList = '');
+                            otherScorersList ? otherScorersTemplate.push(
+                                <p>
+                                    {o[1]}&nbsp;
+                                    <a href={`../players/${otherScorersList[0]['scorer_id']}`}>
+                                        {otherScorersList[0]['first_name']} {otherScorersList[0]['surname']}
+                                    </a>
+                                </p>
+                            ) : otherScorersList = '';
+                        }
+                    }                
                 }
-            }
+            
+                // Filter match data and create an array of objects containing match data for largest margins
+                let largestHomeWins = filterArrayofObjects(homeMatches, 'homeWinMargin', homeWinLargest),
+                    largestHomeLosses = filterArrayofObjects(homeMatches, 'homeLossMargin', homeLossLargest),
+                    largestAwayWins = filterArrayofObjects(awayMatches, 'awayWinMargin', awayWinLargest),
+                    largestAwayLosses = filterArrayofObjects(awayMatches, 'awayLossMargin', awayLossLargest);
 
-            largestHomeWinTemplate = largestMargins(largestHomeWins, 'win');
-            largestHomeLossTemplate = largestMargins(largestHomeLosses, 'loss');
-            largestAwayWinTemplate = largestMargins(largestAwayWins, 'win');
-            largestAwayLossTemplate = largestMargins(largestAwayLosses, 'loss')
-                
-        } else { // Teams index
-            teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
-        } // End check if team selected
+                /**
+                * JSX for largest wins/defeats margins
+                *
+                * @param {Array of Objects} arr - The data associated with the largest margin.
+                **/
+                function largestMargins(arr, type) {
+                    if (arr.length > 0) {
+                        let res = arr.map(key => {
+                            return (
+                                <p className={`record__margins__outcome record__margins__outcome--${type}`}>{nameFormat(key.team_home)}&nbsp;
+                                    <a href={`../matches/?m=${key.match_id}`}>
+                                    {key.goals_home}-{key.goals_away}
+                                    </a>&nbsp;
+                                    {nameFormat(key.team_away)}
+                                </p>
+                            )
+                        });
+                        return res;
+                    }
+                }
 
-    } // End if teams data returned
+                largestHomeWinTemplate = largestMargins(largestHomeWins, 'win');
+                largestHomeLossTemplate = largestMargins(largestHomeLosses, 'loss');
+                largestAwayWinTemplate = largestMargins(largestAwayWins, 'win');
+                largestAwayLossTemplate = largestMargins(largestAwayLosses, 'loss')
+                    
+            } else { // Teams index
+                teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
+            } // End check if team selected
 
-    // Document title here, so can change depending on data
-    document.title = `${opponent}`;
+        } // End if teams data returned
 
-    if (dataLoaded) {
-        return (
-            <React.Fragment>
-                <Banner
-                    name='Teams'
-                    description='Teams'
-                    image='/images/banner/football-field-alfredo-camacho.jpg'
-                    // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-                />
-                <div className='wrapper--content__inpage teams-layout'>
-                    <div className='teams content__inpage content__inpage'>
-                        <h1
-                            title={ dataLoaded ? 'data' : 'no-data' }
-                        >{opponent}</h1>
-                        <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
-                        with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
-                        <section id='section--results'>
-                            <h2>Results</h2>
-                            <p>Summary of overall record against {opponent}.</p>
-                            <table className='text-align--right width--75'>
-                                <thead>
-                                    <tr>
-                                        <th />
-                                        <th>P</th>
-                                        <th>W</th>
-                                        <th>D</th>
-                                        <th>L</th>
-                                        <th>F</th>
-                                        <th>A</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <ResultsSummary
-                                            label='Home'
-                                            played={homeWins + homeDraws + homeLosses}
-                                            wins={homeWins}
-                                            draws={homeDraws}
-                                            losses={homeLosses}
-                                            goalsFor={homeGoalsFor}
-                                            goalsAgainst={homeGoalsAgainst}
-                                        />
+        // Document title here, so can change depending on data
+        document.title = `${opponent}`;
+
+        if (teamId !== 'teams') {
+            if (dataLoaded) {
+            return (
+                <React.Fragment>
+                    <Banner
+                        name='Teams'
+                        description='Teams'
+                        image='/images/banner/football-field-alfredo-camacho.jpg'
+                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                    />
+                    <div className='wrapper--content__inpage teams-layout'>
+                        <div className='teams content__inpage content__inpage'>
+                            <h1
+                                title={ dataLoaded ? 'data' : 'no-data' }
+                            >{opponent}</h1>
+                            <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
+                            with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
+                            <section id='section--results'>
+                                <h2>Results</h2>
+                                <p>Summary of overall record against {opponent}.</p>
+                                <table className='text-align--right width--75'>
+                                    <thead>
+                                        <tr>
+                                            <th />
+                                            <th>P</th>
+                                            <th>W</th>
+                                            <th>D</th>
+                                            <th>L</th>
+                                            <th>F</th>
+                                            <th>A</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         <ResultsSummary
-                                            label='Away'
-                                            played={awayWins + awayDraws + awayLosses}
-                                            wins={awayWins}
-                                            draws={awayDraws}
-                                        losses={awayLosses}
-                                        goalsFor={awayGoalsFor}
-                                        goalsAgainst={awayGoalsAgainst}
+                                                label='Home'
+                                                played={homeWins + homeDraws + homeLosses}
+                                                wins={homeWins}
+                                                draws={homeDraws}
+                                                losses={homeLosses}
+                                                goalsFor={homeGoalsFor}
+                                                goalsAgainst={homeGoalsAgainst}
+                                            />
+                                            <ResultsSummary
+                                                label='Away'
+                                                played={awayWins + awayDraws + awayLosses}
+                                                wins={awayWins}
+                                                draws={awayDraws}
+                                                losses={awayLosses}
+                                                goalsFor={awayGoalsFor}
+                                                goalsAgainst={awayGoalsAgainst}
+                                            />
+                                            <ResultsSummary
+                                                label='Total'
+                                                played={wins + draws + losses}
+                                                wins={wins}
+                                                draws={draws}
+                                                losses={losses}
+                                                goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                                goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
+                                            />
+                                    </tbody>
+                                </table>
+                            </section>
+                            <section id='section--results'>
+                                <div className='wrapper--icon'>
+                                    <img 
+                                        src='../images/icons/football-pitch-freepik.png' 
+                                        alt='Football pitch icon'
+                                        className='icon'
                                     />
-                                    <ResultsSummary
-                                        label='Total'
-                                        played={wins + draws + losses}
-                                        wins={wins}
-                                        draws={draws}
-                                        losses={losses}
-                                        goalsFor={homeGoalsFor + homeGoalsAgainst}
-                                        goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
-                                    />
-                                </tbody>
-                            </table>
-                        </section>
-                        <section id='section--results'>
-                            <div className='wrapper--icon'>
-                                <img 
-                                    src='../images/icons/football-pitch-freepik.png' 
-                                    alt='Football pitch icon'
-                                    className='icon'
-                                />
-                                <h2>Matches</h2>
-                            </div>
-                            <p>Match outcomes and links to match reports.</p>
-                            {filteredTeam.length > 3 ? <Select
-                                labelRequired
-                                labelText={`Matches to display`} 
-                                labelTarget={`matches-select`}
-                                selectId={`matches-select`}
-                                selectName={`matches-select`}
-                                onChange={matchNumberHandler}
-                            >
-                                <option value="3" name="3">3</option>
-                                <option value="4" name="4">4</option>
-                                <option value="5" name="5">5</option>
-                                <option value="6" name="6">6</option>
-                                <option value="7" name="7">7</option>
-                                <option value="8" name="8">8</option>
-                                <option value="all" name="all">All</option>
-                            </Select> : null }
-                            <table className='results width--75'>
-                                {resultsTable}
-                            </table>
-                        </section>
-                        
-                        <section id='section--goalscorers-attendances'>
-                            <div className='wrapper--goalscorers__attendances'>
-                                <div className='goalscorers'>
-                                    <div className='wrapper--icon'>
-                                        <img 
-                                            src='../images/icons/football-freepik.png' 
-                                            alt='Goal icon'
-                                            className='icon'
-                                        />
-                                        <h2>Goalscorers</h2>
-                                    </div>
-                                    <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
-
-                                    {/* Display top scorers and all scorers toggle depending on data received */}
-                                    {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
-                                    {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
-                                    {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
+                                    <h2>Matches</h2>
                                 </div>
-                                <div className='attendances'>
-                                    <div className='wrapper--icon'>
-                                        <img 
-                                            src='../images/icons/crowd-freepik-1.png' 
-                                            alt='Crowd icon icon'
-                                            className='icon'
-                                        />
-                                        <h2>Attendances</h2>
-                                    </div>                    
+                                <p>Match outcomes and links to match reports.</p>
+                                {filteredTeam.length > 3 ? <Select
+                                    labelRequired
+                                    labelText={`Matches to display`} 
+                                    labelTarget={`matches-select`}
+                                    selectId={`matches-select`}
+                                    selectName={`matches-select`}
+                                    onChange={matchNumberHandler}
+                                >
+                                    <option value="3" name="3">3</option>
+                                    <option value="4" name="4">4</option>
+                                    <option value="5" name="5">5</option>
+                                    <option value="6" name="6">6</option>
+                                    <option value="7" name="7">7</option>
+                                    <option value="8" name="8">8</option>
+                                    <option value="all" name="all">All</option>
+                                </Select> : null }
+                                <table className='results width--75'>
+                                    {resultsTable}
+                                </table>
+                            </section>
+                            
+                            <section id='section--goalscorers-attendances'>
+                                <div className='wrapper--goalscorers__attendances'>
+                                    <div className='goalscorers'>
+                                        <div className='wrapper--icon'>
+                                            <img 
+                                                src='../images/icons/football-freepik.png' 
+                                                alt='Goal icon'
+                                                className='icon'
+                                            />
+                                            <h2>Goalscorers</h2>
+                                        </div>
+                                        <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
+
+                                        {/* Display top scorers and all scorers toggle depending on data received */}
+                                        {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
+                                        {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
+                                        {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
+                                    </div>
+                                    <div className='attendances'>
+                                        <div className='wrapper--icon'>
+                                            <img 
+                                                src='../images/icons/crowd-freepik-1.png' 
+                                                alt='Crowd icon icon'
+                                                className='icon'
+                                            />
+                                            <h2>Attendances</h2>
+                                        </div>                    
+                                        
+                                        <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
+
+                                        {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
+                                    </div>
+                                </div>
+                            </section>
+                                <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
+                                    {teamsTemplate}
                                     
-                                    <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
-
-                                    {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
-                                </div>
-                            </div>
-                        </section>
-                            <div className='data-wrapper' title={`data-loaded-${dataLoaded}`}>
-                                {teamsTemplate}
-                                
-                                {teamsWrapper}
-                            <div className='wrapper--icon'>
-                                <img 
-                                    src='../images/icons/up-down-arrow-freepik.png' 
-                                    alt='Up/down arrow icon'
-                                    className='icon'
-                                />
-                                <h2>Win/loss margins</h2>
-                            </div>
-                            <p>Largest margins of victory and defeat both at home and on the road.</p>
-                            <div className='wrapper--record__margins'>
-                                <div className='record__margins record__margins--home'>
+                                    {teamsWrapper}
+                                <div className='wrapper--icon'>
                                     <img 
-                                        src='../images/icons/house-32-freepik.png' 
-                                        alt='House icon' 
+                                        src='../images/icons/up-down-arrow-freepik.png' 
+                                        alt='Up/down arrow icon'
+                                        className='icon'
                                     />
-                                    <div>
-                                        {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
-                                        {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                                    <h2>Win/loss margins</h2>
+                                </div>
+                                <p>Largest margins of victory and defeat both at home and on the road.</p>
+                                <div className='wrapper--record__margins'>
+                                    <div className='record__margins record__margins--home'>
+                                        <img 
+                                            src='../images/icons/house-32-freepik.png' 
+                                            alt='House icon' 
+                                        />
+                                        <div>
+                                            {largestHomeWinTemplate ? largestHomeWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded home wins</p>}
+                                            {largestHomeLossTemplate ? largestHomeLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded home losses</p>}
+                                        </div>
+                                    </div>
+                                    <div className='record__margins record__margins--away'>
+                                        <img 
+                                            src='../images/icons/road-32-freepik.png' 
+                                            alt='Road icon' 
+                                        />
+                                        {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
+                                        {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
                                     </div>
                                 </div>
-                                <div className='record__margins record__margins--away'>
-                                    <img 
-                                        src='../images/icons/road-32-freepik.png' 
-                                        alt='Road icon' 
-                                    />
-                                    {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
-                                    {largestAwayLossTemplate ? largestAwayLossTemplate : <p className='record__margins__outcome record__margins__outcome--loss'>No recorded away losses</p>}
-                                </div>
+                                <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                             </div>
-                            <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
                         </div>
                     </div>
-                </div>
-                {test}
+                    {test}
 
-            </React.Fragment>
-        )
-    } else {
-        return (
-            <Spinner />
-        )
+                </React.Fragment>
+            )
+        } else { // Team-specific URL, but data not loaded yet; show spinner
+            return (
+                <Spinner />
+            )
+        }
+    } else { // Not team-specific URL; display team index
+        if (dataLoaded) {
+            return (
+                <React.Fragment>
+                    <Banner
+                        name='Teams'
+                        description='Teams'
+                        image='/images/banner/football-field-alfredo-camacho.jpg'
+                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                    />
+                    <div className='wrapper--content__inpage teams-layout'>
+                        <div className='teams content__inpage content__inpage'>
+                            {teamsTemplate}
+                        </div>
+                    </div>
+                </React.Fragment>
+            )
+        } else { // Data not yet loaded; display spinner
+            return (
+                <Spinner />
+            )
+        }
+        
     }
 }

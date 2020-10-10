@@ -40,6 +40,11 @@ const links = [
                 path: '/players/scorers'
             }
         ]
+    },
+	{ 
+		section: '/teams',
+		name: 'Teams',
+		pages: []
     }
 ];
 
