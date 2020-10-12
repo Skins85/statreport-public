@@ -144,13 +144,18 @@ export default function Teams(props) {
     // Change the number of results that are visible in the results table
     let matchNumberHandler = e => {
         e.target.value === 'all' ? setMatchDisplayNumber((filteredTeam.length + 1)) : setMatchDisplayNumber(e.target.value);
-    } 
+    }
+
+    
     
     // If teams data returned
     if (teams) {
         // TDD test
         // teamsWrapper = <div title='teams-index'>test</div>;
 
+        // Filter teams data to exclude Dagenham & Redbridge
+        teams = teams.filter((result) => result.team_id !== 'dagenham-and-redbridge' );
+        
         // If team selected
         if (teamId !== 'teams' && homeMatchesData && awayMatches) {
             // Merge home and away matches
@@ -253,8 +258,10 @@ export default function Teams(props) {
                 });
             }
             
-            attendancesTemplate = 
+            if (homeAttendancesArray.length > 0) {
+                attendancesTemplate =
                 <React.Fragment>
+                    <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
                     <div className='wrapper--icon'>
                         <img 
                             src='../images/icons/arrow-up-freepik-1.png' 
@@ -265,15 +272,15 @@ export default function Teams(props) {
                     </div>
                     <table>
                         <Result
-                            id={highestAttendanceMatch[0]['match_id']}
-                            match_id={highestAttendanceMatch[0]['match_id']}
-                            date={highestAttendanceMatch[0].date}
+                            id={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['match_id'] : null}
+                            match_id={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['match_id'] : null}
+                            date={highestAttendanceMatch[0] ? highestAttendanceMatch[0].date : null}
                             team_home={'Dagenham & Redbridge'}
                             team_away={opponent}
-                            goals_home={highestAttendanceMatch[0]['goals_home']}
-                            goals_away={highestAttendanceMatch[0]['goals_away']}
-                            competition={highestAttendanceMatch[0]['competition']}
-                            attendance={highestAttendanceMatch[0]['attendance']}
+                            goals_home={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['goals_home'] : null}
+                            goals_away={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['goals_away'] : null}
+                            competition={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['competition'] : null}
+                            attendance={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['attendance'] : null}
                         />
                     </table>
 
@@ -299,6 +306,7 @@ export default function Teams(props) {
                         />
                     </table>
                 </React.Fragment>
+            } 
             
                 // Get largest wins/defeat margins
                 homeWinLargest = Math.max.apply( null, homeWinMargins );
@@ -441,7 +449,7 @@ export default function Teams(props) {
                             <h1
                                 title={ dataLoaded ? 'data' : 'no-data' }
                             >{opponent}</h1>
-                            <p className='standfirst'>Dagenham & Redbridge have played {opponent} {wins + draws + losses} times since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
+                            <p className='standfirst'>Dagenham & Redbridge have played {opponent} {(wins + draws + losses) > 1 ? `${(wins + draws + losses)} times` : 'once'} since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
                             with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
                             <section id='section--results'>
                                 <h2>Results</h2>
@@ -460,32 +468,32 @@ export default function Teams(props) {
                                     </thead>
                                     <tbody>
                                         <ResultsSummary
-                                                label='Home'
-                                                played={homeWins + homeDraws + homeLosses}
-                                                wins={homeWins}
-                                                draws={homeDraws}
-                                                losses={homeLosses}
-                                                goalsFor={homeGoalsFor}
-                                                goalsAgainst={homeGoalsAgainst}
-                                            />
-                                            <ResultsSummary
-                                                label='Away'
-                                                played={awayWins + awayDraws + awayLosses}
-                                                wins={awayWins}
-                                                draws={awayDraws}
-                                                losses={awayLosses}
-                                                goalsFor={awayGoalsFor}
-                                                goalsAgainst={awayGoalsAgainst}
-                                            />
-                                            <ResultsSummary
-                                                label='Total'
-                                                played={wins + draws + losses}
-                                                wins={wins}
-                                                draws={draws}
-                                                losses={losses}
-                                                goalsFor={homeGoalsFor + homeGoalsAgainst}
-                                                goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
-                                            />
+                                            label='Home'
+                                            played={homeWins + homeDraws + homeLosses}
+                                            wins={homeWins}
+                                            draws={homeDraws}
+                                            losses={homeLosses}
+                                            goalsFor={homeGoalsFor}
+                                            goalsAgainst={homeGoalsAgainst}
+                                        />
+                                        <ResultsSummary
+                                            label='Away'
+                                            played={awayWins + awayDraws + awayLosses}
+                                            wins={awayWins}
+                                            draws={awayDraws}
+                                            losses={awayLosses}
+                                            goalsFor={awayGoalsFor}
+                                            goalsAgainst={awayGoalsAgainst}
+                                        />
+                                        <ResultsSummary
+                                            label='Total'
+                                            played={wins + draws + losses}
+                                            wins={wins}
+                                            draws={draws}
+                                            losses={losses}
+                                            goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                            goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
+                                        />
                                     </tbody>
                                 </table>
                             </section>
@@ -531,7 +539,8 @@ export default function Teams(props) {
                                             />
                                             <h2>Goalscorers</h2>
                                         </div>
-                                        <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>
+                                        {console.log(scorersByOpponentAll.length)}
+                                        {scorersByOpponentAll.length > 1 ? <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p> : <p>No {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>}
 
                                         {/* Display top scorers and all scorers toggle depending on data received */}
                                         {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
@@ -548,9 +557,7 @@ export default function Teams(props) {
                                             <h2>Attendances</h2>
                                         </div>                    
                                         
-                                        <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
-
-                                        {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home attendances against {opponent}.</p>}
+                                        {homeAttendancesArray.length > 0 ? attendancesTemplate : <p>No home matches against {opponent}.</p>}
                                     </div>
                                 </div>
                             </section>
@@ -566,7 +573,7 @@ export default function Teams(props) {
                                     />
                                     <h2>Win/loss margins</h2>
                                 </div>
-                                <p>Largest margins of victory and defeat both at home and on the road.</p>
+                                <p>Largest margins of victory and defeat against {opponent} both at home and on the road.</p>
                                 <div className='wrapper--record__margins'>
                                     <div className='record__margins record__margins--home'>
                                         <img 
