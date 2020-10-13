@@ -3,6 +3,7 @@ import { arrayInstancesToObject, filterArrayofObjects, nameFormat, objectInstanc
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
+import Input from '../../components/form/ui/input/input';
 import Moment from 'moment';
 import Result from '../result/result';
 import ResultsSummary from '../result/result-summary';
@@ -21,6 +22,7 @@ export default function Teams(props) {
     const [allScorersShow, setAllScorersShow] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [matchDisplayNumber, setMatchDisplayNumber] = useState(3);
+    const [teamSearchText, setTeamSearchText] = useState({});
 
     useEffect(() => {
         async function fetchData() {
@@ -76,12 +78,6 @@ export default function Teams(props) {
         fetchData();
     },[]);
 
-    // let toggleAllScorersHandler = e => {
-    //     setAllScorersShow(!allScorersShow);
-    //     e.target.innerText === `Show all goalscorers` 
-    //         ? e.target.innerText = `Hide all goalscorers`
-    //         : e.target.innerText = `Show all goalscorers`;
-    // }
     let toggleAllScorersHandler = (e) => {
         toggleState(e, setAllScorersShow, allScorersShow, 'Hide all goalscorers', 'Show all goalscorers')
     };
@@ -609,6 +605,30 @@ export default function Teams(props) {
         }
     } else { // Not team-specific URL; display team index
         if (dataLoaded) {
+
+            if (teams) {
+
+                // Filter results based on search input
+                let filteredTeamResults = teams.filter(
+                    (name) => {
+                        return name.team_name.toLowerCase().indexOf(teamSearchText) !== -1
+                    }
+                )
+
+                // By default, show no results. As uer types, display matching teams. If no team matches, display helper text.
+                if (filteredTeamResults.length > 0) {
+                    teamsTemplate = filteredTeamResults.map(p => 
+                        <p key={`${p.team_id}`}>
+                            <a href={`../teams/${p.team_id}`}>{p.team_name}</a>
+                        </p>
+                    )
+                } else if (filteredTeamResults.length === 0 && teamSearchText.length > 1) {
+                    teamsTemplate = <p>No results were returned. Please enter another search term.</p>
+                } else {
+                    teamsTemplate = '';
+                }
+            }
+
             return (
                 <React.Fragment>
                     <Banner
@@ -619,6 +639,16 @@ export default function Teams(props) {
                     />
                     <div className='wrapper--content__inpage teams-layout'>
                         <div className='teams content__inpage content__inpage'>
+                            <p className='standfirst'>Find out {nameFormat('Dagenham & Redbridge')}'s record against teams over the years, including biggest win/loss margins and highest scorers.</p>
+                            <div className='wrapper--input'>
+                                <Input 
+                                    inputType={`text`} 
+                                    placeholderText={`Search for teams`} 
+                                    inputId={`search-teams`} 
+                                    inputName={`search-teams`}
+                                    onChange={(event) => setTeamSearchText(event.target.value)} 
+                                />
+                            </div>
                             {teamsTemplate}
                         </div>
                     </div>
