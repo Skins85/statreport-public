@@ -65,11 +65,23 @@ const toggleState = (el, setStateRef, value, defaultText, toggledText) => {
         : (el.target.innerText = defaultText) && (el.target.className = 'toggle toggle--open');
 }
 
+/**
+ * Build root URL. This can be useful in components; to correctly define URLs regardless of 
+ * where a component is used.
+ **/
+const buildRootUrl = () => {
+    let baseUrl;
+    const domain = window.location.host;
+    domain === 'localhost:3000' || 'localhost:5000' ? baseUrl = `http://${domain}` : baseUrl = `https://${domain}`
+    return baseUrl;
+}
+
 module.exports = {
     groupArrayOfObjects,
     nameFormat,
     arrayInstancesToObject,
     objectInstancesToArray,
     filterArrayofObjects,
-    toggleState
+    toggleState,
+    buildRootUrl
 }

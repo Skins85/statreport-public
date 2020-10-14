@@ -1,9 +1,11 @@
+import { buildRootUrl, nameFormat } from '../../util';
+
 // import Outcome from '../ui/outcome-indicator/outcome-indicator';
 import React from 'react';
 import moment from 'moment';
-import { nameFormat } from '../../util';
 
 const result = (props) => {
+
     let outcome;
     if (props.team_home === 'Dagenham & Redbridge') { 
         if (props.goals_home > props.goals_away) {
@@ -33,7 +35,7 @@ const result = (props) => {
             <td>{props.competition}</td>
             <td className='no-wrap'>{nameFormat(props.team_home)}</td>
             <td className='no-wrap'>
-                {props.link_enabled ? <a href={`matches/?m=${props.match_id}`}>
+                {props.link_enabled ? <a href={`${buildRootUrl()}/matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
                 </a> : `${props.goals_home}-${props.goals_away}`}
             </td>

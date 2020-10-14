@@ -179,6 +179,7 @@ export default function Teams(props) {
                     goals_home={key.goals_home}
                     goals_away={key.goals_away}
                     competition={key.competition}
+                    link_enabled
                 />
             )
 
@@ -277,6 +278,7 @@ export default function Teams(props) {
                             goals_away={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['goals_away'] : null}
                             competition={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['competition'] : null}
                             attendance={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['attendance'] : null}
+                            link_enabled
                         />
                     </table>
 
@@ -299,6 +301,7 @@ export default function Teams(props) {
                             goals_away={lowestAttendanceMatch[0]['goals_away']}
                             competition={lowestAttendanceMatch[0]['competition']}
                             attendance={lowestAttendanceMatch[0]['attendance']}
+                            link_enabled
                         />
                     </table>
                 </React.Fragment>

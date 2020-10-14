@@ -6,12 +6,12 @@ table {
     border-collapse: collapse;
     margin: $rem--one 0 $rem--one-half;
     border: $border-fine solid $gray20;
+    overflow-x: scroll;
 
     thead {
         text-align: right;
         background-color: $blue70;
         color: white;
-        
     }
     
     tr {
