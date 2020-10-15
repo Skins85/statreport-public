@@ -18,6 +18,9 @@
 @import '../src/layout/grid';
 @import '../src/layout/mixins-layout';
 
+// Higher-ordered components
+@import '../src/components/hoc/table/table';
+
 // Page layouts
 @import '../src/page-layouts/about/about';
 @import '../src/page-layouts/forms/add-result/add-result';

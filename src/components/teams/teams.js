@@ -11,6 +11,7 @@ import ResultsSummary from '../result/result-summary';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
+import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
@@ -268,7 +269,7 @@ export default function Teams(props) {
                         />
                         <h3>Highest</h3>
                     </div>
-                    <table>
+                    <Table>
                         <Result
                             id={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['match_id'] : null}
                             match_id={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['match_id'] : null}
@@ -281,7 +282,7 @@ export default function Teams(props) {
                             attendance={highestAttendanceMatch[0] ? highestAttendanceMatch[0]['attendance'] : null}
                             link_enabled
                         />
-                    </table>
+                    </Table>
 
                     <div className='wrapper--icon'>
                         <img 
@@ -291,7 +292,7 @@ export default function Teams(props) {
                         />
                         <h3>Lowest</h3>
                     </div>
-                    <table>
+                    <Table>
                         <Result
                             id={lowestAttendanceMatch[0]['match_id']}
                             match_id={lowestAttendanceMatch[0]['match_id']}
@@ -304,7 +305,7 @@ export default function Teams(props) {
                             attendance={lowestAttendanceMatch[0]['attendance']}
                             link_enabled
                         />
-                    </table>
+                    </Table>
                 </React.Fragment>
             } 
             
@@ -452,9 +453,16 @@ export default function Teams(props) {
                             <p className='standfirst'>Dagenham & Redbridge have played {opponent} {(wins + draws + losses) > 1 ? `${(wins + draws + losses)} times` : 'once'} since {Moment(firstMatchDate).format('DD/MM/YYYY')}, 
                             with a win ratio of {Math.round(wins / (wins + draws + losses) * 100)}%.</p>
                             <section id='section--results'>
-                                <h2>Results</h2>
+                                <div className='wrapper--icon'>
+                                    <img 
+                                        src='../images/icons/text-document-freepik.png' 
+                                        alt='Spreadsheet icon'
+                                        className='icon'
+                                    />
+                                    <h2>Results</h2>
+                                </div>
                                 <p>Summary of overall record against {opponent}.</p>
-                                <table className='text-align--right width--75'>
+                                <Table className='text-align--right width--75'>
                                     <thead>
                                         <tr>
                                             <th />
@@ -495,7 +503,7 @@ export default function Teams(props) {
                                             goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
                                         />
                                     </tbody>
-                                </table>
+                                </Table>
                             </section>
                             <section id='section--results'>
                                 <div className='wrapper--icon'>
@@ -523,9 +531,9 @@ export default function Teams(props) {
                                     <option value="8" name="8">8</option>
                                     <option value="all" name="all">All</option>
                                 </Select> : null }
-                                <table className='results width--75'>
+                                <Table className='results width--75'>
                                     {resultsTable}
-                                </table>
+                                </Table>
                             </section>
                             
                             <section id='section--goalscorers-attendances'>
