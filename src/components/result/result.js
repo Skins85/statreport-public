@@ -1,6 +1,6 @@
 import { buildRootUrl, nameFormat } from '../../util';
 
-// import Outcome from '../ui/outcome-indicator/outcome-indicator';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import moment from 'moment';
 
@@ -35,9 +35,9 @@ const result = (props) => {
             <td>{props.competition}</td>
             <td className='no-wrap'>{nameFormat(props.team_home)}</td>
             <td className='no-wrap'>
-                {props.link_enabled ? <a href={`${buildRootUrl()}/matches/?m=${props.match_id}`}>
+                {props.link_enabled ? <Link to={`/matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
-                </a> : `${props.goals_home}-${props.goals_away}`}
+                </Link> : `${props.goals_home}-${props.goals_away}`}
             </td>
             <td className='team_away no-wrap'>{nameFormat(props.team_away)}
             </td>

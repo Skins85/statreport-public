@@ -4,6 +4,7 @@ import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
 import Input from '../../components/form/ui/input/input';
+import { Link } from 'react-router-dom';
 import Moment from 'moment';
 import Result from '../result/result';
 import ResultsSummary from '../result/result-summary';
@@ -365,16 +366,16 @@ export default function Teams(props) {
                             
                             // Always build all goalscorers' totals list
                             allScorersList = goals.filter((result) => result.scorer_id === o[0] );
-                            allScorersTemplate.push(<p>{o[1]} <a href={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</a></p>);
+                            allScorersTemplate.push(<p>{o[1]} <Link to={`../players/${allScorersList[0]['scorer_id']}`}>{allScorersList[0]['first_name']} {allScorersList[0]['surname']}</Link></p>);
 
                             // Display top scorers list depending on number of different goal values exist (see switch statement)
                             (o[1] >= goalTotals ? topScorersList = goals.filter((result) => result.scorer_id === o[0]) : topScorersList = '');
                             topScorersList ? topScorersTemplate.push(
                                 <p>
                                     {o[1]}&nbsp;
-                                    <a href={`../players/${topScorersList[0]['scorer_id']}`}>
+                                    <Link to={`../players/${topScorersList[0]['scorer_id']}`}>
                                         {topScorersList[0]['first_name']} {topScorersList[0]['surname']}
-                                    </a>
+                                    </Link>
                                 </p>
                             ) : topScorersList = '';
 
@@ -383,9 +384,9 @@ export default function Teams(props) {
                             otherScorersList ? otherScorersTemplate.push(
                                 <p>
                                     {o[1]}&nbsp;
-                                    <a href={`../players/${otherScorersList[0]['scorer_id']}`}>
+                                    <Link to={`../players/${otherScorersList[0]['scorer_id']}`}>
                                         {otherScorersList[0]['first_name']} {otherScorersList[0]['surname']}
-                                    </a>
+                                    </Link>
                                 </p>
                             ) : otherScorersList = '';
                         }
@@ -408,9 +409,9 @@ export default function Teams(props) {
                         let res = arr.map(key => {
                             return (
                                 <p className={`record__margins__outcome record__margins__outcome--${type}`}>{nameFormat(key.team_home)}&nbsp;
-                                    <a href={`../matches/?m=${key.match_id}`}>
-                                    {key.goals_home}-{key.goals_away}
-                                    </a>&nbsp;
+                                    <Link to={`../matches/?m=${key.match_id}`}>
+                                        {key.goals_home}-{key.goals_away}
+                                    </Link>&nbsp;
                                     {nameFormat(key.team_away)}
                                 </p>
                             )
@@ -425,7 +426,7 @@ export default function Teams(props) {
                 largestAwayLossTemplate = largestMargins(largestAwayLosses, 'loss')
                     
             } else { // Teams index
-                teamsTemplate = teams.map(t => <p><a href={`teams/${t.team_id}`}>{t.team_name}</a></p>);   
+                teamsTemplate = teams.map(t => <p><Link to={`teams/${t.team_id}`}>{t.team_name}</Link></p>);   
             } // End check if team selected
 
         } // End if teams data returned
@@ -622,7 +623,7 @@ export default function Teams(props) {
                 if (filteredTeamResults.length > 0) {
                     teamsTemplate = filteredTeamResults.map(p => 
                         <p key={`${p.team_id}`}>
-                            <a href={`../teams/${p.team_id}`}>{p.team_name}</a>
+                            <Link to={`../teams/${p.team_id}`}>{p.team_name}</Link>
                         </p>
                     )
                 } else if (filteredTeamResults.length === 0 && teamSearchText.length > 1) {
