@@ -71,6 +71,11 @@ class Form extends Component {
         }
     }
 
+    // Player substituted handler
+    playerSubstitutedHandler = e => {
+
+    }
+
     // If cup competition selected, enable Round select
     competitionHandler = e => {
         let competition = e.target.value;
@@ -174,30 +179,26 @@ class Form extends Component {
             let playerStartSelect = []
             for (let i = 1; i <= 11; i++) {
                 playerStartSelect.push(
-                    <Select
-                        key={`playerStart${i}`}
-                        selectName={`results.player_${i}`}
-                        labelText={`Player ${i}`}
+                    <React.Fragment>
+                        <Select
+                            key={`playerStart${i}`}
+                            selectName={`results.player_${i}`}
+                            labelText={`Player ${i}`}
                         >
-                        <option value='' selected disabled hidden>{`Player ${i}`}</option>
-                        {playersList}
-                    </Select>
+                            <option value='' selected disabled hidden>{`Player ${i}`}</option>
+                            {playersList}
+                        </Select>
+                        <Input 
+                            inputType={`checkbox`} 
+                            labelRequired 
+                            labelText={`Substituted`} 
+                            inputId={`player-${i}-subbed`} 
+                            inputValue={`player-${i}-subbed`}
+                            onChange={this.playerSubstitutedHandler.bind(this)} 
+                        />
+                    </React.Fragment>
                 )                
-            } 
-
-            // Build substitute player select options
-            let playerSubSelect = []
-            for (let i = 1; i <= 5; i++) {
-                playerSubSelect.push(
-                    <Select
-                        key={`playerSub${i}`}
-                        selectName={`results.sub_${i}`}
-                        >
-                        <option value='' selected disabled hidden>{`Substitute ${i}`}</option>
-                        {playersList}
-                    </Select>
-                )                
-            }   
+            }
 
             // Build regular time options
             let regularMinuteSelect = [];
@@ -225,6 +226,31 @@ class Form extends Component {
                         {i}
                     </option>
                 )
+            }   
+
+            // Build substitute player select options
+            let playerSubSelect = []
+            for (let i = 1; i <= 4; i++) {
+                playerSubSelect.push(
+                    <React.Fragment>
+                        <div className='flex-wrapper'>
+                            <Select
+                                key={`playerSubMinute${i}`}
+                                selectName={`results.sub_${i}`}
+                                >
+                                <option value='' selected disabled hidden>{`Substitute ${i} minute`}</option>
+                                {playersList}
+                            </Select>
+                            <Select
+                                key={`playerSub${i}`}
+                                selectName={`results.sub_${i}_minute`}
+                                >
+                                <option value='' selected disabled hidden>{`Substitute ${i} minute`}</option>
+                                {regularMinuteSelect}
+                            </Select>
+                        </div>
+                    </React.Fragment>
+                )                
             }   
 
             // Calculate Daggers' goals and limit number of goals to be inputted
@@ -417,7 +443,7 @@ class Form extends Component {
 
                         <section class="starts-subs">
                             <h2>Starts/subs</h2>
-                            <div class="wrapper--starts-subs-select">
+                            {/* <div class="wrapper--starts-subs-select"> */}
                                 <div class="starts-select">
                                     <h3>Starting XI</h3>
                                     {playerStartSelect}
@@ -426,7 +452,7 @@ class Form extends Component {
                                     <h3>Substitutes</h3>
                                     {playerSubSelect}
                                 </div>
-                            </div>
+                            {/* </div> */}
                         </section>
 
                         {/* Conditionally render goalscorer fields */}
