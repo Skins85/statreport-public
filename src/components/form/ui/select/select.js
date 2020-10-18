@@ -5,6 +5,7 @@ const select = (props) => {
         <React.Fragment>
             {props.labelRequired ? <label for={props.labelTarget}>{props.labelText}</label> : null}
             <select 
+                className={props.className}
                 id={props.selectId}
                 name={props.selectName} 
                 onChange={props.onChange}

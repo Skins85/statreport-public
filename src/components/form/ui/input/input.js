@@ -5,6 +5,7 @@ const input = (props) => {
         <React.Fragment>
             {props.labelRequired ? <label for={props.inputName}>{props.labelText}</label> : null}
             <input 
+                class={props.className}
                 type={props.inputType ? props.inputType: 'text'}
                 id={props.inputId}
                 maxlength={props.inputMaxLength}

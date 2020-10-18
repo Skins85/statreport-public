@@ -12,6 +12,10 @@
                 display: flex;
             }
         }
+
+        .player__substituted__select {
+            margin-right: $rem--one;
+        }
     }
 
     .flex-wrapper {

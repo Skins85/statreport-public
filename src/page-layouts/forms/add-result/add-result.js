@@ -20,7 +20,8 @@ class Form extends Component {
             homeGoals: '',
             awayGoals: '',
             competition: 'League',
-            formSubmitted: false
+            formSubmitted: false,
+            substitutedCounter: 0
         }
     }
 
@@ -73,7 +74,35 @@ class Form extends Component {
 
     // Player substituted handler
     playerSubstitutedHandler = e => {
+        let playerSubbedCheckboxes = document.querySelectorAll('.player__substituted__select');
+        let playerSubstitutedMinute = document.getElementById(`${e.target.value}-minute`);
+        if (playerSubstitutedMinute.classList.contains(`visibility`, `visibility--hidden`)) {
+            this.setState({
+                substitutedCounter: this.state.substitutedCounter + 1
+            });
+            playerSubstitutedMinute.classList.remove(`visibility`, `visibility--hidden`);
+            
+        } else {
+            playerSubstitutedMinute.classList.add(`visibility`, `visibility--hidden`);
+            this.setState({
+                substitutedCounter: this.state.substitutedCounter - 1
+            });
+        }
 
+        // Check for max 3 subs - come back to later
+        // console.log(this.state.substitutedCounter)
+        // if (this.state.substitutedCounter >= 2) {
+        //     for (const p of playerSubbedCheckboxes) {
+        //         if (p.checked === false ) {
+        //             p.setAttribute('disabled','')
+        //         }
+        //     }
+        // } else {
+        //     for (const p of playerSubbedCheckboxes) {
+        //         p.removeAttribute('disabled')
+        //     }
+        // }
+        
     }
 
     // If cup competition selected, enable Round select
@@ -116,7 +145,6 @@ class Form extends Component {
             let filteredPlayers;
             if (players) {
                 let a = this.state.season;
-                console.log(a);
                 filteredPlayers = players.filter(function(result) {
                     return (
                         result[a] === 'Y'
@@ -175,31 +203,6 @@ class Form extends Component {
                         </option>
             })
 
-            // Build starting player select options
-            let playerStartSelect = []
-            for (let i = 1; i <= 11; i++) {
-                playerStartSelect.push(
-                    <React.Fragment>
-                        <Select
-                            key={`playerStart${i}`}
-                            selectName={`results.player_${i}`}
-                            labelText={`Player ${i}`}
-                        >
-                            <option value='' selected disabled hidden>{`Player ${i}`}</option>
-                            {playersList}
-                        </Select>
-                        <Input 
-                            inputType={`checkbox`} 
-                            labelRequired 
-                            labelText={`Substituted`} 
-                            inputId={`player-${i}-subbed`} 
-                            inputValue={`player-${i}-subbed`}
-                            onChange={this.playerSubstitutedHandler.bind(this)} 
-                        />
-                    </React.Fragment>
-                )                
-            }
-
             // Build regular time options
             let regularMinuteSelect = [];
             for (let i = 1; i <= 120; i++) {
@@ -226,7 +229,45 @@ class Form extends Component {
                         {i}
                     </option>
                 )
-            }   
+            }  
+
+            // Build starting player select options
+            let playerStartSelect = []
+            let playerStartSubstituted = [];
+            for (let i = 1; i <= 11; i++) {
+                playerStartSelect.push(
+                    <React.Fragment>
+                        <div className={`flex-wrapper`}>
+                            <Select
+                                key={`playerStart${i}`}
+                                selectName={`results.player_${i}`}
+                                labelText={`Player ${i}`}
+                            >
+                                <option value='' selected disabled hidden>{`Player ${i}`}</option>
+                                {playersList}
+                            </Select>
+                            <Input
+                                className={`player__substituted__select display display--block margin margin--auto`}
+                                inputType={`checkbox`} 
+                                labelText={`Subbed?`} 
+                                inputId={`player-${i}-subbed`} 
+                                inputValue={`player-${i}-subbed`}
+                                labelRequired
+                                onChange={this.playerSubstitutedHandler.bind(this)} 
+                            />
+                            <Select
+                                className={`visibility visibility--hidden`}
+                                key={`player_${i}subbed_minute`}
+                                selectId={`player-${i}-subbed-minute`}
+                                selectName={`results.player_${i}_subbed_minute`}
+                                >
+                                <option value='' selected disabled hidden>{`Substituted minute`}</option>
+                                {regularMinuteSelect}
+                            </Select>
+                        </div>
+                    </React.Fragment>
+                )                
+            }
 
             // Build substitute player select options
             let playerSubSelect = []
@@ -255,10 +296,13 @@ class Form extends Component {
 
             // Calculate Daggers' goals and limit number of goals to be inputted
             let daggersGoals = 0;
+            let opponentGoals = 0;
             if (this.state.homeTeam === 'Dagenham & Redbridge') {
                 daggersGoals = this.state.homeGoals;
+                opponentGoals = this.state.awayGoals;
             } else if (this.state.awayTeam === 'Dagenham & Redbridge') {
                 daggersGoals = this.state.awayGoals;
+                opponentGoals = this.state.homeGoals;
             }
 
             let scorerSelect = []
@@ -304,6 +348,38 @@ class Form extends Component {
                             placeholderText={`Opponent name`} 
                             inputId={`scorer-${i}-own-goal-name`} 
                             inputName={`match_scorers.s_drfc_goal_${i}_scorer`}
+                        />
+                    </div>
+                )
+            }
+
+            let opponentScorers = [];
+            for (let i = 1; i <= opponentGoals; i++) {
+                opponentScorers.push(
+                    <div>
+                        <h4>{`Opponent goal ${i}`}</h4>
+                        <Input 
+                            type={`text`}
+                            selectId={`match_scorers.opponent_goal_${i}_scorer`} 
+                            key={`opponentGoal-${i}`} 
+                            inputName={`match_scorers.opponent_goal_${i}_scorer`}
+                        >
+                        </Input>
+                        <Select key={`regular-minute-${i}`} selectName={`match_scorers.opponent_goal_${i}_minute`}>
+                            <option value='' selected disabled hidden>{`Goal time (minute)`}</option>
+                            {regularMinuteSelect}
+                        </Select>
+                        <Select key={`injury-time-minute-${i}`} selectName={`match_scorers.opponent_goal_${i}_minute_injury_time`}>
+                            <option value='' selected disabled hidden>{`Injury time (if applicable)`}</option>
+                            {injuryTimeMinuteSelect}
+                        </Select>
+                        <Input 
+                            inputType={`checkbox`} 
+                            labelRequired 
+                            labelText={`Penalty`} 
+                            inputId={`opponent_goal-${i}-pen`} 
+                            inputValue={`pen`}
+                            inputName={`match_scorers.opponent_goal_${i}_pen`}
                         />
                     </div>
                 )
@@ -443,21 +519,25 @@ class Form extends Component {
 
                         <section class="starts-subs">
                             <h2>Starts/subs</h2>
-                            {/* <div class="wrapper--starts-subs-select"> */}
+                            <div className="flex-wrapper">
                                 <div class="starts-select">
                                     <h3>Starting XI</h3>
                                     {playerStartSelect}
                                 </div>
-                                <div clas="subs-select">
-                                    <h3>Substitutes</h3>
-                                    {playerSubSelect}
+                                <div className='player-start-substituted'>
+                                    <h3>Substituted</h3>
+                                    {playerStartSubstituted}
                                 </div>
-                            {/* </div> */}
+                            </div>
+                            <div clas="subs-select">
+                                <h3>Substitutes</h3>
+                                {playerSubSelect}
+                            </div>
                         </section>
 
                         {/* Conditionally render goalscorer fields */}
                         {daggersGoals > 0 ? <section><h2>Dag & Red goalscorers</h2>{scorerSelect}</section>: null}
-                        {oppGoals > 0 ? <section><h2>Opponent goalscorers</h2>{oppScorers}</section> : null}
+                        {oppGoals > 0 ? <section><h2>Opponent goalscorers</h2>{opponentScorers}</section> : null}
 
                         <section class="additional-data">
                             <h2>Additional data</h2>
