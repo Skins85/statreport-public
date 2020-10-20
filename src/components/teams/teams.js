@@ -628,14 +628,16 @@ export default function Teams(props) {
                 )
 
                 // By default, show no results. As uer types, display matching teams. If no team matches, display helper text.
-                if (filteredTeamResults.length > 0) {
+                if (filteredTeamResults.length > 0 && teamSearchText.length > 0) {
                     teamsTemplate = filteredTeamResults.map(p => 
                         <p key={`${p.team_id}`}>
                             <Link to={`../teams/${p.team_id}`}>{p.team_name}</Link>
                         </p>
                     )
-                } else if (filteredTeamResults.length === 0 && teamSearchText.length > 1) {
+                } else if (filteredTeamResults.length === 0 && teamSearchText.length > 0) {
                     teamsTemplate = <p>No results were returned. Please enter another search term.</p>
+                } else if (teamSearchText.length === 0 && teamSearchText.length === 0) {
+                    teamsTemplate = '';
                 } else {
                     teamsTemplate = '';
                 }

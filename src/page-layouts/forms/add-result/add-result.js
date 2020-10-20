@@ -14,7 +14,7 @@ class Form extends Component {
 		this.state = {
             data: '',
             playersData: '',
-            season: '2019-20',
+            season: '2020-21',
             homeTeam: '',
             awayTeam: '',
             homeGoals: '',
