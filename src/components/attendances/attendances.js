@@ -6,6 +6,7 @@ import Chart from 'chart.js';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
+import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
@@ -199,8 +200,8 @@ export default function Attendances() {
                         <option value="" selected disabled hidden>Select season</option>
                         <SeasonOptions />
                     </Select>
-                    {season ? null : <React.Fragment><h2>Highest attendances</h2><table><tbody>{top10}</tbody></table></React.Fragment> }
-                    {season ? null : <React.Fragment><h2>Lowest attendances</h2><table><tbody>{bottom10}</tbody></table></React.Fragment> }
+                    {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
+                    {season ? null : <React.Fragment><h2>Lowest attendances</h2><Table className='width--75'><tbody>{bottom10}</tbody></Table></React.Fragment> }
                     <canvas 
                         id="myChart" 
                         width="500" 
@@ -215,6 +216,5 @@ export default function Attendances() {
             <Spinner />
         )
     }
-    
     
 }

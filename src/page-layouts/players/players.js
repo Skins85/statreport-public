@@ -5,6 +5,7 @@ import Input from '../../components/form/ui/input/input';
 import Player from '../../components/player/player';
 import PlayerResults from '../../components/player/player-results';
 import Spinner from '../../components/ui/spinner/spinner';
+import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import {groupArrayOfObjects} from '../../util';
 import { setupCache } from 'axios-cache-adapter';
@@ -285,7 +286,10 @@ class Players extends Component {
                             debut_goals_away={debutGoalsAway}
                             debut_match_id={debutMatchId}
                         />
-                        <table className='width--50'>
+                        <Table 
+                            className='width--75'
+                            finalRowHighlight
+                        >
                             <thead>
                                 <tr>
                                     <th>Season</th>
@@ -305,17 +309,17 @@ class Players extends Component {
                                     <td data-type='num'>{totalGoals}</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </Table>
                         <p>
                             <button href="#" onClick={this.showMatchesHandler.bind(this)}>
                                 Show all results
                             </button>
                         </p>
                         {this.state.showMatches ? <h3>All {selectedPlayerName} appearances</h3> : null }
-                        <table>
+                        <Table className='width--75'>
                             {playerResultsTableStart}
                             {playerResultsTemplate}
-                        </table>
+                        </Table>
                     </div>
                 </React.Fragment>
             )

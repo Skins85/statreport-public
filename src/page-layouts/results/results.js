@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import Banner from '../../components/banner/banner';
 import Result from '../../components/result/result';
 import Spinner from '../../components/ui/spinner/spinner';
+import Table from '../../components/hoc/table/table';
+import Warning from '../../components/hoc/warning/warning';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
@@ -219,7 +221,7 @@ class Results extends Component {
                     {season_select}
                   </select>
                 </form>
-                <table>
+                <Table>
                   <thead data-content-align='left'>
                     <tr>
                       <th />
@@ -233,7 +235,7 @@ class Results extends Component {
                   <tbody>
                     {results_template}
                   </tbody>
-                </table>
+                </Table>
               </div>
             </React.Fragment>
           )  
@@ -245,7 +247,30 @@ class Results extends Component {
           return (
             <React.Fragment>
               {banner}
-              <p>No results found. Please try making another selection.</p>
+              <div className='wrapper--content__inpage'>
+                <form 
+                  className='matches__filter background-gray20'
+                  onSubmit={this.handleSubmit}
+                >
+                  <h2>Filter matches</h2>
+                  <select name="location" onChange={this.onChange}>
+                    <option value="all" selected>All locations</option>
+                    <option value="home">Home</option>
+                    <option value="away">Away</option>
+                  </select>
+                  <select name="opposition" onChange={this.onChange}>
+                    <option value="all">All teams</option>
+                    {teamsList}
+                  </select>
+                  <select name="season" onChange={this.onChange}>
+                    <option value="all">All seasons</option>
+                    {season_select}
+                  </select>
+                </form>
+                <Warning>
+                  <p>No results found. Please try making another selection.</p>
+                </Warning>
+              </div>
             </React.Fragment>
           )
         }

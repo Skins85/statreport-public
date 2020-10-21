@@ -1,3 +1,16 @@
 .wrapper--table {
     overflow-x: auto;
+
+    table {
+        &[data-final-row-highlight] {
+            tbody {
+                tr {
+                    &:last-child {
+                        background: $gray20;
+                    }
+                }
+            }
+        }
+    }
+    
 }
