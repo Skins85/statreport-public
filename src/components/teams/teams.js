@@ -3,6 +3,7 @@ import { arrayInstancesToObject, filterArrayofObjects, nameFormat, objectInstanc
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
+import { CSSTransition } from 'react-transition-group';
 import Input from '../../components/form/ui/input/input';
 import { Link } from 'react-router-dom';
 import Moment from 'moment';
@@ -383,12 +384,19 @@ export default function Teams(props) {
                             // Display other scorers, i.e. non-top scorers
                             (o[1] < goalTotals ? otherScorersList = goals.filter((result) => result.scorer_id === o[0]) : otherScorersList = '');
                             otherScorersList ? otherScorersTemplate.push(
+                                <CSSTransition
+                                    in={true}
+                                    appear={true}
+                                    timeout={1000}
+                                    classNames='fade'
+                                >
                                 <p>
                                     {o[1]}&nbsp;
                                     <Link to={`../players/${otherScorersList[0]['scorer_id']}`}>
                                         {otherScorersList[0]['first_name']} {otherScorersList[0]['surname']}
                                     </Link>
                                 </p>
+                                </CSSTransition>
                             ) : otherScorersList = '';
                         }
                     }                
@@ -549,11 +557,11 @@ export default function Teams(props) {
                                         </div>
                                         {console.log(scorersByOpponentAll.length)}
                                         {scorersByOpponentAll.length > 1 ? <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p> : <p>No {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>}
-
-                                        {/* Display top scorers and all scorers toggle depending on data received */}
-                                        {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
-                                        {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
-                                        {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
+                                            {/* Display top scorers and all scorers toggle depending on data received */}
+                                            {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
+                                            {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
+                                            {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
+                                            {/* {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null } */}
                                     </div>
                                     <div className='attendances'>
                                         <div className='wrapper--icon'>
