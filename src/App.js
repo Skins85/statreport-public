@@ -1,5 +1,6 @@
 import './main.scss';
 
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CookieConsent, { Cookies } from "react-cookie-consent";
 import React, {useEffect, useState} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';

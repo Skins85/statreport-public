@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {groupArrayOfObjects, nameFormat} from '../../util';
 
 import Banner from '../../components/banner/banner';
 import Input from '../../components/form/ui/input/input';
@@ -7,10 +8,7 @@ import PlayerResults from '../../components/player/player-results';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
-import {groupArrayOfObjects} from '../../util';
 import { setupCache } from 'axios-cache-adapter';
-
-document.title = 'Players';
 
 class Players extends Component {
 	constructor(props) {
@@ -384,29 +382,30 @@ class Players extends Component {
                 
             }
             if (this.state.dataLoaded) {
-            return (
-                <React.Fragment>
-                    <Banner
-                        name='Players'
-                        description='Appearances and goal data'
-                        image='/images/banner/football-field-alfredo-camacho.jpg'
-                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-                    />
-                    <div className='wrapper--content__inpage'>
-                        <p>Dagenham & Redbridge players ordered by number of appearances.</p>
-                        <div className='wrapper--input'>
-                            <Input 
-                                inputType={`text`} 
-                                placeholderText={`Search for players`} 
-                                inputId={`search-players`} 
-                                inputName={`search-players`}
-                                onChange={(event) => this.setState({playerSearchText: event.target.value})} 
-                            />
+                document.title = `${nameFormat('Dagenham & Redbridge')} players | StatReport`;
+                return (
+                    <React.Fragment>
+                        <Banner
+                            name='Players'
+                            description='Appearances and goal data'
+                            image='/images/banner/football-field-alfredo-camacho.jpg'
+                            // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                        />
+                        <div className='wrapper--content__inpage'>
+                            <p>Dagenham & Redbridge players ordered by number of appearances.</p>
+                            <div className='wrapper--input'>
+                                <Input 
+                                    inputType={`text`} 
+                                    placeholderText={`Search for players`} 
+                                    inputId={`search-players`} 
+                                    inputName={`search-players`}
+                                    onChange={(event) => this.setState({playerSearchText: event.target.value})} 
+                                />
+                            </div>
+                            {indexTemplate}
                         </div>
-                        {indexTemplate}
-                    </div>
-                </React.Fragment>
-            )
+                    </React.Fragment>
+                )
             } else {
                 return (
                     <Spinner />

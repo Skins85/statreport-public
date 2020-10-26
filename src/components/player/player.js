@@ -5,9 +5,10 @@ import React from 'react';
 import { nameFormat } from '../../util';
 
 const player = (props) => {
+    document.title = `${props.name} | StatReport`;
     return (
         <div>
-            <h2 key={props.id}>{props.name}</h2>
+            <h1 key={props.id}>{props.name}</h1>
             <p>
                 <span>
                     <strong>Debut: </strong>
@@ -19,7 +20,6 @@ const player = (props) => {
                     </a>
                 </span>
             </p>
-
         </div>
     )
 }

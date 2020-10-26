@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Bio() {
-    document.title = 'Bio';
+    document.title = 'Bio | StatReport';
     return (
         <React.Fragment>
             <div className='wrapper--content__inpage'>

@@ -2,7 +2,7 @@ import Banner from '../../components/banner/banner';
 import React from 'react';
 
 export default function About() {
-    document.title = 'About';
+    document.title = 'About | StatReport';
     return (
         <React.Fragment>
             <Banner

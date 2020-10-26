@@ -1,8 +1,10 @@
 import Banner from '../../components/banner/banner';
 import HomepageBlock from '../../components/homepage/homepage-block';
 import React from 'react';
+import {nameFormat} from '../../util';
 
 export default function home() {
+    document.title = `StatReport | An unofficial Dagenham & Redbridge statistics site`;
     return (
         <React.Fragment>
             <Banner

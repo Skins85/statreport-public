@@ -8,6 +8,7 @@ import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
+import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
@@ -19,7 +20,7 @@ export default function Attendances() {
     const [season, setSeason] = useState();
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    document.title = 'Attendances';
+    document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
 
     useEffect(() => {
         async function fetchData() {

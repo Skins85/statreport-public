@@ -6,6 +6,7 @@ import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import Warning from '../../components/hoc/warning/warning';
 import axios from 'axios';
+import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 class Results extends Component {
@@ -68,6 +69,7 @@ class Results extends Component {
     }
 
     render() {
+      document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
 
         // For scoping, define variables needed in template
         let results = this.state.data.results;

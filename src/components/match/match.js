@@ -8,7 +8,6 @@ import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Matches() {
-    document.title = 'Matches';
 
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState({});
@@ -138,6 +137,8 @@ export default function Matches() {
                 sub_4 = players.filter((p) => p.Player === m.sub_4 );
                 sub_4 = `${sub_4[0].first_name} ${sub_4[0].surname}`;
             }
+
+            document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
             
         }
 
@@ -145,6 +146,7 @@ export default function Matches() {
             <React.Fragment>
                 <div className='wrapper--content__inpage'>
                     <div className='content__inpage content__inpage--standard'>
+                        
                         <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
                         <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                         <p>

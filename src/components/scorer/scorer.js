@@ -4,6 +4,7 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
+import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Scorers() {
@@ -13,7 +14,7 @@ export default function Scorers() {
     const [season, setSeason] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    document.title = 'Scorers';
+    document.title = `${nameFormat('Dagenham & Redbridge')} goalscorers | StatReport`;
 
     useEffect(() => {
         async function fetchData() {

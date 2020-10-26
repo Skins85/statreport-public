@@ -7,3 +7,16 @@
     opacity: 1;
     transition: opacity 1000ms linear;
 }
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit.active {
+    opacity: 0;
+    transition: opacity 1000ms linear;
+}
+
+.fade-exit-done {
+    opacity: 0;
+}
