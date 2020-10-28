@@ -380,7 +380,6 @@ export default function Teams(props) {
                                     </Link>
                                 </p>
                             ) : topScorersList = '';
-                            console.log(allScorersShow);
 
                             // Display other scorers, i.e. non-top scorers
                             (o[1] < goalTotals ? otherScorersList = goals.filter((result) => result.scorer_id === o[0]) : otherScorersList = '');
@@ -561,11 +560,9 @@ export default function Teams(props) {
                                             />
                                             <h2>Goalscorers</h2>
                                         </div>
-                                        {console.log(scorersByOpponentAll.length)}
                                         {scorersByOpponentAll.length > 1 ? <p>A list of {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p> : <p>No {nameFormat('Dagenham & Redbridge')} goalscorers against {opponent}.</p>}
                                             {/* Display top scorers and all scorers toggle depending on data received */}
                                             {topScorersList === '' ? <React.Fragment>{topScorersTemplate}</React.Fragment> : <React.Fragment>{allScorersTemplate}</React.Fragment>}
-                                            {/* {otherScorersTemplate} */}
                                             {allScorersShow ? <React.Fragment>{otherScorersTemplate}</React.Fragment> : null}
                                             {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null }
                                             {/* {topScorersList === '' ? <button className='toggle toggle--closed' onClick={toggleAllScorersHandler}>Show all goalscorers</button> : null } */}

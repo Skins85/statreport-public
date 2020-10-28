@@ -73,6 +73,7 @@ export default function Matches() {
         sub_2,
         sub_3,
         sub_4,
+        subbedPlayers = [],
         m;
 
     if (matches && matchId) {
@@ -81,7 +82,23 @@ export default function Matches() {
                 match.match_id === matchId
             )
         });
-        m = filteredMatches[0];        
+        m = filteredMatches[0]; 
+
+        // Create array of subbed players
+        for (const a of Object.entries(m)) {
+            if (a[0].includes('subbed') && a[1] !== '0') {
+                subbedPlayers.push(a);
+            }
+        }
+
+        for (const s of subbedPlayers) {
+            let playerSubbed = s[0].replace('_subbed_minute','');
+            let playerSubbedEl = document.querySelector(`.${playerSubbed}`);
+            if (playerSubbedEl) {
+                playerSubbedEl.classList.add('player__subbed');
+                playerSubbedEl.append(s[1])
+            }
+        } 
 
         if (players) {
 
@@ -172,16 +189,16 @@ export default function Matches() {
                         <p>
                             <a href={`../../players/${m.player_6}`}>{player_6}</a>
                         </p>
-                        <p>
+                        <p className='player_7'>
                             <a href={`../../players/${m.player_7}`}>{player_7}</a>
                         </p>
-                        <p>
+                        <p className='player_8'>
                             <a href={`../../players/${m.player_8}`}>{player_8}</a>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_9}`}>{player_9}</a>
                         </p>
-                        <p>
+                        <p className='player_10'>
                             <a href={`../../players/${m.player_10}`}>{player_10}</a>
                         </p>
                         <p>
