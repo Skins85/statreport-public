@@ -65,6 +65,7 @@ export default function Matches() {
         player_5,
         player_6,
         player_7,
+        player_7_subbed_minute,
         player_8,
         player_9,
         player_10,
@@ -90,15 +91,21 @@ export default function Matches() {
                 subbedPlayers.push(a);
             }
         }
+        console.log(subbedPlayers);
 
         for (const s of subbedPlayers) {
             let playerSubbed = s[0].replace('_subbed_minute','');
             let playerSubbedEl = document.querySelector(`.${playerSubbed}`);
             if (playerSubbedEl) {
                 playerSubbedEl.classList.add('player__subbed');
-                playerSubbedEl.append(s[1])
             }
         } 
+
+        for (const s of subbedPlayers) {
+            if (s[0] === 'player_7_subbed_minute') {
+                player_7_subbed_minute = s[1];
+            }
+        }
 
         if (players) {
 
@@ -191,6 +198,7 @@ export default function Matches() {
                         </p>
                         <p className='player_7'>
                             <a href={`../../players/${m.player_7}`}>{player_7}</a>
+                            &nbsp;{player_7_subbed_minute}
                         </p>
                         <p className='player_8'>
                             <a href={`../../players/${m.player_8}`}>{player_8}</a>

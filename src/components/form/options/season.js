@@ -10,6 +10,7 @@ const seasonOptions = () => {
             <option value="2016-17" name="2016-17">2016-17</option>
             <option value="2015-16" name="2015-16">2015-16</option>
             <option value="2014-15" name="2014-15">2014-15</option>
+            <option value="2013-14" name="2013-14">2013-14</option>
         </React.Fragment>
     )
 }
