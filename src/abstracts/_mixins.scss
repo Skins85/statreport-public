@@ -6,3 +6,26 @@
     width: auto;
     height: auto;
 }
+
+@mixin triangle($color, $direction, $size) {
+    width: 0; 
+    height: 0; 
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid #f00;
+    content: ''
+}
+
+// Base classes using mixins
+.circle {
+    @include circle($gray80, 50px);
+    &:hover {
+        background-color: $gray70;
+    }
+}
+
+.triangle {
+    &:after {
+        @include triangle(blue, 'up', 10px)
+    }
+}

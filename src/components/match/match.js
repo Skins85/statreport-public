@@ -65,11 +65,21 @@ export default function Matches() {
         player_5,
         player_6,
         player_7,
-        player_7_subbed_minute,
         player_8,
         player_9,
         player_10,
         player_11,
+        player_1_subbed_minute,
+        player_2_subbed_minute,
+        player_3_subbed_minute,
+        player_4_subbed_minute,
+        player_5_subbed_minute,
+        player_6_subbed_minute,
+        player_7_subbed_minute,
+        player_8_subbed_minute,
+        player_9_subbed_minute,
+        player_10_subbed_minute,
+        player_11_subbed_minute,
         sub_1,
         sub_2,
         sub_3,
@@ -97,14 +107,50 @@ export default function Matches() {
             let playerSubbed = s[0].replace('_subbed_minute','');
             let playerSubbedEl = document.querySelector(`.${playerSubbed}`);
             if (playerSubbedEl) {
-                playerSubbedEl.classList.add('player__subbed');
+                playerSubbedEl.classList.add('player__subbed', 'triangle');
             }
         } 
 
+        for (let i=1; i<=11; i++) {
+            
+        }
         for (const s of subbedPlayers) {
-            if (s[0] === 'player_7_subbed_minute') {
-                player_7_subbed_minute = s[1];
-            }
+            switch (s[0]) {
+                case 'player_1_subbed_minute':
+                    player_1_subbed_minute = s[1];
+                    break;
+                case 'player_2_subbed_minute':
+                    player_2_subbed_minute = s[1];
+                    break;
+                case 'player_3_subbed_minute':
+                    player_3_subbed_minute = s[1];
+                    break;
+                case 'player_4_subbed_minute':
+                    player_4_subbed_minute = s[1];
+                    break;
+                case 'player_5_subbed_minute':
+                    player_5_subbed_minute = s[1];
+                    break;
+                case 'player_6_subbed_minute':
+                    player_6_subbed_minute = s[1];
+                    break;
+                case 'player_7_subbed_minute':
+                    player_7_subbed_minute = s[1];
+                    break;
+                case 'player_8_subbed_minute':
+                    player_8_subbed_minute = s[1];
+                    break;
+                case 'player_9_subbed_minute':
+                    player_9_subbed_minute = s[1];
+                    break;
+                case 'player_10_subbed_minute':
+                    player_10_subbed_minute = s[1];
+                    break;
+                case 'player_11_subbed_minute':
+                    player_7_subbed_minute = s[1];
+                    break;
+                    default:
+                }
         }
 
         if (players) {
@@ -180,37 +226,47 @@ export default function Matches() {
                         <h2>Starting XI</h2>
                         <p>
                             <a href={`../../players/${m.player_1}`}>{player_1}</a>
+                            &nbsp;<span>{player_1_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_2}`}>{player_2}</a>
+                            &nbsp;<span>{player_2_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_3}`}>{player_3}</a>
+                            &nbsp;<span>{player_3_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_4}`}>{player_4}</a>
+                            &nbsp;<span>{player_4_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_5}`}>{player_5}</a>
+                            &nbsp;<span>{player_5_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_6}`}>{player_6}</a>
+                            &nbsp;<span>{player_6_subbed_minute}</span>
                         </p>
                         <p className='player_7'>
                             <a href={`../../players/${m.player_7}`}>{player_7}</a>
-                            &nbsp;{player_7_subbed_minute}
+                            &nbsp;<span>{player_7_subbed_minute}</span>
                         </p>
                         <p className='player_8'>
                             <a href={`../../players/${m.player_8}`}>{player_8}</a>
+                            &nbsp;<span>{player_8_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_9}`}>{player_9}</a>
+                            &nbsp;<span>{player_9_subbed_minute}</span>
                         </p>
                         <p className='player_10'>
                             <a href={`../../players/${m.player_10}`}>{player_10}</a>
+                            &nbsp;<span>{player_10_subbed_minute}</span>
                         </p>
                         <p>
                             <a href={`../../players/${m.player_11}`}>{player_11}</a>
+                            &nbsp;<span>{player_11_subbed_minute}</span>
                         </p>
                         <h2>Subs</h2>
                         <p>
