@@ -101,19 +101,15 @@ export default function Matches() {
                 subbedPlayers.push(a);
             }
         }
-        console.log(subbedPlayers);
 
         for (const s of subbedPlayers) {
             let playerSubbed = s[0].replace('_subbed_minute','');
             let playerSubbedEl = document.querySelector(`.${playerSubbed}`);
             if (playerSubbedEl) {
-                playerSubbedEl.classList.add('player__subbed', 'triangle');
+                playerSubbedEl.classList.add('player__subbed', 'player__subbed--off',);
             }
         } 
 
-        for (let i=1; i<=11; i++) {
-            
-        }
         for (const s of subbedPlayers) {
             switch (s[0]) {
                 case 'player_1_subbed_minute':

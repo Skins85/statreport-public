@@ -1,0 +1,7 @@
+.player__subbed--off {
+    @include triangle($red60, 'down', $rem--threequarters);    
+}
+
+.player__subbed--on {
+    @include triangle(green, 'up', $rem--threequarters);    
+}
