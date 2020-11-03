@@ -84,7 +84,13 @@ export default function Matches() {
         sub_2,
         sub_3,
         sub_4,
+        sub_1_entrance_minute,
+        sub_2_entrance_minute,
+        sub_3_entrance_minute,
+        sub_4_entrance_minute,
+        sub_5_entrance_minute,
         subbedPlayers = [],
+        subbedOnPlayers = [],
         m;
 
     if (matches && matchId) {
@@ -100,6 +106,11 @@ export default function Matches() {
             if (a[0].includes('subbed') && a[1] !== '0') {
                 subbedPlayers.push(a);
             }
+            for (let i=1; i<= 5; i++) {
+                if (a[0].includes(`sub_${i}_minute`) && a[1] !== '0') {
+                    subbedOnPlayers.push(a);
+                }
+            }
         }
 
         for (const s of subbedPlayers) {
@@ -107,6 +118,14 @@ export default function Matches() {
             let playerSubbedEl = document.querySelector(`.${playerSubbed}`);
             if (playerSubbedEl) {
                 playerSubbedEl.classList.add('player__subbed', 'player__subbed--off',);
+            }
+        } 
+
+        for (const s of subbedOnPlayers) {
+            let playerSubbedOn = s[0].replace('_minute','');
+            let playerSubbedEl = document.querySelector(`.${playerSubbedOn}`);
+            if (playerSubbedEl) {
+                playerSubbedEl.classList.add('player__subbed', 'player__subbed--on',);
             }
         } 
 
@@ -144,6 +163,27 @@ export default function Matches() {
                     break;
                 case 'player_11_subbed_minute':
                     player_7_subbed_minute = s[1];
+                    break;
+                    default:
+                }
+        }
+
+        for (const s of subbedOnPlayers) {
+            switch (s[0]) {
+                case 'sub_1_minute':
+                    sub_1_entrance_minute = s[1];
+                    break;
+                case 'sub_2_minute':
+                    sub_2_entrance_minute = s[1];
+                    break;
+                case 'sub_3_minute':
+                    sub_3_entrance_minute = s[1];
+                    break;
+                case 'sub_4_minute':
+                    sub_4_entrance_minute = s[1];
+                    break;
+                case 'sub_5_minute':
+                    sub_5_entrance_minute = s[1];
                     break;
                     default:
                 }
@@ -265,18 +305,23 @@ export default function Matches() {
                             &nbsp;<span>{player_11_subbed_minute}</span>
                         </p>
                         <h2>Subs</h2>
-                        <p>
+                        {sub_1_entrance_minute ? <p className='sub_1'>
                             <a href={`../../players/${m.sub_1}`}>{sub_1}</a>
-                        </p>
-                        <p>
+                            &nbsp;<span>{sub_1_entrance_minute}</span>
+                        </p> : null}
+                        {sub_2_entrance_minute ? <p className='sub_2'>
                             <a href={`../../players/${m.sub_2}`}>{sub_2}</a>
-                        </p>
-                        <p>
+                            &nbsp;<span>{sub_2_entrance_minute}</span>
+                        </p> : null}
+                        {sub_3_entrance_minute ? <p className='sub_3'>
                             <a href={`../../players/${m.sub_3}`}>{sub_3}</a>
-                        </p>
-                        <p>
+                            &nbsp;<span>{sub_3_entrance_minute}</span>
+                        </p> : null}
+                        {sub_4_entrance_minute ? <p className='sub_4'>
                             <a href={`../../players/${m.sub_4}`}>{sub_4}</a>
-                        </p>
+                            &nbsp;<span>{sub_4_entrance_minute}</span>
+                        </p> : null}
+                        
                         <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                         <p><strong>League position</strong> {m.league_position}</p>
