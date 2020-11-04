@@ -13,7 +13,7 @@
         height: 0; 
         content: '';
         position: relative;
-        margin-left: $rem--quarter;
+        margin: 0 $rem--quarter 0 0;
         border-top: map-get((
             up: $size solid transparent,
             down: $size solid $color,

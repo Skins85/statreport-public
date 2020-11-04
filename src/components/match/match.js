@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import MatchPlayer from './match-player';
 import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
 import Spinner from '../ui/spinner/spinner';
@@ -91,6 +92,7 @@ export default function Matches() {
         sub_5_entrance_minute,
         subbedPlayers = [],
         subbedOnPlayers = [],
+        subsRender,
         m;
 
     if (matches && matchId) {
@@ -244,6 +246,8 @@ export default function Matches() {
                 sub_4 = `${sub_4[0].first_name} ${sub_4[0].surname}`;
             }
 
+            
+
             document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
             
         }
@@ -305,23 +309,30 @@ export default function Matches() {
                             &nbsp;<span>{player_11_subbed_minute}</span>
                         </p>
                         <h2>Subs</h2>
-                        {sub_1_entrance_minute ? <p className='sub_1'>
-                            <a href={`../../players/${m.sub_1}`}>{sub_1}</a>
-                            &nbsp;<span>{sub_1_entrance_minute}</span>
-                        </p> : null}
-                        {sub_2_entrance_minute ? <p className='sub_2'>
-                            <a href={`../../players/${m.sub_2}`}>{sub_2}</a>
-                            &nbsp;<span>{sub_2_entrance_minute}</span>
-                        </p> : null}
-                        {sub_3_entrance_minute ? <p className='sub_3'>
-                            <a href={`../../players/${m.sub_3}`}>{sub_3}</a>
-                            &nbsp;<span>{sub_3_entrance_minute}</span>
-                        </p> : null}
-                        {sub_4_entrance_minute ? <p className='sub_4'>
-                            <a href={`../../players/${m.sub_4}`}>{sub_4}</a>
-                            &nbsp;<span>{sub_4_entrance_minute}</span>
-                        </p> : null}
-                        
+                        <MatchPlayer
+                            className = '1'
+                            subMinute = {sub_1_entrance_minute}
+                            playerId = {m.sub_1}
+                            playerName = {sub_1}
+                        />
+                        <MatchPlayer
+                            className = '2'
+                            subMinute = {sub_2_entrance_minute}
+                            playerId = {m.sub_2}
+                            playerName = {sub_2}
+                        />
+                        <MatchPlayer
+                            className = '3'
+                            subMinute = {sub_3_entrance_minute}
+                            playerId = {m.sub_3}
+                            playerName = {sub_3}
+                        />
+                        <MatchPlayer
+                            className = '4'
+                            subMinute = {sub_4_entrance_minute}
+                            playerId = {m.sub_4}
+                            playerName = {sub_4}
+                        />
                         <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                         <p><strong>League position</strong> {m.league_position}</p>
