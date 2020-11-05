@@ -89,10 +89,8 @@ export default function Matches() {
         sub_2_entrance_minute,
         sub_3_entrance_minute,
         sub_4_entrance_minute,
-        sub_5_entrance_minute,
         subbedPlayers = [],
         subbedOnPlayers = [],
-        subsRender,
         m;
 
     if (matches && matchId) {
@@ -246,8 +244,6 @@ export default function Matches() {
                 sub_4 = `${sub_4[0].first_name} ${sub_4[0].surname}`;
             }
 
-            
-
             document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
             
         }
@@ -256,7 +252,6 @@ export default function Matches() {
             <React.Fragment>
                 <div className='wrapper--content__inpage'>
                     <div className='content__inpage content__inpage--standard'>
-                        
                         <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
                         <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                         <p>
@@ -264,74 +259,114 @@ export default function Matches() {
                             <span><strong>Opponent step:</strong> {m.step_opponent}</span>
                         </p>
                         <h2>Starting XI</h2>
-                        <p>
-                            <a href={`../../players/${m.player_1}`}>{player_1}</a>
-                            &nbsp;<span>{player_1_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_2}`}>{player_2}</a>
-                            &nbsp;<span>{player_2_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_3}`}>{player_3}</a>
-                            &nbsp;<span>{player_3_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_4}`}>{player_4}</a>
-                            &nbsp;<span>{player_4_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_5}`}>{player_5}</a>
-                            &nbsp;<span>{player_5_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_6}`}>{player_6}</a>
-                            &nbsp;<span>{player_6_subbed_minute}</span>
-                        </p>
-                        <p className='player_7'>
-                            <a href={`../../players/${m.player_7}`}>{player_7}</a>
-                            &nbsp;<span>{player_7_subbed_minute}</span>
-                        </p>
-                        <p className='player_8'>
-                            <a href={`../../players/${m.player_8}`}>{player_8}</a>
-                            &nbsp;<span>{player_8_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_9}`}>{player_9}</a>
-                            &nbsp;<span>{player_9_subbed_minute}</span>
-                        </p>
-                        <p className='player_10'>
-                            <a href={`../../players/${m.player_10}`}>{player_10}</a>
-                            &nbsp;<span>{player_10_subbed_minute}</span>
-                        </p>
-                        <p>
-                            <a href={`../../players/${m.player_11}`}>{player_11}</a>
-                            &nbsp;<span>{player_11_subbed_minute}</span>
-                        </p>
+                        
+                        <MatchPlayer
+                            className = '1'
+                            subMinute = {player_1_subbed_minute}
+                            playerId = {m.player_1}
+                            playerName = {player_1}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '2'
+                            subMinute = {player_2_subbed_minute}
+                            playerId = {m.player_2}
+                            playerName = {player_2}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '3'
+                            subMinute = {player_3_subbed_minute}
+                            playerId = {m.player_3}
+                            playerName = {player_3}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '4'
+                            subMinute = {player_4_subbed_minute}
+                            playerId = {m.player_4}
+                            playerName = {player_4}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '5'
+                            subMinute = {player_5_subbed_minute}
+                            playerId = {m.player_5}
+                            playerName = {player_5}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '6'
+                            subMinute = {player_6_subbed_minute}
+                            playerId = {m.player_6}
+                            playerName = {player_6}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '7'
+                            subMinute = {player_7_subbed_minute}
+                            playerId = {m.player_7}
+                            playerName = {player_7}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '8'
+                            subMinute = {player_8_subbed_minute}
+                            playerId = {m.player_8}
+                            playerName = {player_8}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '9'
+                            subMinute = {player_9_subbed_minute}
+                            playerId = {m.player_9}
+                            playerName = {player_9}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '10'
+                            subMinute = {player_10_subbed_minute}
+                            playerId = {m.player_10}
+                            playerName = {player_10}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '11'
+                            subMinute = {player_11_subbed_minute}
+                            playerId = {m.player_11}
+                            playerName = {player_11}
+                            subStatus = 'off'
+                        />
+
                         <h2>Subs</h2>
+                        
                         <MatchPlayer
                             className = '1'
                             subMinute = {sub_1_entrance_minute}
                             playerId = {m.sub_1}
                             playerName = {sub_1}
+                            subStatus = 'on'
                         />
                         <MatchPlayer
                             className = '2'
                             subMinute = {sub_2_entrance_minute}
                             playerId = {m.sub_2}
                             playerName = {sub_2}
+                            subStatus = 'on'
                         />
                         <MatchPlayer
                             className = '3'
                             subMinute = {sub_3_entrance_minute}
                             playerId = {m.sub_3}
                             playerName = {sub_3}
+                            subStatus = 'on'
                         />
                         <MatchPlayer
                             className = '4'
                             subMinute = {sub_4_entrance_minute}
                             playerId = {m.sub_4}
                             playerName = {sub_4}
+                            subStatus = 'on'
                         />
                         <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
