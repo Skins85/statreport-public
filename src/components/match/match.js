@@ -91,6 +91,7 @@ export default function Matches() {
         sub_4_entrance_minute,
         subbedPlayers = [],
         subbedOnPlayers = [],
+        subbedOnPlayersCount = 0,
         m;
 
     if (matches && matchId) {
@@ -172,18 +173,19 @@ export default function Matches() {
             switch (s[0]) {
                 case 'sub_1_minute':
                     sub_1_entrance_minute = s[1];
+                    subbedOnPlayersCount += 1;
                     break;
                 case 'sub_2_minute':
                     sub_2_entrance_minute = s[1];
+                    subbedOnPlayersCount += 1;
                     break;
                 case 'sub_3_minute':
                     sub_3_entrance_minute = s[1];
+                    subbedOnPlayersCount += 1;
                     break;
                 case 'sub_4_minute':
                     sub_4_entrance_minute = s[1];
-                    break;
-                case 'sub_5_minute':
-                    sub_5_entrance_minute = s[1];
+                    subbedOnPlayersCount += 1;
                     break;
                     default:
                 }
@@ -338,36 +340,41 @@ export default function Matches() {
                             subStatus = 'off'
                         />
 
-                        <h2>Subs</h2>
+                        <h2>Substitutes</h2>
+                        {subbedOnPlayersCount > 0 ? 
+                            <React.Fragment>
+                                <MatchPlayer
+                                    className = '1'
+                                    subMinute = {sub_1_entrance_minute}
+                                    playerId = {m.sub_1}
+                                    playerName = {sub_1}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '2'
+                                    subMinute = {sub_2_entrance_minute}
+                                    playerId = {m.sub_2}
+                                    playerName = {sub_2}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '3'
+                                    subMinute = {sub_3_entrance_minute}
+                                    playerId = {m.sub_3}
+                                    playerName = {sub_3}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '4'
+                                    subMinute = {sub_4_entrance_minute}
+                                    playerId = {m.sub_4}
+                                    playerName = {sub_4}
+                                    subStatus = 'on'
+                                />
+                            </React.Fragment> 
+                            : <p>No {nameFormat('Dagenham & Redbridge')} substitutes used in this match.</p>
+                        }
                         
-                        <MatchPlayer
-                            className = '1'
-                            subMinute = {sub_1_entrance_minute}
-                            playerId = {m.sub_1}
-                            playerName = {sub_1}
-                            subStatus = 'on'
-                        />
-                        <MatchPlayer
-                            className = '2'
-                            subMinute = {sub_2_entrance_minute}
-                            playerId = {m.sub_2}
-                            playerName = {sub_2}
-                            subStatus = 'on'
-                        />
-                        <MatchPlayer
-                            className = '3'
-                            subMinute = {sub_3_entrance_minute}
-                            playerId = {m.sub_3}
-                            playerName = {sub_3}
-                            subStatus = 'on'
-                        />
-                        <MatchPlayer
-                            className = '4'
-                            subMinute = {sub_4_entrance_minute}
-                            playerId = {m.sub_4}
-                            playerName = {sub_4}
-                            subStatus = 'on'
-                        />
                         <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                         <p><strong>League position</strong> {m.league_position}</p>
