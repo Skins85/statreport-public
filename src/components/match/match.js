@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { Link } from 'react-router-dom';
 import MatchPlayer from './match-player';
 import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
@@ -254,7 +255,7 @@ export default function Matches() {
             <React.Fragment>
                 <div className='wrapper--content__inpage'>
                     <div className='content__inpage content__inpage--standard'>
-                        <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1>
+                        <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} <Link to={m.opponent_id}>{nameFormat(m.team_away)}</Link></h1>
                         <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                         <p>
                             <span><strong>Competition:</strong> {m.competition}  </span>

@@ -4,7 +4,12 @@
     include '../../config/db.php';
 
         $stmt = $conn->prepare(
-          'SELECT * FROM results ORDER BY season DESC'
+          "(SELECT * FROM results
+          INNER JOIN teams ON results.team_home = teams.team_name WHERE team_id != 'dagenham-and-redbridge')
+          UNION
+          (SELECT * FROM results
+          INNER JOIN teams ON results.team_away = teams.team_name WHERE team_id != 'dagenham-and-redbridge') 
+          ORDER BY season DESC"
         );
         $stmt->execute();
 
@@ -17,6 +22,7 @@
                 'goals_home'=>$row['home_goals'],
                 'goals_away'=>$row['away_goals'],
                 'team_away'=>$row['team_away'],
+                'opponent_id'=>$row['team_id'],
                 'competition'=>$row['competition'],
                 'step_opponent'=>$row['step_opponent'],
                 'player_1'=>$row['player_1'],
