@@ -14,6 +14,7 @@ export default function Matches() {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState({});
     const [playerData, setPlayerData] = useState({});
+    const [scorersData, setScorersData] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
@@ -49,6 +50,14 @@ export default function Matches() {
             }).then(async (response) => {
                 setPlayerData(response.data);
             })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players-goals-all.php',
+                method: 'get'
+            }).then(async (response) => {
+                setScorersData(response.data);
+            })
+
             await setDataLoaded(true);
         }
         fetchData();
@@ -56,10 +65,12 @@ export default function Matches() {
 
     let matches = data.results,
         players = playerData.results,
+        scorers = scorersData.results,
         search = window.location.search,
         params = new URLSearchParams(search),
         matchId = params.get('m'),
         filteredMatches,
+        filteredScorers,
         player_1,
         player_2,
         player_3,
@@ -95,13 +106,22 @@ export default function Matches() {
         subbedOnPlayersCount = 0,
         m;
 
-    if (matches && matchId) {
+    if (matches && scorers && matchId) {
         filteredMatches = matches.filter(function(match) {
             return (
                 match.match_id === matchId
             )
         });
+        filteredScorers = scorers.filter(function(match) {
+            return (
+                match.match_id === matchId
+            )
+        });
         m = filteredMatches[0]; 
+
+        for (const s of filteredScorers) {
+            console.log(s.first_name)
+        }
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
