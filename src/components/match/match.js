@@ -119,10 +119,6 @@ export default function Matches() {
         });
         m = filteredMatches[0]; 
 
-        for (const s of filteredScorers) {
-            console.log(s.first_name)
-        }
-
         // Create array of subbed players
         for (const a of Object.entries(m)) {
             if (a[0].includes('subbed') && a[1] !== '0') {
@@ -275,7 +271,8 @@ export default function Matches() {
             <React.Fragment>
                 <div className='wrapper--content__inpage'>
                     <div className='content__inpage content__inpage--standard'>
-                        <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} <Link to={m.opponent_id}>{nameFormat(m.team_away)}</Link></h1>
+                        {m.team_home === 'Dagenham & Redbridge' ? <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} <Link to={m.opponent_id}>{nameFormat(m.team_away)}</Link></h1> :
+                        <h1><Link to={m.opponent_id}>{nameFormat(m.team_home)}</Link> {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1> }
                         <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                         <p>
                             <span><strong>Competition:</strong> {m.competition}  </span>
