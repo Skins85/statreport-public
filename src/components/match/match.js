@@ -104,7 +104,8 @@ export default function Matches() {
         subbedPlayers = [],
         subbedOnPlayers = [],
         subbedOnPlayersCount = 0,
-        m;
+        m,
+        scorersArray = [];
 
     if (matches && scorers && matchId) {
         filteredMatches = matches.filter(function(match) {
@@ -118,6 +119,22 @@ export default function Matches() {
             )
         });
         m = filteredMatches[0]; 
+
+        for (const s of filteredScorers) {
+            scorersArray.push(s.surname);
+        }
+
+        let scorersGoalTimeArray = []
+
+        for (const s of filteredScorers) {
+            for (const p of scorersArray) {
+                if (p === s.surname) {
+                    scorersGoalTimeArray.push(s.first_name + ' ' + s.surname + ' ' + s.goal_time);
+                }
+            }
+        }
+        scorersGoalTimeArray = new Set(scorersGoalTimeArray);
+        console.log(scorersGoalTimeArray);
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
