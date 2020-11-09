@@ -125,16 +125,40 @@ export default function Matches() {
         }
 
         let scorersGoalTimeArray = []
+        let scorersObj = {};
 
         for (const s of filteredScorers) {
             for (const p of scorersArray) {
                 if (p === s.surname) {
-                    scorersGoalTimeArray.push(s.first_name + ' ' + s.surname + ' ' + s.goal_time);
+                    scorersGoalTimeArray.push(s.scorer_id + ' ' + s.first_name + ' ' + s.surname + ' ' + s.goal_time);
                 }
             }
         }
         scorersGoalTimeArray = new Set(scorersGoalTimeArray);
-        console.log(scorersGoalTimeArray);
+        scorersGoalTimeArray = Array.from(scorersGoalTimeArray);
+        let scorersOutput;
+
+        let newArr = []
+        for (const s of scorersGoalTimeArray) {
+            newArr.push(s.split(' '));
+        }
+        
+        let newerArr = []
+        for (const n of newArr) {
+            newerArr.push(n[0])
+        }
+        
+        var map = newerArr.reduce(function(obj, b) {
+        obj[b] = ++obj[b] || 1;
+        return obj;
+        }, {});
+        console.log(map);
+
+        scorersOutput = scorersGoalTimeArray.map((data) => {
+            return (
+                <p>{data}</p>
+            )
+        });
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
@@ -290,6 +314,7 @@ export default function Matches() {
                     <div className='content__inpage content__inpage--standard'>
                         {m.team_home === 'Dagenham & Redbridge' ? <h1>{nameFormat(m.team_home)} {m.goals_home}-{m.goals_away} <Link to={m.opponent_id}>{nameFormat(m.team_away)}</Link></h1> :
                         <h1><Link to={m.opponent_id}>{nameFormat(m.team_home)}</Link> {m.goals_home}-{m.goals_away} {nameFormat(m.team_away)}</h1> }
+                        {scorersOutput}
                         <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                         <p>
                             <span><strong>Competition:</strong> {m.competition}  </span>
