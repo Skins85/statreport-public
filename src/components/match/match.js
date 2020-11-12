@@ -154,11 +154,28 @@ export default function Matches() {
         }, {});
         console.log(map);
 
-        scorersOutput = scorersGoalTimeArray.map((data) => {
-            return (
-                <p>{data}</p>
-            )
-        });
+        const scorerObj = {
+            surname: '',
+            goals: []
+        };
+
+
+        var y = filteredScorers
+            .reduce(function (i, scorer) {
+            const z = {
+                id: scorer.scorer_id,
+                surname: scorer.surname,
+                goal_time: scorer.goal_time
+            };
+
+            if (z.id === 'scott-wilson') {
+                scorerObj.surname = z.surname;
+                scorerObj.goals.push(z.goal_time);
+            }
+            
+        }, []);
+
+        console.log(scorerObj);
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
