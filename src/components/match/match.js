@@ -105,7 +105,11 @@ export default function Matches() {
         subbedOnPlayers = [],
         subbedOnPlayersCount = 0,
         m,
-        scorersArray = [];
+        scorersGoalTimeArray = [],
+        scorersArray = [],
+        scorerObj = {},
+        scorerObjArr = [],
+        scorersOutput;
 
     if (matches && scorers && matchId) {
         filteredMatches = matches.filter(function(match) {
@@ -123,10 +127,6 @@ export default function Matches() {
         for (const s of filteredScorers) {
             scorersArray.push(s.surname);
         }
-
-        let scorersGoalTimeArray = []
-        let scorersObj = {};
-
         for (const s of filteredScorers) {
             for (const p of scorersArray) {
                 if (p === s.surname) {
@@ -136,7 +136,6 @@ export default function Matches() {
         }
         scorersGoalTimeArray = new Set(scorersGoalTimeArray);
         scorersGoalTimeArray = Array.from(scorersGoalTimeArray);
-        let scorersOutput;
 
         let newArr = []
         for (const s of scorersGoalTimeArray) {
@@ -149,33 +148,56 @@ export default function Matches() {
         }
         
         var map = newerArr.reduce(function(obj, b) {
-        obj[b] = ++obj[b] || 1;
-        return obj;
+            obj[b] = ++obj[b] || 1;
+            return obj;
         }, {});
-        console.log(map);
 
-        const scorerObj = {
-            surname: '',
-            goals: []
-        };
+        // Create object of scorer data
+        function createScorerObject(player_id) {
 
-
-        var y = filteredScorers
-            .reduce(function (i, scorer) {
-            const z = {
-                id: scorer.scorer_id,
-                surname: scorer.surname,
-                goal_time: scorer.goal_time
+            // Blank scorer object with defined keys
+            scorerObj = {
+                surname: '',
+                goals: []
             };
 
-            if (z.id === 'scott-wilson') {
-                scorerObj.surname = z.surname;
-                scorerObj.goals.push(z.goal_time);
-            }
-            
-        }, []);
+            // Reduce scorers to unique, single object each, even if they have score multiple goals
+            // In this instance, goals will be stored in an array for each player
+            filteredScorers.reduce(function (i, scorer) {
+                const player = {
+                    id: scorer.scorer_id,
+                    surname: scorer.surname,
+                    goal_time: scorer.goal_time
+                };
 
-        console.log(scorerObj);
+                if (player.id === player_id) {
+                    scorerObj.surname = player.surname;
+                    scorerObj.goals.push(player.goal_time);
+                }
+                
+            }, []);
+
+            scorerObjArr.push(scorerObj);
+        }
+
+        // Loop scorers and create unique scorer objects
+        for (const m in map) {
+            createScorerObject(m);
+        }
+
+        scorersOutput = scorerObjArr.map((data, index) => {
+            return (
+                <React.Fragment>
+                    <p>{data.surname}&nbsp;(
+                        {data.goals.map((d,index) => {
+                            return (
+                            <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+                            )
+                        })}
+                    )</p>
+                </React.Fragment>
+            )
+        })
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
