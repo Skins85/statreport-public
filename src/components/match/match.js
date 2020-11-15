@@ -260,7 +260,7 @@ export default function Matches() {
                     player_10_subbed_minute = s[1];
                     break;
                 case 'player_11_subbed_minute':
-                    player_7_subbed_minute = s[1];
+                    player_11_subbed_minute = s[1];
                     break;
                     default:
                 }

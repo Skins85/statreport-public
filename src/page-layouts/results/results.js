@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import Banner from '../../components/banner/banner';
 import Result from '../../components/result/result';
+import SeasonOptions from '../../components/form/options/season';
+import Select from '../../components/form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import Warning from '../../components/hoc/warning/warning';
@@ -15,7 +17,7 @@ class Results extends Component {
         this.state = {
           data: '',
           location: '',
-          season: '2019-20',
+          season: '2020-21',
           opposition: 'all',
           teamsData: '',
           filteredResults: '',
@@ -27,6 +29,13 @@ class Results extends Component {
     onChange = e => this.setState({ 
         [e.target.name]: e.target.value 
     });
+
+    // Season change handler
+    seasonChange = (e) => {
+      this.setState({ 
+        season: e.target.value
+      });
+    }
 
     // Stay on page once form submitted
     handleSubmit(event) {
@@ -105,11 +114,14 @@ class Results extends Component {
               return (
                 (result.team_home === team_home || result.team_away === team_away) &&
                 (season !== 'all' ? result.season === season : result.season === 
+                  '2020-21' || 
+                  '2019-20' || 
                   '2018-19' || 
                   '2017-18' || 
                   '2016-17' || 
                   '2015-16' || 
-                  '2014-15' ) &&
+                  '2014-15' || 
+                  '2013-14' ) &&
                 (opposition === 'all' 
                   ? (result.team_home === 'Dagenham & Redbridge' 
                     || result.team_away === 'Dagenham & Redbridge') 
@@ -117,8 +129,7 @@ class Results extends Component {
                     || result.team_home === opposition))
                 ); 
 
-              });
-              
+              });              
       
             if (filteredResults.length > 0) {
       
@@ -126,9 +137,9 @@ class Results extends Component {
       
                 if (result.goals_home === result.goals_away) {
                   outcome = 'D';
-                } else if (result.team_home === 'Dagenham & Redbridge' && result.goals_home > result.goals_away || result.team_away == 'Dagenham & Redbridge' && result.goals_away > result.goals_home) {
+                } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home > result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away > result.goals_home)) {
                   outcome = 'W'
-                } else if (result.team_home === 'Dagenham & Redbridge' && result.goals_home < result.goals_away || result.team_away == 'Dagenham & Redbridge' && result.goals_away < result.goals_home) {
+                } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home < result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away < result.goals_home)) {
                   outcome = 'L';
                 }
       
@@ -218,10 +229,19 @@ class Results extends Component {
                     <option value="all">All teams</option>
                     {teamsList}
                   </select>
-                  <select name="season" onChange={this.onChange}>
+              
+                  {/* <select name="season" onChange={this.onChange}>
                     <option value="all">All seasons</option>
                     {season_select}
-                  </select>
+                  </select> */}
+                  <Select 
+                    labelText={`Season`} 
+                    selectName={`results.season`} 
+                    onChange={this.seasonChange}
+                  >
+                    <option value="" selected disabled hidden>Select season</option>
+                    <SeasonOptions />
+                    </Select>
                 </form>
                 <Table>
                   <thead data-content-align='left'>
