@@ -5,3 +5,34 @@
 .player__subbed--on {
     @include triangle(green, 'up', $rem--threequarters);    
 }
+
+.match-details {
+    display: grid;
+    .match-details__summary {
+        background-image: linear-gradient($gray20, $gray10);
+        margin-top: $rem--one;
+        padding: $rem--one;
+        text-align: center;
+        .match-details__summary__title,
+        .match-details__summary__scorers {
+            @include grid(14);
+        }
+        h1 {
+            margin-top: $rem--one;
+            @include grid(14);
+        }
+        .match-details__summary__team-home,
+        .match-details__summary__scorers__home {
+            grid-column: 2/7;
+            text-align: right;
+        }
+        .match-details__summary__score {
+            grid-column: 7/9;
+        }
+        .match-details__summary__team-away,
+        .match-details__summary__scorers__away {
+            grid-column: 9/-2;
+            text-align: left;
+        }
+    }
+}

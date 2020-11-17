@@ -4,9 +4,9 @@
     grid-column-gap: $rem--one;
 }
 
-@mixin fourteen-grid() {
+@mixin twenty-grid() {
     display: grid;
-    grid-template-columns: repeat(14, 1fr);
+    grid-template-columns: repeat(20, 1fr);
     grid-column-gap: $rem--one;
 }
 
@@ -16,9 +16,16 @@
     grid-column-gap: $rem--one;
 }
 
-@mixin twenty-grid() {
+@mixin fourteen-grid() {
     display: grid;
-    grid-template-columns: repeat(20, 1fr);
+    grid-template-columns: repeat(14, 1fr);
+    grid-column-gap: $rem--one;
+}
+
+// Dynamic grid column
+@mixin grid($num) {
+    display: grid;
+    grid-template-columns: repeat($num, 1fr);
     grid-column-gap: $rem--one;
 }
 
