@@ -110,7 +110,8 @@ export default function Matches() {
         scorersArray = [],
         scorerObj = {},
         scorerObjArr = [],
-        scorersOutput;
+        scorersOutput,
+        oppScorersOutput;
 
     if (matches && scorers && matchId) {
         filteredMatches = matches.filter(function(match) {
@@ -124,6 +125,7 @@ export default function Matches() {
             )
         });
         m = filteredMatches[0]; 
+        console.log(m);
 
         for (const s of filteredScorers) {
             scorersArray.push(s.surname);

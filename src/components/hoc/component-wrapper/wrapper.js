@@ -8,8 +8,7 @@ class wrapper extends Component {
     render() {
         return (
             <React.Fragment>
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca" />
-                {/* <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Jura" />                 */}
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR" />
                 <header>
                     <Navigation />
                 </header>
