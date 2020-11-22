@@ -7,34 +7,42 @@
         "SELECT match_scorers.match_id, results.season, opponent_goal_1_scorer AS surname, opponent_goal_1_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_1_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_2_scorer AS surname, opponent_goal_2_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_2_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_3_scorer AS surname, opponent_goal_3_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_3_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_4_scorer AS surname, opponent_goal_4_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_4_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_5_scorer AS surname, opponent_goal_5_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_5_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_6_scorer AS surname, opponent_goal_6_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_6_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_7_scorer AS surname, opponent_goal_7_minute AS goal_time 
         FROM match_scorers 
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_7_scorer = ''
         UNION ALL 
         SELECT match_scorers.match_id, results.season, opponent_goal_8_scorer AS surname, opponent_goal_8_minute AS goal_time 
         FROM match_scorers
         INNER JOIN results ON match_scorers.match_id = results.match_id
+        WHERE NOT opponent_goal_8_scorer = ''
         ORDER BY `surname` DESC
         "
     );
