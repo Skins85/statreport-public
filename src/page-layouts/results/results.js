@@ -216,7 +216,7 @@ class Results extends Component {
               {banner}
               <div className='wrapper--content__inpage'>
                 <form 
-                  className='matches__filter background-gray20'
+                  className='matches__filter background-gray2'
                   onSubmit={this.handleSubmit}
                 >
                   <h2>Filter matches</h2>
@@ -271,7 +271,7 @@ class Results extends Component {
               {banner}
               <div className='wrapper--content__inpage'>
                 <form 
-                  className='matches__filter background-gray20'
+                  className='matches__filter background-gray2'
                   onSubmit={this.handleSubmit}
                 >
                   <h2>Filter matches</h2>

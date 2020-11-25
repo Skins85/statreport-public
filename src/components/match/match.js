@@ -81,7 +81,7 @@ export default function Matches() {
         matchId = params.get('m'),
         filteredMatches,
         DR__filteredScorers,
-        filteredOppScorers,
+        OPP__filteredOppScorers,
         player_1,
         player_2,
         player_3,
@@ -117,14 +117,15 @@ export default function Matches() {
         subbedOnPlayersCount = 0,
         m,
         DR__scorersGoalTimeArray = [],
-        oppScorersGoalTimeArray = [],
+        OPP__scorersGoalTimeArray = [],
         DR__scorersArray = [],
-        oppScorersArray = [],
+        OPP__ScorersArray = [],
         scorerObj = {},
+        OPP__scorerObj = {},
         scorerObjArr = [],
-        oppScorerObjArr = [],
+        OPP__ScorerObjArr = [],
         DR__scorersOutput,
-        oppScorersOutput;
+        OPP__ScorersOutput;
 
     if (matches && scorers && oppScorers && matchId) {
         filteredMatches = matches.filter(function(match) {
@@ -139,7 +140,7 @@ export default function Matches() {
             )
         });
 
-        filteredOppScorers = oppScorers.filter(function(match) {
+        OPP__filteredOppScorers = oppScorers.filter(function(match) {
             return (
                 match.match_id === matchId
             )
@@ -148,6 +149,77 @@ export default function Matches() {
         let DR__timeArrSplit = [],
             DR__updatedTimeArr = [],
             DR__map;
+
+        let OPP__timeArrSplit = [],
+            OPP__updatedTimeArr = [],
+            OPP__map;
+
+            for (const s of OPP__filteredOppScorers) {
+                OPP__ScorersArray.push(s.surname);
+            }
+            for (const s of OPP__filteredOppScorers) {
+                for (const p of OPP__ScorersArray) {
+                    if (p === s['surname']) {
+                        OPP__scorersGoalTimeArray.push(s.surname + ' ' + s.goal_time);
+                    }
+                }
+            }
+            OPP__scorersGoalTimeArray = new Set(OPP__scorersGoalTimeArray);
+            OPP__scorersGoalTimeArray = Array.from(OPP__scorersGoalTimeArray);
+            for (const s of OPP__scorersGoalTimeArray) {
+                OPP__timeArrSplit.push(s.split(' '));
+            }
+            for (const n of OPP__timeArrSplit) {
+                OPP__updatedTimeArr.push(n[0])
+            }
+            OPP__map = OPP__updatedTimeArr.reduce(function(obj, b) {
+                obj[b] = ++obj[b] || 1;
+                return obj;
+            }, {});
+            // Create object of scorer data
+            function createOppScorerObject(player_id) {
+
+                // Blank scorer object with defined keys
+                OPP__scorerObj = {
+                    surname: '',
+                    goals: []
+                };
+                // Reduce scorers to unique, single object each, even if they have score multiple goals
+                // In this instance, goals will be stored in an array for each player
+                OPP__filteredOppScorers.reduce(function (i, scorer) {
+                    const player = {
+                        surname: scorer.surname,
+                        goal_time: scorer.goal_time
+                    };
+
+                    if (player.surname === player_id) {
+                        OPP__scorerObj.surname = player.surname;
+                        OPP__scorerObj.goals.push(player.goal_time);
+                    }
+                    
+                }, []);
+
+                OPP__ScorerObjArr.push(OPP__scorerObj);
+
+            }
+            // Loop scorers and create unique scorer objects
+            for (const m in OPP__map) {
+                createOppScorerObject(m);
+            }
+
+            OPP__ScorersOutput = OPP__ScorerObjArr.map((data, index) => {
+                return (
+                    <React.Fragment>
+                        <p>{data.surname}&nbsp;(
+                            {data.goals.map((d,index) => {
+                                return (
+                                    <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+                                )
+                            })}
+                        )</p>
+                    </React.Fragment>
+                )
+            })
 
         /**
          * Print Dag & Red scorers with goal times.
@@ -415,8 +487,8 @@ export default function Matches() {
                                 </h1> 
                             }
                             <div className='match-details__summary__scorers'>
-                                {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{oppScorersOutput}</div> }
-                                {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{oppScorersOutput}</div> }
+                                {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
+                                {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
                             </div>
                             <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                             <p><strong>Competition:</strong> {m.competition}</p>

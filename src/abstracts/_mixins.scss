@@ -31,17 +31,17 @@
             down: $size/$gradient solid transparent,
         ), $direction);
         @if $direction == 'down' {
-            top: $rem--one + $rem--quarter/2;
+            top: $rem--one + $rem--quarter;
         } @else {
-            bottom: $rem--one;
+            bottom: $rem--one + $rem--quarter/2;
         }
     }
 }
 
 // Base classes using mixins
 .circle {
-    @include circle($gray80, 50px);
+    @include circle($gray8, 50px);
     &:hover {
-        background-color: $gray70;
+        background-color: $gray7;
     }
 }

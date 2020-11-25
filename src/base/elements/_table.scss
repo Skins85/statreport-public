@@ -5,7 +5,7 @@ table {
 table {
     border-collapse: collapse;
     margin: $rem--one 0 $rem--one-half;
-    border: $border-fine solid $gray20;
+    border: $border-fine solid $gray2;
     overflow-x: scroll;
 
     thead {
@@ -15,7 +15,7 @@ table {
     }
     
     tr {
-        border-top: $border-fine solid $gray20;
+        border-top: $border-fine solid $gray2;
         td, th {
             padding: $rem--half $rem--half;
         }
@@ -32,7 +32,7 @@ table {
     tbody {
         tr {
             &:hover {
-                background: $gray10;
+                background: $gray1;
             }
             td {
                 &[data-type='num'] {
@@ -42,9 +42,10 @@ table {
                     text-align: left;
                 }
             }
-            // &:last-child {
-            //     background: $gray20;
-            // }
+            &.total {
+                background: $gray2;
+                font-weight: 700;
+            }
         }
     }
 }

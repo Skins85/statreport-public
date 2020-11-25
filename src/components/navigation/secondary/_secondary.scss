@@ -1,11 +1,11 @@
 .navigation--secondary {
     background-color: $gray10;
     ul {
-        border-bottom: $border-narrow solid $gray70;
+        border-bottom: $border-narrow solid $gray7;
         flex-basis: 100%;
         li {
             a {
-                color: $gray100;
+                color: $gray1;
             }
             &:not(:first-child) {
                 margin-left: $rem--threequarters;

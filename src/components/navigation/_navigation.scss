@@ -15,7 +15,7 @@
 
     @media screen and (max-width: $mobile) {
         grid-column: 1/-1;
-        background-color: $gray100;
+        background-color: $gray10;
     }
 
     &[data-toggle-open = 'true'] {
@@ -34,7 +34,7 @@
                     .primary-navigation__link {
                         flex: 1;
                         &[data-toggle-open = 'true'] {
-                            background-color: $gray30;
+                            background-color: $gray3;
                             font-weight: 900;
                             color: black;
                         }
@@ -43,19 +43,19 @@
                         flex: 0;
                         border: 0;
                         padding: 0 1rem;
-                        background: $gray90;
+                        background: $gray9;
                         color: white;
                         font-size: $rem--two;
                         &:hover {
                             cursor: pointer;
-                            background-color: $gray40;
+                            background-color: $gray4;
                         }
                         &:last-of-type {
                             border-width: 1px;
                         }
                         &[data-section-open='true'] {
                             padding: 0 1.25rem;
-                            background-color: $gray30;
+                            background-color: $gray3;
                             color: black;
                         }
                     }
@@ -63,7 +63,7 @@
                         flex-basis: 100%;
                         &[data-toggle-open = 'true'] {
                             li {
-                                background-color: $gray10;
+                                background-color: $gray1;
                                 a {
                                     color: black
                                 }
@@ -99,16 +99,16 @@
     li {
         z-index: 9;
         &:hover {
-            background-color: $gray40;
+            background-color: $gray4;
             color: $blue80;
             @media screen and (min-width: $mobile) {
                 .secondary-navigation {
                     display: block;
                     height: 0;
                     li {
-                        background-color: $gray60;
+                        background-color: $gray6;
                         &:hover {
-                            background-color: $gray40;
+                            background-color: $gray4;
                         }
                     }
                 }
@@ -131,15 +131,15 @@
         }
         @media screen and (max-width: $mobile) {
             li {
-                background-color: $gray90;
+                background-color: $gray9;
             }
-            background: $gray90;
+            background: $gray9;
             &:not(.primary-navigation__toggle) {
                 display: none;
             }
             &.primary-navigation__toggle {
                 display: block;
-                background-color: $gray100;
+                background-color: $gray10;
             }
         }
     }

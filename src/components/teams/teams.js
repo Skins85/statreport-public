@@ -507,12 +507,13 @@ export default function Teams(props) {
                                             goalsAgainst={awayGoalsAgainst}
                                         />
                                         <ResultsSummary
+                                            class='total'
                                             label='Total'
                                             played={wins + draws + losses}
                                             wins={wins}
                                             draws={draws}
                                             losses={losses}
-                                            goalsFor={homeGoalsFor + homeGoalsAgainst}
+                                            goalsFor={homeGoalsFor + awayGoalsFor}
                                             goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
                                         />
                                     </tbody>

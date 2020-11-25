@@ -2,7 +2,10 @@ import React from 'react';
 
 const resultsSummary = (props) => {
     return (
-        <tr key={props.id}>
+        <tr 
+            key={props.id}
+            className={props.class}
+        >
             <td>{props.label}</td>
             <td>{props.played}</td>
             <td>{props.wins}</td>
