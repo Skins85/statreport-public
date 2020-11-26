@@ -10,7 +10,6 @@
     display: grid;
     .match-details__summary {
         background-image: linear-gradient($gray2, $gray1);
-        margin-top: $rem--one;
         padding: $rem--one;
         text-align: center;
         .match-details__summary__title,
@@ -20,18 +19,28 @@
         h1 {
             margin-top: $rem--one;
             @include grid(14);
+            overflow-wrap: break-word;
         }
         .match-details__summary__team-home,
         .match-details__summary__scorers__home {
             grid-column: 2/7;
+            @media screen and (max-width: $tablet) {
+                grid-column: 1/6;
+            }
             text-align: right;
         }
         .match-details__summary__score {
             grid-column: 7/9;
+            @media screen and (max-width: $tablet) {
+                grid-column: 6/9;
+            }
         }
         .match-details__summary__team-away,
         .match-details__summary__scorers__away {
             grid-column: 9/-2;
+            @media screen and (max-width: $tablet) {
+                grid-column: 9/-1;
+            }
             text-align: left;
         }
     }

@@ -80,6 +80,7 @@ export default function Matches() {
         params = new URLSearchParams(search),
         matchId = params.get('m'),
         filteredMatches,
+        filteredMatchesSeason,
         DR__filteredScorers,
         OPP__filteredOppScorers,
         player_1,
@@ -128,12 +129,20 @@ export default function Matches() {
         OPP__ScorersOutput;
 
     if (matches && scorers && oppScorers && matchId) {
-        filteredMatches = matches.filter(function(match) {
-            return (
-                match.match_id === matchId
-            )
-        });
+        filteredMatches = matches.filter((match) => match.match_id === matchId);
+        
+        // Target match data
         m = filteredMatches[0]; 
+
+        // If league match, get that season's league data and filter up to current game
+        if (m.competition === 'League') {
+            filteredMatchesSeason = matches.filter((match) => match.season === m.season);
+            let matchIdParts = m.match_id.split('-');
+            let [matchNumber] = matchIdParts.slice(-1);
+            let formattedMatchNumber = parseInt(matchNumber);
+            console.log(filteredMatchesSeason);
+        }
+        
         DR__filteredScorers = scorers.filter(function(match) {
             return (
                 match.match_id === matchId
