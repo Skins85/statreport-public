@@ -82,6 +82,7 @@ export default function Matches() {
         matchId = params.get('m'),
         filteredMatches,
         filteredMatchesSeason,
+        filteredMatchesSeasonToDate = [],
         DR__filteredScorers,
         OPP__filteredOppScorers,
         player_1,
@@ -141,6 +142,11 @@ export default function Matches() {
             let matchIdParts = m.match_id.split('-');
             let [matchNumber] = matchIdParts.slice(-1);
             let formattedMatchNumber = parseInt(matchNumber);
+
+            // Reverse array and slice array data to capture data to that point in season
+            filteredMatchesSeason.reverse().slice([0], [formattedMatchNumber]).map((item, i) => {
+                filteredMatchesSeasonToDate.push(item);
+            });
         }
         
         DR__filteredScorers = scorers.filter(function(match) {
@@ -496,7 +502,7 @@ export default function Matches() {
                                 </h1> 
                             }
                             <ResultsSummary
-                                data={filteredMatchesSeason}
+                                data={filteredMatchesSeasonToDate}
                             />
                             <div className='match-details__summary__scorers'>
                                 {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
