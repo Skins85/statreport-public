@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import MatchPlayer from './match-player';
 import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
+import ResultsSummary from '../result/result-summary';
 import Spinner from '../ui/spinner/spinner';
 import axios from 'axios';
 import { nameFormat } from '../../util';
@@ -136,11 +137,10 @@ export default function Matches() {
 
         // If league match, get that season's league data and filter up to current game
         if (m.competition === 'League') {
-            filteredMatchesSeason = matches.filter((match) => match.season === m.season);
+            filteredMatchesSeason = matches.filter((match) => match.season === m.season && match.competition === 'League');
             let matchIdParts = m.match_id.split('-');
             let [matchNumber] = matchIdParts.slice(-1);
             let formattedMatchNumber = parseInt(matchNumber);
-            console.log(filteredMatchesSeason);
         }
         
         DR__filteredScorers = scorers.filter(function(match) {
@@ -495,6 +495,9 @@ export default function Matches() {
                                     <span className='match-details__summary__team-away'>{nameFormat(m.team_away)}</span>
                                 </h1> 
                             }
+                            <ResultsSummary
+                                data={filteredMatchesSeason}
+                            />
                             <div className='match-details__summary__scorers'>
                                 {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
                                 {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
