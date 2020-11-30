@@ -5,11 +5,14 @@ const resultsSummary = (props) => {
         draws = 0,
         losses = 0,
         goalsFor = 0,
-        goalsAgainst = 0;
+        goalsAgainst = 0,
+        goalDifference,
+        leaguePosition = [];
 
         if (props.data) {
-            console.log(props.data)
+            // console.log(props.data)
             for (const m of props.data) {
+                leaguePosition.push(m.league_position);
                 
                 if (m.team_home === 'Dagenham & Redbridge') {
                     
@@ -49,13 +52,15 @@ const resultsSummary = (props) => {
             key={props.id}
             className={props.class}
         >
-            <td>{props.label}</td>
-            <td>{props.played}</td>
+            {props.label ? <td>{props.label}</td> : null}
+            {props.displayPosition ? <td>{leaguePosition.pop()}</td> : null}
+            <td>{props.played ? props.played : props.data.length}</td>
             <td>{props.wins ? props.wins : wins}</td>
             <td>{props.draws ? props.draws : draws}</td>
             <td>{props.losses ? props.losses : losses}</td>
             <td>{props.goalsFor ? props.goalsFor : goalsFor}</td>
             <td>{props.goalsAgainst ? props.goalsAgainst : goalsAgainst}</td>
+            {props.goalDifference ? <td>{props.goalDifference}</td> : <td>{goalsFor-goalsAgainst}</td>}
         </tr>
     )
 }

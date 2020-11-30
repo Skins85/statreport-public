@@ -501,9 +501,6 @@ export default function Matches() {
                                     <span className='match-details__summary__team-away'>{nameFormat(m.team_away)}</span>
                                 </h1> 
                             }
-                            <ResultsSummary
-                                data={filteredMatchesSeasonToDate}
-                            />
                             <div className='match-details__summary__scorers'>
                                 {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
                                 {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
@@ -635,6 +632,27 @@ export default function Matches() {
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                         <p><strong>League position</strong> {m.league_position}</p>
                         <p><strong>Referee</strong> {m.referee}</p>
+
+                        <h2>League position</h2>
+                        <p>{nameFormat('Dagenham & Redgridge')}'s position after this game.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>P</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>F</th>
+                                    <th>A</th>
+                                    <th>GD</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <ResultsSummary
+                                data={filteredMatchesSeasonToDate}
+                                displayPosition
+                            />
+                        </table>
                     </div>
                 </div>
             </React.Fragment>
