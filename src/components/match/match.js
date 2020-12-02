@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
 import ResultsSummary from '../result/result-summary';
 import Spinner from '../ui/spinner/spinner';
+import Table from '../hoc/table/table';
 import axios from 'axios';
 import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
@@ -634,25 +635,16 @@ export default function Matches() {
                         <p><strong>Referee</strong> {m.referee}</p>
 
                         <h2>League position</h2>
-                        <p>{nameFormat('Dagenham & Redgridge')}'s position after this game.</p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Pos</th>
-                                    <th>P</th>
-                                    <th>W</th>
-                                    <th>D</th>
-                                    <th>F</th>
-                                    <th>A</th>
-                                    <th>GD</th>
-                                    <th>Pts</th>
-                                </tr>
-                            </thead>
+                        <p>{nameFormat('Dagenham & Redbridge')}'s position after this game.</p>
+                        <Table className='text-align--right width--75'>
                             <ResultsSummary
                                 data={filteredMatchesSeasonToDate}
+                                displayHeader
                                 displayPosition
+                                displayGoalDifference
+                                displayPoints
                             />
-                        </table>
+                        </Table>
                     </div>
                 </div>
             </React.Fragment>

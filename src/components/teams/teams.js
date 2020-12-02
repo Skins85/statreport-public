@@ -475,20 +475,13 @@ export default function Teams(props) {
                                     <h2>Results</h2>
                                 </div>
                                 <p>Summary of overall record against {opponent}.</p>
-                                <Table className='text-align--right width--75'>
-                                    <thead>
-                                        <tr>
-                                            <th />
-                                            <th>P</th>
-                                            <th>W</th>
-                                            <th>D</th>
-                                            <th>L</th>
-                                            <th>F</th>
-                                            <th>A</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                <Table 
+                                    className='text-align--right width--75'
+                                    displayHeader
+                                >
                                         <ResultsSummary
+                                            className='text-align--right width--75'
+                                            displayHeader
                                             label='Home'
                                             played={homeWins + homeDraws + homeLosses}
                                             wins={homeWins}
@@ -516,7 +509,6 @@ export default function Teams(props) {
                                             goalsFor={homeGoalsFor + awayGoalsFor}
                                             goalsAgainst={homeGoalsAgainst + awayGoalsAgainst}
                                         />
-                                    </tbody>
                                 </Table>
                             </section>
                             <section id='section--results'>
