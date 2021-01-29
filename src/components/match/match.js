@@ -17,6 +17,7 @@ export default function Matches() {
     const [data, setData] = useState({});
     const [playerData, setPlayerData] = useState({});
     const [scorersData, setScorersData] = useState({});
+    const [ownGoalsData, setOwnGoalsData] = useState({});
     const [oppositionScorersData, setOppositionScorersData] = useState({});
     const [location, setLocation] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -63,6 +64,13 @@ export default function Matches() {
             })
 
             await api({
+                url: 'https://www.statreport.co.uk/api/json/data-scorers-own-goals.php',
+                method: 'get'
+            }).then(async (response) => {
+                setOwnGoalsData(response.data);
+            })
+
+            await api({
                 url: 'https://www.statreport.co.uk/api/json/data-scorers-opposition.php',
                 method: 'get'
             }).then(async (response) => {
@@ -77,6 +85,7 @@ export default function Matches() {
     let matches = data.results,
         players = playerData.results,
         scorers = scorersData.results,
+        ownGoals = ownGoalsData.results,
         oppScorers = oppositionScorersData.results,
         search = window.location.search,
         params = new URLSearchParams(search),
@@ -132,9 +141,12 @@ export default function Matches() {
         OPP__ScorersOutput;
 
     if (matches && scorers && oppScorers && matchId) {
-        filteredMatches = matches.filter((match) => match.match_id === matchId);
-        
+
+        // Get all scorers data; D&R scorers with own goals scorers
+        scorers = scorers.concat(ownGoals);
+
         // Target match data
+        filteredMatches = matches.filter((match) => match.match_id === matchId);
         m = filteredMatches[0]; 
 
         // If league match, get that season's league data and filter up to current game
@@ -223,6 +235,11 @@ export default function Matches() {
                 createOppScorerObject(m);
             }
 
+            // Order opposition goalscorers by earliest first
+            OPP__ScorerObjArr.sort(function(a, b) {
+                return a['goals'][0] - b['goals'][0]
+            });
+
             OPP__ScorersOutput = OPP__ScorerObjArr.map((data, index) => {
                 return (
                     <React.Fragment>
@@ -292,24 +309,35 @@ export default function Matches() {
                     };
 
                     if (player.id === player_id) {
-                        scorerObj.surname = player.surname;
+                        if (player.surname) {
+                            scorerObj.surname = player.surname;
+                        } else {
+                            scorerObj.surname = `${player.id} (o.g.)`;
+                        }
                         scorerObj.goals.push(player.goal_time);
                     }
                     
                 }, []);
 
                 scorerObjArr.push(scorerObj);
+                
             }
+
 
             // Loop scorers and create unique scorer objects
             for (const m in DR__map) {
                 createScorerObject(m);
             }
+            
+            // Order goalscorers by earliest first
+            scorerObjArr.sort(function(a, b) {
+                return a['goals'][0] - b['goals'][0]
+            });
 
             DR__scorersOutput = scorerObjArr.map((data, index) => {
                 return (
                     <React.Fragment>
-                        <p>{data.surname}&nbsp;(
+                        <p>{data.surname ? data.surname : data.id}&nbsp;(
                             {data.goals.map((d,index) => {
                                 return (
                                     <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
