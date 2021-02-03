@@ -659,20 +659,24 @@ export default function Matches() {
                         
                         <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
                         {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
-                        <p><strong>League position</strong> {m.league_position}</p>
-                        <p><strong>Referee</strong> {m.referee}</p>
+                        {m.competition === 'League' ? <p><strong>League position</strong> {m.league_position}</p> : null}
+                        {m.referee ? <p><strong>Referee</strong> {m.referee}</p> : null}
 
-                        <h2>League position</h2>
-                        <p>{nameFormat('Dagenham & Redbridge')}'s position after this game.</p>
-                        <Table className='text-align--right width--75'>
-                            <ResultsSummary
-                                data={filteredMatchesSeasonToDate}
-                                displayHeader
-                                displayPosition
-                                displayGoalDifference
-                                displayPoints
-                            />
-                        </Table>
+                        {m.competition === 'League' ?
+                            <React.Fragment>
+                                <h2>League position</h2>
+                                <p>{nameFormat('Dagenham & Redbridge')}'s position after this game.</p>
+                                <Table className='text-align--right width--75'>
+                                    <ResultsSummary
+                                        data={filteredMatchesSeasonToDate}
+                                        displayHeader
+                                        displayPosition
+                                        displayGoalDifference
+                                        displayPoints
+                                    />
+                                </Table>
+                            </React.Fragment>
+                        : null}                        
                     </div>
                 </div>
             </React.Fragment>
