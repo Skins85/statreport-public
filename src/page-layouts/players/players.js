@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {groupArrayOfObjects, nameFormat} from '../../util';
 
 import Banner from '../../components/banner/banner';
+import DataContext from '../../components/data-context/data-context';
 import Input from '../../components/form/ui/input/input';
 import Player from '../../components/player/player';
 import PlayerResults from '../../components/player/player-results';
@@ -393,6 +394,7 @@ class Players extends Component {
                         />
                         <div className='wrapper--content__inpage'>
                             <p>Dagenham & Redbridge players ordered by number of appearances.</p>
+                            <DataContext />
                             <div className='wrapper--input'>
                                 <Input 
                                     inputType={`text`} 

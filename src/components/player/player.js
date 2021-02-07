@@ -1,5 +1,6 @@
 import 'moment-timezone';
 
+import DataContext from '../data-context/data-context';
 import Moment from 'react-moment';
 import React from 'react';
 import { nameFormat } from '../../util';
@@ -9,6 +10,7 @@ const player = (props) => {
     return (
         <div>
             <h1 key={props.id}>{props.name}</h1>
+            <DataContext />
             <p>
                 <span>
                     <strong>Debut: </strong>

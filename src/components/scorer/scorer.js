@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import DataContext from '../data-context/data-context';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
@@ -169,6 +170,7 @@ export default function Scorers() {
                 <React.Fragment>
                     <div className='wrapper--content__inpage'>
                         <h1>Goalscorers</h1>
+                        <DataContext />
                         <Select 
                             labelText={`Season`} 
                             selectName={`results.season`} 
