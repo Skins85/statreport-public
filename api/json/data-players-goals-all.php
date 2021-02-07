@@ -3,54 +3,64 @@
 
     include '../../config/db.php';
 
+    $season_exclude = '2012-13';
+
     $stmt = $conn->prepare(
-        "SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_1_scorer AS scorer_id, season, drfc_goal_1_minute AS goal_time
+        "SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_1_scorer AS scorer_id, season, drfc_goal_1_minute AS goal_time
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_1_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_1_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_2_scorer, season, drfc_goal_2_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_2_scorer, season, drfc_goal_2_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_2_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_2_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_3_scorer, season, drfc_goal_3_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_3_scorer, season, drfc_goal_3_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_3_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_3_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_4_scorer, season, drfc_goal_4_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_4_scorer, season, drfc_goal_4_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_4_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_4_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_5_scorer, season, drfc_goal_5_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_5_scorer, season, drfc_goal_5_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_5_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_5_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_6_scorer, season, drfc_goal_6_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_6_scorer, season, drfc_goal_6_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_6_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_6_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_7_scorer, season, drfc_goal_7_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_7_scorer, season, drfc_goal_7_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_7_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
         WHERE NOT s_drfc_goal_7_scorer=''
+        AND season != '$season_exclude'
         union all
-      SELECT first_name, surname, match_scorers.match_id, s_drfc_goal_8_scorer, season, drfc_goal_8_minute
+      SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_8_scorer, season, drfc_goal_8_minute
         from match_scorers
         INNER JOIN drfc_players ON match_scorers.s_drfc_goal_8_scorer = drfc_players.player_id
         INNER JOIN results ON match_scorers.match_id = results.match_id
-        WHERE NOT s_drfc_goal_8_scorer=''"
+        WHERE NOT s_drfc_goal_8_scorer=''
+        AND season != '$season_exclude'"
     );
     $stmt->execute();
 

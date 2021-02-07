@@ -14,8 +14,13 @@
                 `attendance`,
                 `home_goals`,
                 `away_goals`
-            FROM `results`
-            WHERE `competition` = 'League' AND `team_home` = 'Dagenham & Redbridge' ORDER BY `date`"
+            FROM 
+                `results`
+            WHERE 
+                `competition` = 'League' 
+            AND 
+                `team_home` = 'Dagenham & Redbridge' 
+            ORDER BY `date`"
         );
         $stmt->execute();
 
