@@ -21,6 +21,7 @@ export default function Teams(props) {
     const [teamsData, setTeamsData] = useState({});
     const [homeMatchesData, sethomeMatchesData] = useState({});
     const [awayMatchesData, setawayMatchesData] = useState({});
+    const [allMatchesData, setAllMatchesData] = useState({});
     const [goalsData, setGoalsData] = useState({});
     const [allScorersShow, setAllScorersShow] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -52,6 +53,13 @@ export default function Teams(props) {
                 method: 'get'
             }).then(async (response) => {
                 setTeamsData(response.data);
+            })
+
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+                method: 'get'
+            }).then(async (response) => {
+                setAllMatchesData(response.data);
             })
 
             await api({
@@ -145,8 +153,6 @@ export default function Teams(props) {
         e.target.value === 'all' ? setMatchDisplayNumber((filteredTeam.length + 1)) : setMatchDisplayNumber(e.target.value);
     }
 
-    
-    
     // If teams data returned
     if (teams) {
         // TDD test
@@ -625,8 +631,27 @@ export default function Teams(props) {
 
             if (teams) {
 
+                // Create array of unique team objects
+                let teamsObjAllArr = [];
+                for (const h of homeMatches) {
+                    teamsObjAllArr.push({
+                        team_id: h.opponent_id,
+                        team_name: h.team_away,
+                    });
+                } 
+                for (const h of awayMatches) {
+                    teamsObjAllArr.push({
+                        team_id: h.opponent_id,
+                        team_name: h.team_home,
+                    });
+                }
+                const uniqueTeams = Array.from(new Set(teamsObjAllArr.map(a => a.team_id)))
+                    .map(id => {
+                        return teamsObjAllArr.find(a => a.team_id === id)
+                }) 
+
                 // Filter results based on search input
-                let filteredTeamResults = teams.filter(
+                let filteredTeamResults = uniqueTeams.filter(
                     (name) => {
                         return name.team_name.toLowerCase().indexOf(teamSearchText) !== -1
                     }
