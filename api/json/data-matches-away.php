@@ -8,6 +8,7 @@
           "SELECT * FROM results
           INNER JOIN teams 
           ON results.team_home = teams.team_name
+          INNER JOIN attendances ON results.match_id = attendances.attendance_id
           WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
           ORDER BY season DESC"
         );

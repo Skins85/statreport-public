@@ -8,7 +8,8 @@
           "SELECT * FROM results
           INNER JOIN teams 
           ON results.team_away = teams.team_name
-          WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
+          INNER JOIN attendances ON results.match_id = attendances.attendance_id
+          WHERE team_id != 'dagenham-and-redbridge' AND season != '2012-13'
           ORDER BY season DESC"
         );
         $stmt->execute();

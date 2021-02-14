@@ -2,6 +2,7 @@
     header('Content-Type: application/json');
 
     include '../../config/db.php';
+    $season_exclude = '2012-13';
 
         $stmt = $conn->prepare(
           "SELECT 
@@ -11,15 +12,21 @@
                 `team_home`, 
                 `team_away`, 
                 `competition`, 
-                `attendance`,
                 `home_goals`,
-                `away_goals`
+                `away_goals`,
+                `attendance`,
+                `attendance_away`
             FROM 
                 `results`
+            INNER JOIN 
+                `attendances` 
+                ON results.match_id = attendances.attendance_id
             WHERE 
                 `competition` = 'League' 
             AND 
                 `team_home` = 'Dagenham & Redbridge' 
+            AND
+                `season` != '$season_exclude'
             ORDER BY `date`"
         );
         $stmt->execute();

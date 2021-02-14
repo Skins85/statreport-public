@@ -7,12 +7,14 @@
         $stmt = $conn->prepare(
           "SELECT * 
             FROM results
-            INNER JOIN teams ON results.team_home = teams.team_name 
+            INNER JOIN teams ON results.team_home = teams.team_name
+            INNER JOIN attendances ON results.match_id = attendances.attendance_id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
             UNION
           SELECT * 
             FROM results
             INNER JOIN teams ON results.team_away = teams.team_name 
+            INNER JOIN attendances ON results.match_id = attendances.attendance_id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
           ORDER BY date DESC"
         );
