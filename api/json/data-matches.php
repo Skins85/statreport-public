@@ -8,13 +8,13 @@
           "SELECT * 
             FROM results
             INNER JOIN teams ON results.team_home = teams.team_name
-            INNER JOIN attendances ON results.match_id = attendances.attendance_id
+            INNER JOIN attendances ON results.match_id = attendances.match_id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
             UNION
           SELECT * 
             FROM results
             INNER JOIN teams ON results.team_away = teams.team_name 
-            INNER JOIN attendances ON results.match_id = attendances.attendance_id
+            INNER JOIN attendances ON results.match_id = attendances.match_id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
           ORDER BY date DESC"
         );
@@ -64,7 +64,7 @@
                 'sub_3_minute'=>$row['sub_3_minute'],
                 'sub_4_minute'=>$row['sub_4_minute'],
                 'sub_5_minute'=>$row['sub_5_minute'],
-                'attendance'=>$row['attendance'],
+                'attendance'=>$row['attendance_total'],
                 'attendance_away'=>$row['attendance_away'],
                 'league_position'=>$row['league_position'],
                 'referee'=>$row['referee']

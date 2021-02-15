@@ -8,7 +8,7 @@
           "SELECT * FROM results
           INNER JOIN teams 
           ON results.team_away = teams.team_name
-          INNER JOIN attendances ON results.match_id = attendances.attendance_id
+          INNER JOIN attendances ON results.match_id = attendances.match_id
           WHERE team_id != 'dagenham-and-redbridge' AND season != '2012-13'
           ORDER BY season DESC"
         );
@@ -42,7 +42,7 @@
                 'sub_3'=>$row['sub_3'],
                 'sub_4'=>$row['sub_4'],
                 'sub_5'=>$row['sub_5'],
-                'attendance'=>$row['attendance'],
+                'attendance'=>$row['attendance_total'],
                 'attendance_away'=>$row['attendance_away'],
                 'league_position'=>$row['league_position'],
                 'referee'=>$row['referee']

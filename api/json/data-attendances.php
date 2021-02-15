@@ -6,7 +6,7 @@
 
         $stmt = $conn->prepare(
           "SELECT 
-                `match_id`, 
+                results.match_id, 
                 `season`, 
                 `date`, 
                 `team_home`, 
@@ -14,13 +14,13 @@
                 `competition`, 
                 `home_goals`,
                 `away_goals`,
-                `attendance`,
+                `attendance_total`,
                 `attendance_away`
             FROM 
                 `results`
             INNER JOIN 
                 `attendances` 
-                ON results.match_id = attendances.attendance_id
+                ON results.match_id = attendances.match_id
             WHERE 
                 `competition` = 'League' 
             AND 
@@ -41,7 +41,7 @@
                 'goals_away'=>$row['away_goals'],
                 'team_away'=>$row['team_away'],
                 'competition'=>$row['competition'],
-                'attendance'=>$row['attendance']
+                'attendance'=>$row['attendance_total']
             );
         }
         echo '{"results":';

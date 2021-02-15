@@ -35,6 +35,7 @@ app.post('/admin/add-result-complete', (req, res) => {
   console.log(resultsData);
   util.targetTableInsert(resultsData, 'results');
   util.targetTableInsert(resultsData, 'match_scorers');
+  util.targetTableInsert(resultsData, 'attendances');
   res.end();
 });
 

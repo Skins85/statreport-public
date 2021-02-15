@@ -435,7 +435,7 @@ class Form extends Component {
                                 <Input 
                                     labelRequired 
                                     labelText={`Match ID`} 
-                                    inputName={`results.match_scorers.match_id`} 
+                                    inputName={`results.match_scorers.attendances.match_id`} 
                                 />
                                 <Input 
                                     labelRequired 
@@ -550,12 +550,12 @@ class Form extends Component {
                             </Select>
                             <Input 
                                 labelText={`Attendance`} 
-                                inputName={`results.attendance`} 
+                                inputName={`attendances.attendance_total`} 
                                 labelRequired 
                             />
                             <Input 
                                 labelText={`Attendance (away)`} 
-                                inputName={`results.attendance_away`} 
+                                inputName={`attendances.attendance_away`} 
                                 labelRequired 
                             />
                             <Select 
