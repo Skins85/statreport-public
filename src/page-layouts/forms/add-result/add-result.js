@@ -6,6 +6,7 @@ import RoundOptions from '../../../components/form/options/round';
 import SeasonOptions from '../../../components/form/options/season';
 import Select from '../../../components/form/ui/select/select';
 import auth from '../../../config/auth';
+import {filterArrayofObjects} from '../../../util';
 
 class Form extends Component {
 
@@ -14,6 +15,7 @@ class Form extends Component {
 		this.state = {
             data: '',
             playersData: '',
+            snippetsData: '',
             season: '2020-21',
             homeTeam: '',
             awayTeam: '',
@@ -125,6 +127,9 @@ class Form extends Component {
         fetch(`/players`)
             .then(response => response.json())
             .then(playersData => this.setState({playersData}));
+        fetch(`/snippets`)
+            .then(response => response.json())
+            .then(snippetsData => this.setState({snippetsData}));
 
         let roundSelect = document.getElementById(`round-select`);
         if (this.state.competition !== 'League') {
@@ -414,6 +419,24 @@ class Form extends Component {
                     </option>
                 )
             }
+
+            // Snippets
+            let snippets = this.state.snippetsData.snippets;
+            let attendanceSnippets = filterArrayofObjects(snippets, 'section', 'Attendances')
+            // Build teams select options
+            let attendanceSnippetsOptions;
+            if (attendanceSnippets) {
+                attendanceSnippetsOptions = attendanceSnippets.map(a => {
+                    return <option 
+                                key={a.id} 
+                                value={a.id}
+                                name={a.id}
+                            >
+                                {a.name}
+                            </option>
+                });
+            }
+            console.log(attendanceSnippets)
         
             return (
                 <div className="add-result">
@@ -558,6 +581,20 @@ class Form extends Component {
                                 inputName={`attendances.attendance_away`} 
                                 labelRequired 
                             />
+                            <Input
+                                inputType={`checkbox`} 
+                                labelText={`Exclude attendance from feeds?`} 
+                                inputName={`attendances.exclude`} 
+                                inputValue={`1`}
+                                labelRequired
+                            />
+                            <Select 
+                                labelText={`Attendance note`} 
+                                selectName={`attendances.note`}
+                            >
+                                <option value="" selected disabled hidden>Attendance note</option>
+                                {attendanceSnippetsOptions} 
+                            </Select>
                             <Select 
                                 labelText={`League position`} 
                                 selectName={`results.league_position`}

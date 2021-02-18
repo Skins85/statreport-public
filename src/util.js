@@ -55,7 +55,7 @@ const objectInstancesToArray = (obj, arr, sort) => {
  * @param {String} val - The value to filter on.
  **/
 const filterArrayofObjects = (data, key, val) => {
-    return data.filter((r) => r[key] === val);
+    return data ? data.filter((r) => r[key] === val) : null;
 }
 
 const toggleState = (el, setStateRef, value, defaultText, toggledText) => {
