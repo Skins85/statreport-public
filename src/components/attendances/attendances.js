@@ -67,6 +67,9 @@ export default function Attendances() {
         top10,
         bottom10;
 
+        // Feed exclude
+        // This match is omitted from attendance records and average attendance calculations.
+
     // Change chart data on season selected
     let seasonChange = e => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);

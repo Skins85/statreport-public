@@ -15,7 +15,8 @@
                 `home_goals`,
                 `away_goals`,
                 `attendance_total`,
-                `attendance_away`
+                `attendance_away`,
+                `attendance_calc_exclude`
             FROM 
                 `results`
             INNER JOIN 
@@ -27,6 +28,8 @@
                 `team_home` = 'Dagenham & Redbridge' 
             AND
                 `season` != '$season_exclude'
+            AND
+                `attendance_calc_exclude` = 0
             ORDER BY `date`"
         );
         $stmt->execute();

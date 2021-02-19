@@ -584,7 +584,7 @@ class Form extends Component {
                             <Input
                                 inputType={`checkbox`} 
                                 labelText={`Exclude attendance from feeds?`} 
-                                inputName={`attendances.exclude`} 
+                                inputName={`attendances.attendance_calc_exclude`} 
                                 inputValue={`1`}
                                 labelRequired
                             />
