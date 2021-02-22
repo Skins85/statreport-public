@@ -5,16 +5,18 @@
     $season_exclude = '2012-13';
 
         $stmt = $conn->prepare(
-          "SELECT * 
+          "SELECT results.*, snippets.text AS attendance_note
             FROM results
             INNER JOIN teams ON results.team_home = teams.team_name
             INNER JOIN attendances ON results.match_id = attendances.match_id
+            INNER JOIN snippets ON attendances.attendance_note = snippets.id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
             UNION
-          SELECT * 
+          SELECT results.*, snippets.text AS attendance_note
             FROM results
             INNER JOIN teams ON results.team_away = teams.team_name 
             INNER JOIN attendances ON results.match_id = attendances.match_id
+            INNER JOIN snippets ON attendances.attendance_note = snippets.id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
           ORDER BY date DESC"
         );
@@ -66,6 +68,7 @@
                 'sub_5_minute'=>$row['sub_5_minute'],
                 'attendance'=>$row['attendance_total'],
                 'attendance_away'=>$row['attendance_away'],
+                'attendance_note'=>$row['attendance_note'],
                 'league_position'=>$row['league_position'],
                 'referee'=>$row['referee']
             );

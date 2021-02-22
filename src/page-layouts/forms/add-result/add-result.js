@@ -590,7 +590,7 @@ class Form extends Component {
                             />
                             <Select 
                                 labelText={`Attendance note`} 
-                                selectName={`attendances.note`}
+                                selectName={`attendances.attendance_note`}
                             >
                                 <option value="" selected disabled hidden>Attendance note</option>
                                 {attendanceSnippetsOptions} 

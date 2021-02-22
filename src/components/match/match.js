@@ -28,7 +28,6 @@ export default function Matches() {
             // Cache GET requests
             let cache;
             function cacheReq() {
-            
                 // Define cache adapter and manage properties
                 cache = setupCache({
                     maxAge: 15 * 60 * 1000
@@ -655,10 +654,10 @@ export default function Matches() {
                             : <p>No {nameFormat('Dagenham & Redbridge')} substitutes used in this match.</p>
                         }
                         </div>
-
                         
-                        <p><strong>Attendance</strong> {parseInt(m.attendance).toLocaleString()} 
-                        {m.attendance_away || parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
+                        <p><strong>Attendance</strong> {m.attendance !== null && parseInt(m.attendance) > 0 ? parseInt(m.attendance).toLocaleString() : null} 
+                        {m.attendance_away !== null && parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
+                        {m.attendance_note ? <p>{m.attendance_note} {m.team_home === 'Dagenham & Redbridge' ? 'This match is excluded from attendance records and average attendance calculations.' : null}</p> : null}
                         {m.competition === 'League' ? <p><strong>League position</strong> {m.league_position}</p> : null}
                         {m.referee ? <p><strong>Referee</strong> {m.referee}</p> : null}
 
