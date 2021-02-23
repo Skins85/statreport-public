@@ -9,14 +9,14 @@
             FROM results
             INNER JOIN teams ON results.team_home = teams.team_name
             INNER JOIN attendances ON results.match_id = attendances.match_id
-            INNER JOIN snippets ON attendances.attendance_note = snippets.id
+            LEFT OUTER JOIN snippets ON attendances.attendance_note = snippets.id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
             UNION
           SELECT results.*, snippets.text AS attendance_note
             FROM results
             INNER JOIN teams ON results.team_away = teams.team_name 
             INNER JOIN attendances ON results.match_id = attendances.match_id
-            INNER JOIN snippets ON attendances.attendance_note = snippets.id
+            LEFT OUTER JOIN snippets ON attendances.attendance_note = snippets.id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
           ORDER BY date DESC"
         );

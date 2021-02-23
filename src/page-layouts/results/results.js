@@ -32,11 +32,9 @@ class Results extends Component {
 
     // Season change handler
     seasonChange = (e) => {
-      console.log(e.target.value)
       this.setState({ 
         season: e.target.value
       });
-      console.log(this.state.season)
     }
 
     // Stay on page once form submitted
