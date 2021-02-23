@@ -5,14 +5,14 @@
     $season_exclude = '2012-13';
 
         $stmt = $conn->prepare(
-          "SELECT results.*, snippets.text AS attendance_note
+          "SELECT results.*, attendances.*, snippets.text AS attendance_note, teams.team_id
             FROM results
             INNER JOIN teams ON results.team_home = teams.team_name
             INNER JOIN attendances ON results.match_id = attendances.match_id
             LEFT OUTER JOIN snippets ON attendances.attendance_note = snippets.id
             WHERE team_id != 'dagenham-and-redbridge' AND season != '$season_exclude'
             UNION
-          SELECT results.*, snippets.text AS attendance_note
+          SELECT results.*, attendances.*, snippets.text AS attendance_note, teams.team_id
             FROM results
             INNER JOIN teams ON results.team_away = teams.team_name 
             INNER JOIN attendances ON results.match_id = attendances.match_id

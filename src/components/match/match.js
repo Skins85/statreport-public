@@ -495,6 +495,7 @@ export default function Matches() {
                 sub_4 = players.filter((p) => p.Player === m.sub_4 );
                 sub_4 = `${sub_4[0].first_name} ${sub_4[0].surname}`;
             }
+            console.log(m)
 
             document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
             
@@ -511,7 +512,7 @@ export default function Matches() {
                                     <span className='match-details__summary__score'>{m.goals_home}-{m.goals_away}</span>
                                     <Link 
                                         className='match-details__summary__team-away' 
-                                        to={m.opponent_id}
+                                        to={`../../teams/${m.opponent_id}`}
                                     >
                                         <span>
                                             {nameFormat(m.team_away)}
@@ -521,7 +522,7 @@ export default function Matches() {
                                 <h1 className='match-details__summary__title'>
                                     <Link 
                                         className='match-details__summary__team-home' 
-                                        to={m.opponent_id}
+                                        to={`../../teams/${m.opponent_id}`}
                                     >
                                         <span>{nameFormat(m.team_home)}</span>
                                     </Link>
