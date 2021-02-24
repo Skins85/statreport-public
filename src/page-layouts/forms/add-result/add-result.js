@@ -331,6 +331,16 @@ class Form extends Component {
                             <option value='' selected disabled hidden>{`Injury time (if applicable)`}</option>
                             {injuryTimeMinuteSelect}
                         </Select>
+                        <Select 
+                            selectId={`assists.goal_${i}_assist_player_id`} 
+                            key={`assist${i}`} 
+                            selectName={`assists.goal_${i}_assist_player_id`}goal_1_assist_player_id
+                            labelRequired 
+                            labelText={`Assist (if applicable)`} 
+                        >
+                            <option value='' selected disabled hidden>{`Select player name`}</option>
+                            {playersList}
+                        </Select>
                         <Input 
                             inputType={`checkbox`} 
                             labelRequired 
@@ -458,7 +468,7 @@ class Form extends Component {
                                 <Input 
                                     labelRequired 
                                     labelText={`Match ID`} 
-                                    inputName={`results.match_scorers.attendances.match_id`} 
+                                    inputName={`results.match_scorers.attendances.assists.match_id`} 
                                 />
                                 <Input 
                                     labelRequired 
