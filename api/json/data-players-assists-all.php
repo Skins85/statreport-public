@@ -3,64 +3,84 @@
 
     include '../../config/db.php';
 
+    $assistsQuery = '';
     $season_exclude = '2012-13';
 
+    // For later: dynamically create query by loop
+    // for ($i = 1; $i <= 8; $i++) {     
+    //     $assistsQuery.= "SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_".$i."_assist AS assister_id, drfc_goal_".$i."_minute AS goal_time ";
+    //     $assistsQuery.= "FROM match_scorers ";
+    //     $assistsQuery.= "INNER JOIN drfc_players ON match_scorers.s_drfc_goal_".$i."_scorer = drfc_players.player_id ";
+    //     $assistsQuery.= "INNER JOIN results ON match_scorers.match_id = results.match_id ";
+    //     $assistsQuery.= "WHERE NOT drfc_goal_".$i."_assist= '' ";
+    //     $assistsQuery.= "AND season != '$season_exclude' ";
+    //     $assistsQuery.= "UNION ALL ";
+    // }
+
     $stmt = $conn->prepare(
-        "SELECT first_name, surname, season, assists.match_id, goal_1_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_1_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_1_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_2_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_2_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_2_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_3_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_3_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_3_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_4_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_4_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_4_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_5_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_5_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_5_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_6_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_6_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_6_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_7_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_7_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_7_assist_player_id=''
-        AND season != '$season_exclude'
-        union all
-      SELECT first_name, surname, season, assists.match_id, goal_8_assist_player_id AS assister_id, season
-        from assists
-        INNER JOIN drfc_players ON assists.goal_8_assist_player_id = drfc_players.player_id
-        INNER JOIN results ON assists.match_id = results.match_id
-        WHERE NOT goal_8_assist_player_id=''
-        AND season != '$season_exclude'"
+        "SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_1_assist AS assister_id, drfc_goal_1_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_1_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_1_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_2_assist AS assister_id, drfc_goal_2_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_2_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_2_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_3_assist AS assister_id, drfc_goal_3_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_3_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_3_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_4_assist AS assister_id, drfc_goal_4_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_4_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_4_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_5_assist AS assister_id, drfc_goal_5_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_5_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_5_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_6_assist AS assister_id, drfc_goal_6_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_6_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_6_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_7_assist AS assister_id, drfc_goal_7_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_7_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_7_assist = '' AND season != '$season_exclude'
+            UNION ALL
+        SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_8_assist AS assister_id, drfc_goal_8_minute AS goal_time
+            FROM match_scorers
+            INNER JOIN drfc_players 
+                ON match_scorers.s_drfc_goal_8_scorer = drfc_players.player_id
+            INNER JOIN results 
+                ON match_scorers.match_id = results.match_id
+            WHERE NOT drfc_goal_8_assist = '' AND season != '$season_exclude'"
     );
     $stmt->execute();
 
@@ -70,6 +90,7 @@
             'surname'=>$row['surname'],
             'match_id'=>$row['match_id'],
             'assister_id'=>$row['assister_id'],
+            'goal_time'=>$row['goal_time'],
             'season'=>$row['season'],
         );
     }

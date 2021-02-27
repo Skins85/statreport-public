@@ -17,6 +17,7 @@ export default function Matches() {
     const [data, setData] = useState({});
     const [playerData, setPlayerData] = useState({});
     const [scorersData, setScorersData] = useState({});
+    const [assistsData, setAssistsData] = useState({});
     const [ownGoalsData, setOwnGoalsData] = useState({});
     const [oppositionScorersData, setOppositionScorersData] = useState({});
     const [location, setLocation] = useState({});
@@ -76,6 +77,14 @@ export default function Matches() {
                 setOppositionScorersData(response.data);
             })
 
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
+                method: 'get'
+            }).then(async (response) => {
+                setAssistsData(response.data);
+                console.log(response.data)
+            })
+
             await setDataLoaded(true);
         }
         fetchData();
@@ -84,6 +93,7 @@ export default function Matches() {
     let matches = data.results,
         players = playerData.results,
         scorers = scorersData.results,
+        assists = assistsData.results,
         ownGoals = ownGoalsData.results,
         oppScorers = oppositionScorersData.results,
         search = window.location.search,
@@ -93,6 +103,7 @@ export default function Matches() {
         filteredMatchesSeason,
         filteredMatchesSeasonToDate = [],
         DR__filteredScorers,
+        DR__filteredAssists,
         OPP__filteredOppScorers,
         player_1,
         player_2,
@@ -129,14 +140,19 @@ export default function Matches() {
         subbedOnPlayersCount = 0,
         m,
         DR__scorersGoalTimeArray = [],
+        DR__assistsGoalTimeArray = [],
         OPP__scorersGoalTimeArray = [],
         DR__scorersArray = [],
+        DR__assistsArray = [],
         OPP__ScorersArray = [],
         scorerObj = {},
+        assistObj = {},
         OPP__scorerObj = {},
         scorerObjArr = [],
+        assistObjArr = [],
         OPP__ScorerObjArr = [],
         DR__scorersOutput,
+        DR__assistsOutput,
         OPP__ScorersOutput;
 
     if (matches && scorers && oppScorers && matchId) {
@@ -167,6 +183,12 @@ export default function Matches() {
             )
         });
 
+        // DR__filteredAssists = assists.filter(function(match) {
+        //     return (
+        //         match.match_id === matchId
+        //     )
+        // });
+
         OPP__filteredOppScorers = oppScorers.filter(function(match) {
             return (
                 match.match_id === matchId
@@ -176,6 +198,10 @@ export default function Matches() {
         let DR__timeArrSplit = [],
             DR__updatedTimeArr = [],
             DR__map;
+
+        // let DR__assistsTimeArrSplit = [],
+        //     DR__updatedAssistsTimeArr = [],
+        //     DR__assistsMap;
 
         let OPP__timeArrSplit = [],
             OPP__updatedTimeArr = [],
@@ -351,6 +377,9 @@ export default function Matches() {
 
         // Call function to print Dag & Red scorers
         filterDRScorerData(DR__filteredScorers, DR__scorersArray, 'surname', DR__scorersGoalTimeArray, DR__scorersOutput);
+        
+        console.log(DR__filteredAssists)
+        // filterDRScorerData(DR__filteredAssists, DR__assistsOutput, 'surname', DR__assistsGoalTimeArray, DR__assistsOutput);
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
@@ -495,7 +524,6 @@ export default function Matches() {
                 sub_4 = players.filter((p) => p.Player === m.sub_4 );
                 sub_4 = `${sub_4[0].first_name} ${sub_4[0].surname}`;
             }
-            console.log(m)
 
             document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
             
