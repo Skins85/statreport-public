@@ -155,7 +155,7 @@ export default function Matches() {
         DR__assistsOutput,
         OPP__ScorersOutput;
 
-    if (matches && scorers && oppScorers && matchId) {
+    if (matches && scorers && assists && oppScorers && matchId) {
 
         // Get all scorers data; D&R scorers with own goals scorers
         scorers = scorers.concat(ownGoals);
@@ -183,11 +183,11 @@ export default function Matches() {
             )
         });
 
-        // DR__filteredAssists = assists.filter(function(match) {
-        //     return (
-        //         match.match_id === matchId
-        //     )
-        // });
+        DR__filteredAssists = assists.filter(function(match) {
+            return (
+                match.match_id === matchId
+            )
+        });
 
         OPP__filteredOppScorers = oppScorers.filter(function(match) {
             return (
@@ -199,9 +199,9 @@ export default function Matches() {
             DR__updatedTimeArr = [],
             DR__map;
 
-        // let DR__assistsTimeArrSplit = [],
-        //     DR__updatedAssistsTimeArr = [],
-        //     DR__assistsMap;
+        let DR__assistsTimeArrSplit = [],
+            DR__updatedAssistsTimeArr = [],
+            DR__assistsMap;
 
         let OPP__timeArrSplit = [],
             OPP__updatedTimeArr = [],
@@ -288,14 +288,16 @@ export default function Matches() {
          * @param {Array} timeArr - Array of Dag & Red scorers' data including goal times.
          * @param {Variable} outputTemplate - The variable the returned JSX is stored in.
          **/
-        function filterDRScorerData(filteredScorersData, scorerArrNames, key, timeArr, outputTemplate) {
+        function filterDRScorerData(filteredScorersData, scorerArrNames, key, timeArr, outputTemplate, type) {
+            console.log(filteredScorersData);
+
             for (const s of filteredScorersData) {
                 scorerArrNames.push(s.surname);
             }
             for (const s of filteredScorersData) {
                 for (const p of scorerArrNames) {
                     if (p === s[key]) {
-                        timeArr.push(s.scorer_id + ' ' + s.first_name + ' ' + s.surname + ' ' + s.goal_time);
+                        timeArr.push((s.scorer_id || s.assister_id) + ' ' + s.first_name + ' ' + s.surname + ' ' + s.goal_time);
                     }
                 }
             }
@@ -328,7 +330,7 @@ export default function Matches() {
                 // In this instance, goals will be stored in an array for each player
                 filteredScorersData.reduce(function (i, scorer) {
                     const player = {
-                        id: scorer.scorer_id,
+                        id: (scorer.scorer_id || scorer.assister_id),
                         surname: scorer.surname,
                         goal_time: scorer.goal_time
                     };
@@ -344,7 +346,11 @@ export default function Matches() {
                     
                 }, []);
 
-                scorerObjArr.push(scorerObj);
+                if (type === 'goals') {
+                    scorerObjArr.push(scorerObj);
+                } else if (type === 'assists') {
+                    assistObjArr.push(scorerObj);
+                }
                 
             }
 
@@ -358,28 +364,46 @@ export default function Matches() {
             scorerObjArr.sort(function(a, b) {
                 return a['goals'][0] - b['goals'][0]
             });
+            
+            // Clean object of arrays when blank values exist
+            scorerObjArr = scorerObjArr.filter(obj => obj.surname !== '')
+            assistObjArr = assistObjArr.filter(obj => obj.surname !== '')
 
-            DR__scorersOutput = scorerObjArr.map((data, index) => {
-                return (
-                    <React.Fragment>
-                        <p>{data.surname ? data.surname : data.id}&nbsp;(
-                            {data.goals.map((d,index) => {
-                                return (
-                                    <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
-                                )
-                            })}
-                        )</p>
-                    </React.Fragment>
-                )
-            })
+            if (type === 'assists') {
+                DR__assistsOutput = assistObjArr.map((data, index) => {
+                    return (
+                        <React.Fragment>
+                            <p className='assists'>{data.surname ? data.surname : data.id}&nbsp;(
+                                {data.goals.map((d,index) => {
+                                    return (
+                                        <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+                                    )
+                                })}
+                            )</p>
+                        </React.Fragment>
+                    )
+                })
+            } else if (type === 'goals') {
+                DR__scorersOutput = scorerObjArr.map((data, index) => {
+                    return (
+                        <React.Fragment>
+                            <p>{data.surname ? data.surname : data.id}&nbsp;(
+                                {data.goals.map((d,index) => {
+                                    return (
+                                        <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+                                    )
+                                })}
+                            )</p>
+                        </React.Fragment>
+                    )
+                })
+            }
             
         }
 
-        // Call function to print Dag & Red scorers
-        filterDRScorerData(DR__filteredScorers, DR__scorersArray, 'surname', DR__scorersGoalTimeArray, DR__scorersOutput);
-        
-        console.log(DR__filteredAssists)
-        // filterDRScorerData(DR__filteredAssists, DR__assistsOutput, 'surname', DR__assistsGoalTimeArray, DR__assistsOutput);
+        // Call function to print Dag & Red scorers and assisters
+        filterDRScorerData(DR__filteredScorers, DR__scorersArray, 'surname', DR__scorersGoalTimeArray, DR__scorersOutput, 'goals');
+        filterDRScorerData(DR__filteredAssists, DR__assistsArray, 'surname', DR__assistsGoalTimeArray, DR__assistsOutput, 'assists');
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
@@ -562,6 +586,8 @@ export default function Matches() {
                                 {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
                                 {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
                             </div>
+                                {assistObjArr.length > 0 ? <h3>Assists</h3> : null}
+                                {DR__assistsOutput}
                             <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                             <p><strong>Competition:</strong> {m.competition}</p>
                             <p><strong>Opponent step:</strong> {m.step_opponent}</p>
