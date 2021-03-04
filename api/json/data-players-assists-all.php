@@ -21,7 +21,7 @@
         "SELECT first_name, surname, season, match_scorers.match_id, drfc_goal_1_assist AS assister_id, drfc_goal_1_minute AS goal_time
             FROM match_scorers
             INNER JOIN drfc_players 
-                ON match_scorers.drfc_goal_1z drfc_players.player_id
+                ON match_scorers.drfc_goal_1_assist = drfc_players.player_id
             INNER JOIN results 
                 ON match_scorers.match_id = results.match_id
             WHERE NOT drfc_goal_1_assist = '' AND season != '$season_exclude'

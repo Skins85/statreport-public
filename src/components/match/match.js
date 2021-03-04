@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Link } from 'react-router-dom';
+import MatchGoals from './match-goals';
 import MatchPlayer from './match-player';
 import Moment from 'react-moment';
 import Results from '../../page-layouts/results/results';
@@ -20,8 +21,9 @@ export default function Matches() {
     const [assistsData, setAssistsData] = useState({});
     const [ownGoalsData, setOwnGoalsData] = useState({});
     const [oppositionScorersData, setOppositionScorersData] = useState({});
-    const [location, setLocation] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
+
+    let location;
 
     useEffect(() => {
         async function fetchData() {
@@ -288,122 +290,123 @@ export default function Matches() {
          * @param {Array} timeArr - Array of Dag & Red scorers' data including goal times.
          * @param {Variable} outputTemplate - The variable the returned JSX is stored in.
          **/
-        function filterDRScorerData(filteredScorersData, scorerArrNames, key, timeArr, outputTemplate, type) {
-            console.log(filteredScorersData);
+        // function filterDRScorerData(filteredScorersData, scorerArrNames, key, timeArr, outputTemplate, type) {
 
-            for (const s of filteredScorersData) {
-                scorerArrNames.push(s.surname);
-            }
-            for (const s of filteredScorersData) {
-                for (const p of scorerArrNames) {
-                    if (p === s[key]) {
-                        timeArr.push((s.scorer_id || s.assister_id) + ' ' + s.first_name + ' ' + s.surname + ' ' + s.goal_time);
-                    }
-                }
-            }
-            timeArr = new Set(timeArr);
-            timeArr = Array.from(timeArr);
+        //     for (const s of filteredScorersData) {
+        //         scorerArrNames.push(s.surname);
+        //     }
+        //     for (const s of filteredScorersData) {
+        //         for (const p of scorerArrNames) {
+        //             if (p === s[key]) {
+        //                 timeArr.push((s.scorer_id || s.assister_id) + ' ' + s.first_name + ' ' + s.surname + ' ' + s.goal_time);
+        //             }
+        //         }
+        //     }
+        //     timeArr = new Set(timeArr);
+        //     timeArr = Array.from(timeArr);
             
-            for (const s of timeArr) {
-                DR__timeArrSplit.push(s.split(' '));
-            }
+        //     for (const s of timeArr) {
+        //         DR__timeArrSplit.push(s.split(' '));
+        //     }
             
-            for (const n of DR__timeArrSplit) {
-                DR__updatedTimeArr.push(n[0])
-            }
+        //     for (const n of DR__timeArrSplit) {
+        //         DR__updatedTimeArr.push(n[0])
+        //     }
 
-            DR__map = DR__updatedTimeArr.reduce(function(obj, b) {
-                obj[b] = ++obj[b] || 1;
-                return obj;
-            }, {});
+        //     DR__map = DR__updatedTimeArr.reduce(function(obj, b) {
+        //         obj[b] = ++obj[b] || 1;
+        //         return obj;
+        //     }, {});
 
-            // Create object of scorer data
-            function createScorerObject(player_id) {
+        //     // Create object of scorer data
+        //     function createScorerObject(player_id) {
 
-                // Blank scorer object with defined keys
-                scorerObj = {
-                    surname: '',
-                    goals: []
-                };
+        //         // Blank scorer object with defined keys
+        //         scorerObj = {
+        //             surname: '',
+        //             goals: []
+        //         };
 
-                // Reduce scorers to unique, single object each, even if they have score multiple goals
-                // In this instance, goals will be stored in an array for each player
-                filteredScorersData.reduce(function (i, scorer) {
-                    const player = {
-                        id: (scorer.scorer_id || scorer.assister_id),
-                        surname: scorer.surname,
-                        goal_time: scorer.goal_time
-                    };
+        //         // Reduce scorers to unique, single object each, even if they have score multiple goals
+        //         // In this instance, goals will be stored in an array for each player
+        //         filteredScorersData.reduce(function (i, scorer) {
+        //             const player = {
+        //                 id: (scorer.scorer_id || scorer.assister_id),
+        //                 surname: scorer.surname,
+        //                 goal_time: scorer.goal_time
+        //             };
 
-                    if (player.id === player_id) {
-                        if (player.surname) {
-                            scorerObj.surname = player.surname;
-                        } else {
-                            scorerObj.surname = `${player.id} (o.g.)`;
-                        }
-                        scorerObj.goals.push(player.goal_time);
-                    }
+        //             if (player.id === player_id) {
+        //                 if (player.surname) {
+        //                     scorerObj.surname = player.surname;
+        //                 } else {
+        //                     scorerObj.surname = `${player.id} (o.g.)`;
+        //                 }
+        //                 scorerObj.goals.push(player.goal_time);
+        //             }
                     
-                }, []);
+        //         }, []);
 
-                if (type === 'goals') {
-                    scorerObjArr.push(scorerObj);
-                } else if (type === 'assists') {
-                    assistObjArr.push(scorerObj);
-                }
+        //         if (type === 'goals') {
+        //             scorerObjArr.push(scorerObj);
+        //         } else if (type === 'assists') {
+        //             assistObjArr.push(scorerObj);
+        //         }
                 
-            }
+        //     }
 
 
-            // Loop scorers and create unique scorer objects
-            for (const m in DR__map) {
-                createScorerObject(m);
-            }
+        //     // Loop scorers and create unique scorer objects
+        //     for (const m in DR__map) {
+        //         createScorerObject(m);
+        //     }
             
-            // Order goalscorers by earliest first
-            scorerObjArr.sort(function(a, b) {
-                return a['goals'][0] - b['goals'][0]
-            });
+        //     // Order goalscorers by earliest first
+        //     scorerObjArr.sort(function(a, b) {
+        //         return a['goals'][0] - b['goals'][0]
+        //     });
             
-            // Clean object of arrays when blank values exist
-            scorerObjArr = scorerObjArr.filter(obj => obj.surname !== '')
-            assistObjArr = assistObjArr.filter(obj => obj.surname !== '')
+        //     // Clean object of arrays when blank values exist
+        //     scorerObjArr = scorerObjArr.filter(obj => obj.surname !== '')
+        //     assistObjArr = assistObjArr.filter(obj => obj.surname !== '')
+        //     if (type === 'assists') {
+        //         DR__assistsOutput = assistObjArr.map((data, index) => {
+        //             return (
+        //                 <React.Fragment>
+        //                     <p 
+        //                         className='assists'>{data.surname ? data.surname : data.id}&nbsp;(
+        //                         {data.goals.map((d,index) => {
+        //                             return (
+        //                                 <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+        //                             )
+        //                         })}
+        //                     )</p>
+        //                     <sub>{nameFormat('Dagenham & Redbridge')} assists data only</sub>
 
-            if (type === 'assists') {
-                DR__assistsOutput = assistObjArr.map((data, index) => {
-                    return (
-                        <React.Fragment>
-                            <p className='assists'>{data.surname ? data.surname : data.id}&nbsp;(
-                                {data.goals.map((d,index) => {
-                                    return (
-                                        <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
-                                    )
-                                })}
-                            )</p>
-                        </React.Fragment>
-                    )
-                })
-            } else if (type === 'goals') {
-                DR__scorersOutput = scorerObjArr.map((data, index) => {
-                    return (
-                        <React.Fragment>
-                            <p>{data.surname ? data.surname : data.id}&nbsp;(
-                                {data.goals.map((d,index) => {
-                                    return (
-                                        <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
-                                    )
-                                })}
-                            )</p>
-                        </React.Fragment>
-                    )
-                })
-            }
+        //                 </React.Fragment>
+        //             )
+        //         })
+        //     } else if (type === 'goals') {
+        //         DR__scorersOutput = scorerObjArr.map((data, index) => {
+        //             return (
+        //                 <React.Fragment>
+        //                     <p>{data.surname ? data.surname : data.id}&nbsp;(
+        //                         {data.goals.map((d,index) => {
+        //                             return (
+        //                                 <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
+        //                             )
+        //                         })}
+        //                     )</p>
+        //                 </React.Fragment>
+        //             )
+        //         })
+        //     }
             
-        }
+        // }
 
         // Call function to print Dag & Red scorers and assisters
-        filterDRScorerData(DR__filteredScorers, DR__scorersArray, 'surname', DR__scorersGoalTimeArray, DR__scorersOutput, 'goals');
-        filterDRScorerData(DR__filteredAssists, DR__assistsArray, 'surname', DR__assistsGoalTimeArray, DR__assistsOutput, 'assists');
+        // filterDRScorerData(DR__filteredScorers, DR__scorersArray, 'surname', DR__scorersGoalTimeArray, DR__scorersOutput, 'goals', location);
+        // filterDRScorerData(DR__filteredAssists, DR__assistsArray, 'surname', DR__assistsGoalTimeArray, DR__assistsOutput, 'assists', location);
 
         // Create array of subbed players
         for (const a of Object.entries(m)) {
@@ -550,7 +553,7 @@ export default function Matches() {
             }
 
             document.title = `${nameFormat(m.team_home)} ${m.goals_home}-${m.goals_away} ${nameFormat(m.team_away)} | StatReport`;
-            
+            m.team_home === 'Dagenham & Redbridge' ? location = 'home' : location = 'away';
         }
 
         return(
@@ -582,12 +585,38 @@ export default function Matches() {
                                     <span className='match-details__summary__team-away'>{nameFormat(m.team_away)}</span>
                                 </h1> 
                             }
-                            <div className='match-details__summary__scorers'>
-                                {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
-                                {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>{DR__scorersOutput}</div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
+                            <div className='match-details__summary__goals'>
+                                <div className='match-details__summary__goals__scorers'>
+                                    {m.team_home === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__home'>
+                                    <MatchGoals
+                                        data={DR__filteredScorers}
+                                        dataArray={DR__scorersArray}
+                                        keyName='surname'
+                                        times={DR__scorersGoalTimeArray}
+                                        type='goals'
+                                    />
+                            </div> : <div className='match-details__summary__scorers__home'>{OPP__ScorersOutput}</div> }
+                                    {m.team_away === 'Dagenham & Redbridge' ? <div className='match-details__summary__scorers__away'>
+                                        <MatchGoals
+                                            data={DR__filteredScorers}
+                                            dataArray={DR__scorersArray}
+                                            keyName='surname'
+                                            times={DR__scorersGoalTimeArray}
+                                            type='goals'
+                                        />
+                                    </div> : <div className='match-details__summary__scorers__away'>{OPP__ScorersOutput}</div> }
+                                </div>
+                                <div className='match-details__summary__goals__assists'>
+                                    <MatchGoals
+                                        data={DR__filteredAssists}
+                                        dataArray={DR__assistsArray}
+                                        keyName='surname'
+                                        times={DR__assistsGoalTimeArray}
+                                        type='assists'
+                                    />
+                                    
+                                </div>
                             </div>
-                                {assistObjArr.length > 0 ? <h3>Assists</h3> : null}
-                                {DR__assistsOutput}
                             <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
                             <p><strong>Competition:</strong> {m.competition}</p>
                             <p><strong>Opponent step:</strong> {m.step_opponent}</p>

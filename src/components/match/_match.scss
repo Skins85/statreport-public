@@ -43,5 +43,31 @@
             }
             text-align: left;
         }
+        .match-details__summary__goals {
+            @include grid(14);
+            .match-details__summary__goals__scorers {
+                grid-column: 3/-3;
+                @include grid(10);
+                .match-details__summary__scorers__home {
+                    grid-column: 2/5;
+                }
+                .match-details__summary__scorers__away {
+                    grid-column: 7/-2;
+                }
+                border-bottom: $border-fine solid $gray4;
+            }
+            .match-details__summary__goals__assists {
+                grid-column: 3/-3;
+                @include grid(10);
+                h3 {
+                    grid-column: 1/-1;
+                    margin-bottom: 0;
+                }
+                p, sub {
+                    grid-column: 1/-1;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
