@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom';
 import React from 'react';
 import {nameFormat} from '../../util';
 
@@ -15,6 +14,7 @@ const matchGoals = (props) => {
     for (const d of props.data) {
         props.dataArray.push(d.surname);
     }
+
     for (const d of props.data) {
         for (const arr of props.dataArray) {
             if (arr === d[props.keyName]) {
@@ -29,10 +29,16 @@ const matchGoals = (props) => {
         timesArraySplit.push(t.split(' '));
     }
     
-    for (const t of timesArraySplit) {
-        timesArrayUpdated.push(t[0])
+    if (props.opposition) {
+        for (const t of timesArraySplit) {
+            timesArrayUpdated.push(t[2])
+        }
+    } else {
+        for (const t of timesArraySplit) {
+            timesArrayUpdated.push(t[0])
+        }
     }
-
+    
     goalObjectCount = timesArrayUpdated.reduce(function(obj, b) {
         obj[b] = ++obj[b] || 1;
         return obj;
@@ -50,23 +56,36 @@ const matchGoals = (props) => {
         // Reduce scorers to unique, single object each, even if they have score multiple goals
         // In this instance, goals will be stored in an array for each player
         props.data.reduce(function (i, scorer) {
-            const player = {
-                id: (scorer.scorer_id || scorer.assister_id),
-                surname: scorer.surname,
-                goal_time: scorer.goal_time
-            };
-
-            if (player.id === player_id) {
-                if (player.surname) {
-                    playerObject.surname = player.surname;
-                } else {
-                    playerObject.surname = `${player.id} (o.g.)`;
+            if (props.opposition) {
+                let player = {
+                    surname: scorer.surname,
+                    goal_time: scorer.goal_time
+                };
+                if (player.surname === player_id) {
+                    if (player.surname) {
+                        playerObject.surname = player.surname;
+                    } 
+                    playerObject.goals.push(player.goal_time);
                 }
-                playerObject.goals.push(player.goal_time);
-            }
+
+            } else {
+                let player = {
+                    id: (scorer.scorer_id || scorer.assister_id),
+                    surname: scorer.surname,
+                    goal_time: scorer.goal_time
+                };
+                if (player.id === player_id) {
+                    if (player.surname) {
+                        playerObject.surname = player.surname;
+                    } else {
+                        playerObject.surname = `${player.id} (o.g.)`;
+                    }
+                    playerObject.goals.push(player.goal_time);
+                }
+            }            
             
         }, []);
-
+        
         playerObjArray.push(playerObject);
         
     }
