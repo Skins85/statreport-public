@@ -424,9 +424,11 @@ export default function Matches() {
                                     
                                 </div>
                             </div>
-                            <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
-                            <p><strong>Competition:</strong> {m.competition}</p>
-                            <p><strong>Opponent step:</strong> {m.step_opponent}</p>
+                            <div class="match-details__summary__extra">
+                                <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
+                                <p><strong>Competition:</strong> {m.competition}</p>
+                                <p><strong>Opponent step:</strong> {m.step_opponent}</p>
+                            </div>
                         </div>
 
                         <div className='match-details__players'>
@@ -549,13 +551,12 @@ export default function Matches() {
                         <p><strong>Attendance</strong> {m.attendance !== null && parseInt(m.attendance) > 0 ? parseInt(m.attendance).toLocaleString() : null} 
                         {m.attendance_away !== null && parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
                         {m.attendance_note ? <p>{m.attendance_note} {m.team_home === 'Dagenham & Redbridge' ? 'This match is excluded from attendance records and average attendance calculations.' : null}</p> : null}
-                        {m.competition === 'League' ? <p><strong>League position</strong> {m.league_position}</p> : null}
                         {m.referee ? <p><strong>Referee</strong> {m.referee}</p> : null}
 
                         {m.competition === 'League' ?
                             <React.Fragment>
                                 <h2>League position</h2>
-                                <p>{nameFormat('Dagenham & Redbridge')}'s position after this game.</p>
+                                <p>League position after this game.</p>
                                 <Table className='text-align--right width--75'>
                                     <ResultsSummary
                                         data={filteredMatchesSeasonToDate}

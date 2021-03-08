@@ -1,14 +1,16 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {nameFormat} from '../../util';
 
-const matchGoals = (props) => {
+const MatchGoals = (props) => {
 
-    let goalObjectCount = [],
+    let footer,
+        goalObjectCount = [],
+        header,
         output,
         playerObject,
         playerObjArray = [],
         timesArray = [],
-        timesArraySplit = [],
         timesArrayUpdated = [];
 
     for (const d of props.data) {
@@ -22,24 +24,14 @@ const matchGoals = (props) => {
             }
         }
     }
-    timesArray = new Set(timesArray);
-    timesArray = Array.from(timesArray);
+    timesArray = Array.from(new Set(timesArray));
     
-    for (const t of timesArray) {
-        timesArraySplit.push(t.split(' '));
-    }
+    const timesArraySplit = timesArray.map(t => t.split(' '));
     
-    if (props.opposition) {
-        for (const t of timesArraySplit) {
-            timesArrayUpdated.push(t[2])
-        }
-    } else {
-        for (const t of timesArraySplit) {
-            timesArrayUpdated.push(t[0])
-        }
-    }
+    // Dag & Red and opposistion goals arrays are structured differently; take appropriate index value
+    props.opposition ? timesArrayUpdated = timesArraySplit.map(t => t[2]) : timesArrayUpdated = timesArraySplit.map(t => t[0]);
     
-    goalObjectCount = timesArrayUpdated.reduce(function(obj, b) {
+    goalObjectCount = timesArrayUpdated.reduce((obj, b) => {
         obj[b] = ++obj[b] || 1;
         return obj;
     }, {});
@@ -67,7 +59,6 @@ const matchGoals = (props) => {
                     } 
                     playerObject.goals.push(player.goal_time);
                 }
-
             } else {
                 let player = {
                     id: (scorer.scorer_id || scorer.assister_id),
@@ -75,36 +66,31 @@ const matchGoals = (props) => {
                     goal_time: scorer.goal_time
                 };
                 if (player.id === player_id) {
-                    if (player.surname) {
-                        playerObject.surname = player.surname;
-                    } else {
-                        playerObject.surname = `${player.id} (o.g.)`;
-                    }
+                    player.surname ? playerObject.surname = player.surname : playerObject.surname = `${player.id} (o.g.)`;
                     playerObject.goals.push(player.goal_time);
                 }
             }            
             
         }, []);
-        
         playerObjArray.push(playerObject);
-        
     }
+    
     // Loop scorers and create unique scorer objects
-    for (const m in goalObjectCount) {
-        createScorerObject(m);
-    }
+    Object.keys(goalObjectCount).map((key) => createScorerObject(key));
 
     // Order goalscorers by earliest first
-    playerObjArray.sort(function(a, b) {
-        return a['goals'][0] - b['goals'][0]
-    });
+    playerObjArray.sort((a, b) => a['goals'][0] - b['goals'][0]);
+
+    if (props.type === 'assists') {
+        header = <h3>Assists</h3>;
+        footer = <sub>{nameFormat('Dagenham & Redbridge')} assists data only</sub>
+    }
     
     // Clean object of arrays when blank values exist
     playerObjArray = playerObjArray.filter(obj => obj.surname !== '')
         output = playerObjArray.map((data, index) => {
             return (
             <React.Fragment>
-                {props.type === 'assists' ? <h3>Assists</h3> : null}
                 <p>{data.surname ? data.surname : data.id}&nbsp;(
                     {data.goals.map((d,index) => {
                         return (
@@ -112,11 +98,19 @@ const matchGoals = (props) => {
                         )
                     })}
                 )</p>
-                {props.type === 'assists' ? <sub>{nameFormat('Dagenham & Redbridge')} assists data only</sub> : null} 
             </React.Fragment>
             );
         })
-    return output;
+    return [header, output, footer];
 }
 
-export default matchGoals;
+MatchGoals.propTypes = {
+    data: PropTypes.array,
+    dataArray: PropTypes.array,
+    keyName: PropTypes.string,
+    times: PropTypes.array,
+    type: PropTypes.string,
+    opposition: PropTypes.boolean
+};
+
+export default MatchGoals;

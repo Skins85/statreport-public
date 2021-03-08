@@ -332,9 +332,9 @@ class Form extends Component {
                             {injuryTimeMinuteSelect}
                         </Select>
                         <Select 
-                            selectId={`assists.goal_${i}_assist_player_id`} 
+                            selectId={`match_scorers.goal_${i}_assist`} 
                             key={`assist${i}`} 
-                            selectName={`assists.goal_${i}_assist_player_id`}goal_1_assist_player_id
+                            selectName={`match_scorers.goal_${i}_assist`}
                             labelRequired 
                             labelText={`Assist (if applicable)`} 
                         >

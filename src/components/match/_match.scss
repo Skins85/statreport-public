@@ -66,6 +66,18 @@
                 p, sub {
                     grid-column: 1/-1;
                     text-align: center;
+                    margin: $rem--half;
+                }
+                padding-bottom: $rem--half;
+                border-bottom: $border-fine solid $gray4;
+            }
+        }
+        .match-details__summary__extra {
+            display: flex;
+            p {
+                flex: 1;
+                @media screen and (max-width: $tablet) {
+                    display: block;
                 }
             }
         }
