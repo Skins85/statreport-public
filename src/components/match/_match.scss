@@ -74,11 +74,11 @@
         }
         .match-details__summary__extra {
             display: flex;
+            @media screen and (max-width: $tablet) {
+                display: block;
+            }
             p {
                 flex: 1;
-                @media screen and (max-width: $tablet) {
-                    display: block;
-                }
             }
         }
     }

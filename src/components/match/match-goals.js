@@ -4,6 +4,8 @@ import {nameFormat} from '../../util';
 
 const MatchGoals = (props) => {
 
+    console.log(props);
+
     let footer,
         goalObjectCount = [],
         header,
@@ -20,6 +22,8 @@ const MatchGoals = (props) => {
     for (const d of props.data) {
         for (const arr of props.dataArray) {
             if (arr === d[props.keyName]) {
+                // If >1 name provided, replace space(s) with underscore(s) to maintain array index position
+                d.surname = d.surname.split(' ').join('_');
                 timesArray.push((d.scorer_id || d.assister_id) + ' ' + d.first_name + ' ' + d.surname + ' ' + d.goal_time);
             }
         }
@@ -69,8 +73,7 @@ const MatchGoals = (props) => {
                     player.surname ? playerObject.surname = player.surname : playerObject.surname = `${player.id} (o.g.)`;
                     playerObject.goals.push(player.goal_time);
                 }
-            }            
-            
+            }                
         }, []);
         playerObjArray.push(playerObject);
     }
@@ -81,7 +84,7 @@ const MatchGoals = (props) => {
     // Order goalscorers by earliest first
     playerObjArray.sort((a, b) => a['goals'][0] - b['goals'][0]);
 
-    if (props.type === 'assists') {
+    if (props.type === 'assists' && props.dataArray.length > 0) {
         header = <h3>Assists</h3>;
         footer = <sub>{nameFormat('Dagenham & Redbridge')} assists data only</sub>
     }
@@ -91,7 +94,8 @@ const MatchGoals = (props) => {
         output = playerObjArray.map((data, index) => {
             return (
             <React.Fragment>
-                <p>{data.surname ? data.surname : data.id}&nbsp;(
+                {/* If >1 name provided, replace underscore(s) with spaces(s) */}
+                <p>{data.surname ? data.surname = data.surname.split('_').join(' ') : data.id}&nbsp;(
                     {data.goals.map((d,index) => {
                         return (
                             <span key={index}>{d}&prime;{index < data.goals.length - 1 ? ',\u00A0' : ''}</span>
@@ -110,7 +114,6 @@ MatchGoals.propTypes = {
     keyName: PropTypes.string,
     times: PropTypes.array,
     type: PropTypes.string,
-    opposition: PropTypes.boolean
 };
 
 export default MatchGoals;

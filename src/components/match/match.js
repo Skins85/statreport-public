@@ -84,7 +84,6 @@ export default function Matches() {
                 method: 'get'
             }).then(async (response) => {
                 setAssistsData(response.data);
-                console.log(response.data)
             })
 
             await setDataLoaded(true);
@@ -410,19 +409,19 @@ export default function Matches() {
                                             times={OPP__scorersGoalTimeArray}
                                             type='goals'
                                             opposition
+                                        />                                    </div> }
+                                </div>
+                                {DR__filteredAssists.length > 0 ? 
+                                    <div className='match-details__summary__goals__assists'>
+                                        <MatchGoals
+                                            data={DR__filteredAssists}
+                                            dataArray={DR__assistsArray}
+                                            keyName='surname'
+                                            times={DR__assistsGoalTimeArray}
+                                            type='assists'
                                         />
-                                    </div> }
-                                </div>
-                                <div className='match-details__summary__goals__assists'>
-                                    <MatchGoals
-                                        data={DR__filteredAssists}
-                                        dataArray={DR__assistsArray}
-                                        keyName='surname'
-                                        times={DR__assistsGoalTimeArray}
-                                        type='assists'
-                                    />
-                                    
-                                </div>
+                                    </div> 
+                                : null}
                             </div>
                             <div class="match-details__summary__extra">
                                 <p><Moment format="DD/MM/YYYY">{m.date}</Moment></p>
