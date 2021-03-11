@@ -347,8 +347,8 @@ export default function Matches() {
 
         return(
             <React.Fragment>
-                <div className='wrapper--content__inpage'>
-                    <div className='content__inpage content__inpage--standard match-details'>
+                <div className='wrapper--content__inpage--wide'>
+                    <div className='content__inpage content__inpage--wide match-details'>
                         <div className='match-details__summary'>
                             {m.team_home === 'Dagenham & Redbridge' ? 
                                 <h1>
@@ -429,145 +429,147 @@ export default function Matches() {
                                 <p><strong>Opponent step:</strong> {m.step_opponent}</p>
                             </div>
                         </div>
-
-                        <div className='match-details__players'>
-                            <h2>Starting XI</h2>
-                            
-                            <MatchPlayer
-                                className = '1'
-                                subMinute = {player_1_subbed_minute}
-                                playerId = {m.player_1}
-                                playerName = {player_1}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '2'
-                                subMinute = {player_2_subbed_minute}
-                                playerId = {m.player_2}
-                                playerName = {player_2}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '3'
-                                subMinute = {player_3_subbed_minute}
-                                playerId = {m.player_3}
-                                playerName = {player_3}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '4'
-                                subMinute = {player_4_subbed_minute}
-                                playerId = {m.player_4}
-                                playerName = {player_4}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '5'
-                                subMinute = {player_5_subbed_minute}
-                                playerId = {m.player_5}
-                                playerName = {player_5}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '6'
-                                subMinute = {player_6_subbed_minute}
-                                playerId = {m.player_6}
-                                playerName = {player_6}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '7'
-                                subMinute = {player_7_subbed_minute}
-                                playerId = {m.player_7}
-                                playerName = {player_7}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '8'
-                                subMinute = {player_8_subbed_minute}
-                                playerId = {m.player_8}
-                                playerName = {player_8}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '9'
-                                subMinute = {player_9_subbed_minute}
-                                playerId = {m.player_9}
-                                playerName = {player_9}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '10'
-                                subMinute = {player_10_subbed_minute}
-                                playerId = {m.player_10}
-                                playerName = {player_10}
-                                subStatus = 'off'
-                            />
-                            <MatchPlayer
-                                className = '11'
-                                subMinute = {player_11_subbed_minute}
-                                playerId = {m.player_11}
-                                playerName = {player_11}
-                                subStatus = 'off'
-                            />
-
-                            <h2>Substitutes</h2>
-                            {subbedOnPlayersCount > 0 ? 
-                                <React.Fragment>
-                                    <MatchPlayer
-                                        className = '1'
-                                        subMinute = {sub_1_entrance_minute}
-                                        playerId = {m.sub_1}
-                                        playerName = {sub_1}
-                                        subStatus = 'on'
-                                    />
-                                    <MatchPlayer
-                                        className = '2'
-                                        subMinute = {sub_2_entrance_minute}
-                                        playerId = {m.sub_2}
-                                        playerName = {sub_2}
-                                        subStatus = 'on'
-                                    />
-                                    <MatchPlayer
-                                        className = '3'
-                                        subMinute = {sub_3_entrance_minute}
-                                        playerId = {m.sub_3}
-                                        playerName = {sub_3}
-                                        subStatus = 'on'
-                                    />
-                                    <MatchPlayer
-                                        className = '4'
-                                        subMinute = {sub_4_entrance_minute}
-                                        playerId = {m.sub_4}
-                                        playerName = {sub_4}
-                                        subStatus = 'on'
-                                    />
-                            </React.Fragment> 
-                            : <p>No {nameFormat('Dagenham & Redbridge')} substitutes used in this match.</p>
-                        }
-                        </div>
-                        
-                        <p><strong>Attendance</strong> {m.attendance !== null && parseInt(m.attendance) > 0 ? parseInt(m.attendance).toLocaleString() : null} 
-                        {m.attendance_away !== null && parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
-                        {m.attendance_note ? <p>{m.attendance_note} {m.team_home === 'Dagenham & Redbridge' ? 'This match is excluded from attendance records and average attendance calculations.' : null}</p> : null}
-                        {m.referee ? <p><strong>Referee</strong> {m.referee}</p> : null}
-
-                        {m.competition === 'League' ?
-                            <React.Fragment>
-                                <h2>League position</h2>
-                                <p>League position after this game.</p>
-                                <Table className='text-align--right width--75'>
-                                    <ResultsSummary
-                                        data={filteredMatchesSeasonToDate}
-                                        displayHeader
-                                        displayPosition
-                                        displayGoalDifference
-                                        displayPoints
-                                    />
-                                </Table>
-                            </React.Fragment>
-                        : null}                        
                     </div>
+                </div>
+                <div className='wrapper--content__inpage'>
+
+                    <div className='match-details__players'>
+                        <h2>Starting XI</h2>
+                        
+                        <MatchPlayer
+                            className = '1'
+                            subMinute = {player_1_subbed_minute}
+                            playerId = {m.player_1}
+                            playerName = {player_1}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '2'
+                            subMinute = {player_2_subbed_minute}
+                            playerId = {m.player_2}
+                            playerName = {player_2}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '3'
+                            subMinute = {player_3_subbed_minute}
+                            playerId = {m.player_3}
+                            playerName = {player_3}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '4'
+                            subMinute = {player_4_subbed_minute}
+                            playerId = {m.player_4}
+                            playerName = {player_4}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '5'
+                            subMinute = {player_5_subbed_minute}
+                            playerId = {m.player_5}
+                            playerName = {player_5}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '6'
+                            subMinute = {player_6_subbed_minute}
+                            playerId = {m.player_6}
+                            playerName = {player_6}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '7'
+                            subMinute = {player_7_subbed_minute}
+                            playerId = {m.player_7}
+                            playerName = {player_7}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '8'
+                            subMinute = {player_8_subbed_minute}
+                            playerId = {m.player_8}
+                            playerName = {player_8}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '9'
+                            subMinute = {player_9_subbed_minute}
+                            playerId = {m.player_9}
+                            playerName = {player_9}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '10'
+                            subMinute = {player_10_subbed_minute}
+                            playerId = {m.player_10}
+                            playerName = {player_10}
+                            subStatus = 'off'
+                        />
+                        <MatchPlayer
+                            className = '11'
+                            subMinute = {player_11_subbed_minute}
+                            playerId = {m.player_11}
+                            playerName = {player_11}
+                            subStatus = 'off'
+                        />
+
+                        <h2>Substitutes</h2>
+                        {subbedOnPlayersCount > 0 ? 
+                            <React.Fragment>
+                                <MatchPlayer
+                                    className = '1'
+                                    subMinute = {sub_1_entrance_minute}
+                                    playerId = {m.sub_1}
+                                    playerName = {sub_1}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '2'
+                                    subMinute = {sub_2_entrance_minute}
+                                    playerId = {m.sub_2}
+                                    playerName = {sub_2}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '3'
+                                    subMinute = {sub_3_entrance_minute}
+                                    playerId = {m.sub_3}
+                                    playerName = {sub_3}
+                                    subStatus = 'on'
+                                />
+                                <MatchPlayer
+                                    className = '4'
+                                    subMinute = {sub_4_entrance_minute}
+                                    playerId = {m.sub_4}
+                                    playerName = {sub_4}
+                                    subStatus = 'on'
+                                />
+                        </React.Fragment> 
+                        : <p>No {nameFormat('Dagenham & Redbridge')} substitutes used in this match.</p>
+                    }
+                    </div>
+                    
+                    <p><strong>Attendance</strong> {m.attendance !== null && parseInt(m.attendance) > 0 ? parseInt(m.attendance).toLocaleString() : null} 
+                    {m.attendance_away !== null && parseInt(m.attendance_away) > 0 ? ` (${parseInt(m.attendance_away).toLocaleString()} away)` : null}</p>
+                    {m.attendance_note ? <p>{m.attendance_note} {m.team_home === 'Dagenham & Redbridge' ? 'This match is excluded from attendance records and average attendance calculations.' : null}</p> : null}
+                    {m.referee ? <p><strong>Referee</strong> {m.referee}</p> : null}
+
+                    {m.competition === 'League' ?
+                        <React.Fragment>
+                            <h2>League position</h2>
+                            <p>League position after this game.</p>
+                            <Table className='text-align--right width--75'>
+                                <ResultsSummary
+                                    data={filteredMatchesSeasonToDate}
+                                    displayHeader
+                                    displayPosition
+                                    displayGoalDifference
+                                    displayPoints
+                                />
+                            </Table>
+                        </React.Fragment>
+                    : null}                        
                 </div>
             </React.Fragment>
         )

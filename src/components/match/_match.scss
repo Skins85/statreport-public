@@ -9,7 +9,12 @@
 .match-details {
     display: grid;
     .match-details__summary {
-        background-image: linear-gradient($gray2, $gray1);
+        background-image: linear-gradient($red50, $red70);
+        // background-image: linear-gradient($gray2, $gray1);
+        color: white;
+        a {
+            color: white;
+        }
         padding: $rem--one;
         text-align: center;
         .match-details__summary__title,

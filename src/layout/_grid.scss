@@ -49,6 +49,14 @@
             }
             @include twenty-grid;
             > .wrapper--content__inpage {
+                padding: 0 $rem--one;
+                grid-column: 1/-1;
+                min-height: 60vh;
+            }
+            > .wrapper--content__inpage--wide {
+                grid-column: 1/-1;
+            }
+            > .wrapper--content__inpage {
                 // @include sixteen-grid();
                 padding: 0 $rem--one;
                 grid-column: 1/-1;
@@ -73,6 +81,10 @@
                         grid-column: 3/-3;
                     }
                 }
+                > .content__inpage--wide {
+                    grid-column: 1/-1;
+                }
+                    
             }
             > .banner {
                 grid-column: 1/-1;
