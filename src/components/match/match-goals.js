@@ -4,8 +4,6 @@ import {nameFormat} from '../../util';
 
 const MatchGoals = (props) => {
 
-    console.log(props);
-
     let footer,
         goalObjectCount = [],
         header,

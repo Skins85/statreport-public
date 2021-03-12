@@ -2,25 +2,27 @@ import './main.scss';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CookieConsent, { Cookies } from "react-cookie-consent";
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, lazy, useEffect, useState} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
 
-import About from './page-layouts/about/about';
-import AddResultForm from './page-layouts/forms/add-result/add-result';
-import AddResultsComplete from './components/form/journey/add-result-complete';
-import Attendances from './components/attendances/attendances';
-import Bio from './page-layouts/about/bio/bio';
-import ContentWrapper from './components/hoc/component-wrapper/wrapper';
-import CookieNotice from './components/cookies/cookie-notice/cookie-notice';
-import CookiePolicy from './components/cookies/cookie-policy/cookie-policy';
-import Disclaimer from './page-layouts/disclaimer/disclaimer';
-import Goalscorers from './components/scorer/scorer';
-import Home from './page-layouts/home/home';
-import LeaguePositions from './components/league-positions/league-positions';
-import Login from './components/login/login';
-import Matches from './components/match/match';
-import Players from './page-layouts/players/players';
-import Teams from './components/teams/teams';
+import Spinner from './components/ui/spinner/spinner';
+
+const About = lazy(() => import('./page-layouts/about/about'));
+const AddResultForm = lazy(() => import('./page-layouts/forms/add-result/add-result'));
+const AddResultsComplete = lazy(() => import('./components/form/journey/add-result-complete'));
+const Attendances = lazy(() => import('./components/attendances/attendances'));
+const Bio = lazy(() => import('./page-layouts/about/bio/bio'));
+const ContentWrapper = lazy(() => import('./components/hoc/component-wrapper/wrapper'));
+const CookieNotice = lazy(() => import('./components/cookies/cookie-notice/cookie-notice'));
+const CookiePolicy = lazy(() => import('./components/cookies/cookie-policy/cookie-policy'));
+const Disclaimer = lazy(() => import('./page-layouts/disclaimer/disclaimer'));
+const Goalscorers = lazy(() => import('./components/scorer/scorer'));
+const Home = lazy(() => import('./page-layouts/home/home'));
+const LeaguePositions = lazy(() => import('./components/league-positions/league-positions'));
+const Login = lazy(() => import('./components/login/login'));
+const Matches = lazy(() => import('./components/match/match'));
+const Players = lazy(() => import('./page-layouts/players/players'));
+const Teams = lazy(() => import('./components/teams/teams'));
 
 export default withRouter(function App({ location }) {
 
@@ -34,6 +36,7 @@ export default withRouter(function App({ location }) {
 
   return (
     <React.Fragment>
+      <Suspense fallback={<Spinner />}>
       <CookieNotice />
       <ContentWrapper
         path={currentPath}>
@@ -57,6 +60,7 @@ export default withRouter(function App({ location }) {
           {/* <Route path="*" component={() => "404 not found"} /> */}
         </Switch>
       </ContentWrapper>
+      </Suspense>
     </React.Fragment>
   );
 });
