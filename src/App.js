@@ -7,22 +7,22 @@ import {Route, Switch, withRouter} from 'react-router-dom';
 
 import Spinner from './components/ui/spinner/spinner';
 
-const About = lazy(() => import('./page-layouts/about/about'));
-const AddResultForm = lazy(() => import('./page-layouts/forms/add-result/add-result'));
-const AddResultsComplete = lazy(() => import('./components/form/journey/add-result-complete'));
-const Attendances = lazy(() => import('./components/attendances/attendances'));
-const Bio = lazy(() => import('./page-layouts/about/bio/bio'));
-const ContentWrapper = lazy(() => import('./components/hoc/component-wrapper/wrapper'));
-const CookieNotice = lazy(() => import('./components/cookies/cookie-notice/cookie-notice'));
-const CookiePolicy = lazy(() => import('./components/cookies/cookie-policy/cookie-policy'));
-const Disclaimer = lazy(() => import('./page-layouts/disclaimer/disclaimer'));
-const Goalscorers = lazy(() => import('./components/scorer/scorer'));
-const Home = lazy(() => import('./page-layouts/home/home'));
-const LeaguePositions = lazy(() => import('./components/league-positions/league-positions'));
-const Login = lazy(() => import('./components/login/login'));
-const Matches = lazy(() => import('./components/match/match'));
-const Players = lazy(() => import('./page-layouts/players/players'));
-const Teams = lazy(() => import('./components/teams/teams'));
+const About = lazy(() => import(/* webpackChunkName: 'about' */ './page-layouts/about/about'));
+const AddResultForm = lazy(() => import(/* webpackChunkName: 'add-result' */ './page-layouts/forms/add-result/add-result'));
+const AddResultsComplete = lazy(() => import(/* webpackChunkName: 'add-result-complete' */ './components/form/journey/add-result-complete'));
+const Attendances = lazy(() => import(/* webpackChunkName: 'attendances' */ './components/attendances/attendances'));
+const Bio = lazy(() => import(/* webpackChunkName: 'bio' */ './page-layouts/about/bio/bio'));
+const ContentWrapper = lazy(() => import(/* webpackChunkName: 'component-wrapper' */ './components/hoc/component-wrapper/wrapper'));
+const CookieNotice = lazy(() => import(/* webpackChunkName: 'cookie-notice' */ './components/cookies/cookie-notice/cookie-notice'));
+const CookiePolicy = lazy(() => import(/* webpackChunkName: 'cookie-policy' */ './components/cookies/cookie-policy/cookie-policy'));
+const Disclaimer = lazy(() => import(/* webpackChunkName: 'disclaimer' */ './page-layouts/disclaimer/disclaimer'));
+const Goalscorers = lazy(() => import(/* webpackChunkName: 'scorer' */ './components/scorer/scorer'));
+const Home = lazy(() => import(/* webpackChunkName: 'home' */ './page-layouts/home/home'));
+const LeaguePositions = lazy(() => import(/* webpackChunkName: 'league-positions' */ './components/league-positions/league-positions'));
+const Login = lazy(() => import(/* webpackChunkName: 'login' */ './components/login/login'));
+const Matches = lazy(() => import(/* webpackChunkName: 'match' */ './components/match/match'));
+const Players = lazy(() => import(/* webpackChunkName: 'players' */ './page-layouts/players/players'));
+const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/teams/teams'));
 
 export default withRouter(function App({ location }) {
 

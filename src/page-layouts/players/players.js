@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, Suspense, lazy} from 'react';
 import {groupArrayOfObjects, nameFormat} from '../../util';
 
 import Banner from '../../components/banner/banner';
 import DataContext from '../../components/data-context/data-context';
 import Input from '../../components/form/ui/input/input';
 import Player from '../../components/player/player';
-import PlayerResults from '../../components/player/player-results';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
+
+const PlayerResults = lazy(() => import(/* webpackChunkName: 'player-results' */ '../../components/player/player-results'));
 
 class Players extends Component {
 	constructor(props) {
@@ -257,15 +258,17 @@ class Players extends Component {
                 </thead>;
                 filteredAllAppearances.sort((a, b) => (a.date < b.date) ? 1 : -1)
                 playerResultsTemplate = filteredAllAppearances.map(key => 
-                    <PlayerResults
-                        date={key.date}
-                        season={key.season}
-                        match_id={key.match_id}
-                        team_home={key.team_home}
-                        team_away={key.team_away}
-                        home_goals={key.goals_home}
-                        away_goals={key.goals_away}
-                    />
+                    <Suspense fallback={<Spinner />}>
+                        <PlayerResults
+                            date={key.date}
+                            season={key.season}
+                            match_id={key.match_id}
+                            team_home={key.team_home}
+                            team_away={key.team_away}
+                            home_goals={key.goals_home}
+                            away_goals={key.goals_away}
+                        />
+                    </Suspense>
                 )
             }
 
