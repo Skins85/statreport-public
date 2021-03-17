@@ -165,6 +165,12 @@ export default function Navigation() {
 
   	return (
 	  	<React.Fragment>
+		  	<Link
+				to='/'>
+				<img 
+					src='../images/logos/statreport.png'
+					alt='StatReport logo' />
+			</Link>
     		<ul 
 				className={primaryToggle ? 'primary-navigation responsive' : 'primary-navigation'}
 				data-toggle-open={primaryToggle ? 'true' : 'false'}

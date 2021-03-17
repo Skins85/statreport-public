@@ -1,4 +1,12 @@
 header {
     background: $blue80;
     @include standard-grid;
+
+    img {
+        width: 54px;
+        margin: 0 0 0 $rem--one;
+        @media screen and (max-width: $mobile) {
+            display: none;
+        }
+    }
 }

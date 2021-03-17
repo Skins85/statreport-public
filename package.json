@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "analyze": "source-map-explorer \"build/static/js/*.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen --verbose",
     "eject": "react-scripts eject",
@@ -34,7 +35,7 @@
     "start1": "node server/index.js",
     "server1": "nodemon babel-node server/index.js",
     "dev1": "concurrently \"npm run server1\" \"npm run start\"",
-    "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped"
+    "analyse": "node scripts/analyse.js"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
@@ -61,11 +62,14 @@
     "enzyme-adapter-react-16": "^1.15.4",
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "node-env-run": "^3.0.2",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",
     "pino-colada": "^1.4.5",
     "react-test-render": "^1.1.2",
-    "webpack-bundle-analyzer": "^4.4.0"
+    "webpack": "^5.26.3",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.5.0"
   }
 }
