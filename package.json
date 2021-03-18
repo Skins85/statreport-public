@@ -34,8 +34,7 @@
     "dev": "run-p server start",
     "start1": "node server/index.js",
     "server1": "nodemon babel-node server/index.js",
-    "dev1": "concurrently \"npm run server1\" \"npm run start\"",
-    "analyse": "node scripts/analyse.js"
+    "dev1": "concurrently \"npm run server1\" \"npm run start\""
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
@@ -68,8 +67,6 @@
     "npm-run-all": "^4.1.5",
     "pino-colada": "^1.4.5",
     "react-test-render": "^1.1.2",
-    "webpack": "^5.26.3",
-    "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.5.0"
+    "webpack-bundle-analyzer": "^4.4.0"
   }
 }
