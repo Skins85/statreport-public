@@ -53,7 +53,7 @@ class Form extends Component {
         event.preventDefault();
         const data = new FormData(event.target);
         
-        fetch('add-result-complete', {
+        fetch('/add-result-complete', {
             method: 'POST',
             body: data,
         });
@@ -121,13 +121,13 @@ class Form extends Component {
     }
 
     componentDidMount() {
-        fetch(`/teams`)
+        fetch(`/api/teams`)
             .then(response => response.json())
             .then(data => this.setState({data}));
-        fetch(`/players`)
+        fetch(`/api/players`)
             .then(response => response.json())
             .then(playersData => this.setState({playersData}));
-        fetch(`/snippets`)
+        fetch(`/api/snippets`)
             .then(response => response.json())
             .then(snippetsData => this.setState({snippetsData}));
 
@@ -332,9 +332,9 @@ class Form extends Component {
                             {injuryTimeMinuteSelect}
                         </Select>
                         <Select 
-                            selectId={`match_scorers.goal_${i}_assist`} 
+                            selectId={`match_scorers.drfc_goal_${i}_assist`}
                             key={`assist${i}`} 
-                            selectName={`match_scorers.goal_${i}_assist`}
+                            selectName={`match_scorers.drfc_goal_${i}_assist`}
                             labelRequired 
                             labelText={`Assist (if applicable)`} 
                         >
@@ -461,7 +461,7 @@ class Form extends Component {
                     >
                         Logout
                     </button>
-                    <form action="add-result-complete" method="POST">
+                    <form action="/admin/add-result-complete" method="POST">
                         <section class="match-details">
                             <h2>Match details</h2>
                             <div class="flex-wrapper">

@@ -1,6 +1,11 @@
 import Banner from '../../components/banner/banner';
+import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
+import BarChartIcon from '../../images/icons/chart-bar.png';
 import HomepageBlock from '../../components/homepage/homepage-block';
+import LineChartIcon from '../../images/icons/chart-line.png';
+import PeopleIcon from '../../images/icons/people.png';
 import React from 'react';
+import TableIcon from '../../images/icons/table.png';
 import {nameFormat} from '../../util';
 
 export default function home() {
@@ -10,7 +15,7 @@ export default function home() {
             <Banner
                 name='StatReport'
                 description=''
-                image='/images/banner/football-field-alfredo-camacho.jpg'
+                image={BannerImg}
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
             <div className='wrapper--content__inpage'>
@@ -18,25 +23,25 @@ export default function home() {
                     <HomepageBlock
                         link='./matches'
                         title='Matches'
-                        imgSrc='../images/icons/table.png'
+                        imgSrc={TableIcon}
                         imgAlt='Table icon'
                     />
                     <HomepageBlock
                         link='./players'
                         title='Players'
-                        imgSrc='../images/icons/chart-bar.png'
+                        imgSrc={BarChartIcon}
                         imgAlt='Players'
                     />
                     <HomepageBlock
                         link='./matches/league-positions'
                         title='League positions'
-                        imgSrc='../images/icons/chart-line.png'
+                        imgSrc={LineChartIcon}
                         imgAlt='League positions'
                     />
                     <HomepageBlock
                         link='./matches/attendances'
                         title='Attendances'
-                        imgSrc='../images/icons/people.png'
+                        imgSrc={PeopleIcon}
                         imgAlt='Attendances'
                     />
                 </div>

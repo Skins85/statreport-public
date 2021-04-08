@@ -1,19 +1,20 @@
+import {Link} from 'react-router-dom';
 import React from 'react';
 
 export default function homepageBlock(props) {
     return (
         <div className='homepage__link-block'>
-            <a 
-                href={props.link}
+            <Link
+                to={props.link}
                 className='circle'
             >
                 <img 
                     src={props.imgSrc}
                     alt={props.imgAlt}
                 />
-            </a>
+            </Link>
             <h2>
-                <a href={props.link}>{props.title}</a>
+                <Link to={props.link}>{props.title}</Link>
             </h2>
         </div>
     )

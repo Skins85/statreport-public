@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Banner from '../../components/banner/banner';
+import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
 import Result from '../../components/result/result';
 import SeasonOptions from '../../components/form/options/season';
 import Select from '../../components/form/ui/select/select';
@@ -96,7 +97,7 @@ class Results extends Component {
         let banner = <Banner
           name='Matches'
           description='Results and match information'
-          image='/images/banner/football-field-alfredo-camacho.jpg'
+          image={BannerImg}
           // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
         />;
 

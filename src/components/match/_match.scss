@@ -28,19 +28,19 @@
                 grid-column: 3/-3;
             }
             .match-details__summary__team-home,
-        .match-details__summary__scorers__home {
-            grid-column: 2/7;
-            @media screen and (max-width: $tablet) {
-                grid-column: 1/7;
+            .match-details__summary__scorers__home {
+                grid-column: 2/7;
+                @media screen and (max-width: $tablet) {
+                    grid-column: 1/7;
+                }
+                text-align: right;
             }
-            text-align: right;
-        }
-        .match-details__summary__score {
-            grid-column: 7/9;
-            @media screen and (max-width: $tablet) {
+            .match-details__summary__score {
                 grid-column: 7/9;
+                @media screen and (max-width: $tablet) {
+                    grid-column: 7/9;
+                }
             }
-        }
         }
         
         .match-details__summary__team-away,

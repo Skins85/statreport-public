@@ -4,6 +4,15 @@ import { arrayInstancesToObject, filterArrayofObjects, nameFormat, objectInstanc
 import { configure, mount, shallow } from 'enzyme';
 
 import Banner from '../banner/banner';
+import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
+import IconArrowUp from '../../images/icons/arrow-up-freepik-1.png';
+import IconArrowUpDown from '../../images/icons/up-down-arrow-freepik.png';
+import IconFootball from '../../images/icons/football-freepik.png';
+import IconFootballPitch from '../../images/icons/football-pitch-freepik.png';
+import IconHouse from '../../images/icons/house-32-freepik.png';
+import IconRoad from '../../images/icons/road-32-freepik.png';
+import IconSpectators from '../../images/icons/crowd-freepik-1.png';
+import IconTextDocument from '../../images/icons/text-document-freepik.png';
 import Input from '../../components/form/ui/input/input';
 import { Link } from 'react-router-dom';
 import Moment from 'moment';
@@ -271,7 +280,7 @@ export default function Teams(props) {
                     <p>{nameFormat('Dagenham & Redbridge')} have an average attendance of {Math.ceil(homeAttendancesArray.reduce((a, b) => a + b, 0) / homeAttendancesArray.length).toLocaleString()} against {opponent}.</p>
                     <div className='wrapper--icon'>
                         <img 
-                            src='../images/icons/arrow-up-freepik-1.png' 
+                            src={IconArrowUp}
                             alt='Up arrow icon'
                             className='icon arrow'
                         />
@@ -294,7 +303,7 @@ export default function Teams(props) {
 
                     <div className='wrapper--icon'>
                         <img 
-                            src='../images/icons/arrow-up-freepik-1.png' 
+                            src={IconArrowUp}
                             alt='Up arrow icon'
                             className='icon arrow inverse'
                         />
@@ -462,8 +471,8 @@ export default function Teams(props) {
                     <Banner
                         name='Teams'
                         description='Teams'
-                        image='/images/banner/football-field-alfredo-camacho.jpg'
-                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                        image={BannerImg}
+                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freepublic/images.com/">Freepublic/images</a>
                     />
                     <div className='wrapper--content__inpage teams-layout'>
                         <div className='teams content__inpage content__inpage'>
@@ -475,7 +484,7 @@ export default function Teams(props) {
                             <section id='section--results'>
                                 <div className='wrapper--icon'>
                                     <img 
-                                        src='../images/icons/text-document-freepik.png' 
+                                        src={IconTextDocument}
                                         alt='Spreadsheet icon'
                                         className='icon'
                                     />
@@ -521,7 +530,7 @@ export default function Teams(props) {
                             <section id='section--results'>
                                 <div className='wrapper--icon'>
                                     <img 
-                                        src='../images/icons/football-pitch-freepik.png' 
+                                        src={IconFootballPitch}
                                         alt='Football pitch icon'
                                         className='icon'
                                     />
@@ -554,7 +563,7 @@ export default function Teams(props) {
                                     <div className='goalscorers'>
                                         <div className='wrapper--icon'>
                                             <img 
-                                                src='../images/icons/football-freepik.png' 
+                                                src={IconFootball}
                                                 alt='Goal icon'
                                                 className='icon'
                                             />
@@ -570,7 +579,7 @@ export default function Teams(props) {
                                     <div className='attendances'>
                                         <div className='wrapper--icon'>
                                             <img 
-                                                src='../images/icons/crowd-freepik-1.png' 
+                                                src={IconSpectators}
                                                 alt='Crowd icon icon'
                                                 className='icon'
                                             />
@@ -587,7 +596,7 @@ export default function Teams(props) {
                                     {teamsWrapper}
                                 <div className='wrapper--icon'>
                                     <img 
-                                        src='../images/icons/up-down-arrow-freepik.png' 
+                                        src={IconArrowUpDown}
                                         alt='Up/down arrow icon'
                                         className='icon'
                                     />
@@ -597,7 +606,7 @@ export default function Teams(props) {
                                 <div className='wrapper--record__margins'>
                                     <div className='record__margins record__margins--home'>
                                         <img 
-                                            src='../images/icons/house-32-freepik.png' 
+                                            src={IconHouse}
                                             alt='House icon' 
                                         />
                                         <div>
@@ -607,7 +616,7 @@ export default function Teams(props) {
                                     </div>
                                     <div className='record__margins record__margins--away'>
                                         <img 
-                                            src='../images/icons/road-32-freepik.png' 
+                                            src={IconRoad} 
                                             alt='Road icon' 
                                         />
                                         {largestAwayWinTemplate ? largestAwayWinTemplate : <p className='record__margins__outcome record__margins__outcome--win'>No recorded away wins</p>}
@@ -679,8 +688,8 @@ export default function Teams(props) {
                     <Banner
                         name='Teams'
                         description='Teams'
-                        image='/images/banner/football-field-alfredo-camacho.jpg'
-                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+                        image={BannerImg}
+                        // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freepublic/images.com/">Freepublic/images</a>
                     />
                     <div className='wrapper--content__inpage teams-layout'>
                         <div className='teams content__inpage content__inpage'>

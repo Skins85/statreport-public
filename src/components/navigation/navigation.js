@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {Link} from 'react-router-dom';
+import SiteIcon from '../../images/logos/statreport.png';
 
 const links = [
 	{
@@ -57,23 +58,23 @@ export default function Navigation() {
 	const [secondaryToggle, setSecondaryToggle] = useState(false);
 	const [sectionPath, setSectionPath] = useState({});
 	
-  	useEffect(() => {
+  	// useEffect(() => {
 
-		async function fetchData() {
-            const res = await fetch("/get-navigation-links");
-            res
-                .json()
-                .then(res => setData(res))
-                .catch(err => setErrors(err));
-		}
-		fetchData();
+	// 	async function fetchData() {
+    //         const res = await fetch("/get-navigation-links");
+    //         res
+    //             .json()
+    //             .then(res => setData(res))
+    //             .catch(err => setErrors(err));
+	// 	}
+	// 	fetchData();
 
-		// If users reaches page directly or by refresh, highlight correct primary section
-		let url = window.location.href;
-		let urlParts = url.split('/');
-		setSectionPath(`/${urlParts[3]}`);
+	// 	// If users reaches page directly or by refresh, highlight correct primary section
+	// 	let url = window.location.href;
+	// 	let urlParts = url.split('/');
+	// 	setSectionPath(`/${urlParts[3]}`);
 
-    },[]);
+    // },[]);
 
 
 	let subPages, subLinks;
@@ -168,7 +169,7 @@ export default function Navigation() {
 		  	<Link
 				to='/'>
 				<img 
-					src='../images/logos/statreport.png'
+					src={SiteIcon}
 					alt='StatReport logo' />
 			</Link>
     		<ul 

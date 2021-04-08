@@ -2,6 +2,7 @@ import React, {Component, Suspense, lazy} from 'react';
 import {groupArrayOfObjects, nameFormat} from '../../util';
 
 import Banner from '../../components/banner/banner';
+import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
 import DataContext from '../../components/data-context/data-context';
 import Input from '../../components/form/ui/input/input';
 import Player from '../../components/player/player';
@@ -121,7 +122,7 @@ class Players extends Component {
         let banner = <Banner
             name='Players'
             description='Appearances and goal data'
-            image='/images/banner/football-field-alfredo-camacho.jpg'
+            image={BannerImg}
             // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
         />
 
@@ -275,7 +276,7 @@ class Players extends Component {
             return (
                 <React.Fragment>
                     <Banner
-                        image='/images/banner/football-field-alfredo-camacho.jpg'
+                        image={BannerImg}
                         // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                     />
                     <div className='wrapper--content__inpage'>
@@ -392,7 +393,7 @@ class Players extends Component {
                         <Banner
                             name='Players'
                             description='Appearances and goal data'
-                            image='/images/banner/football-field-alfredo-camacho.jpg'
+                            image={BannerImg}
                             // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
                         />
                         <div className='wrapper--content__inpage'>

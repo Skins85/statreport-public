@@ -1,4 +1,6 @@
 import Banner from '../../components/banner/banner';
+import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
+import ProfileImg from '../../images/about/mark-skinsley.jpg';
 import React from 'react';
 
 export default function About() {
@@ -8,13 +10,14 @@ export default function About() {
             <Banner
                 name='About'
                 description='A bit about me, the goals of the site and how it is built'
-                image='/images/banner/football-field-alfredo-camacho.jpg'
+                image={BannerImg}
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
             <div className='wrapper--content__inpage'>
                 <div class='about'>
                     <img 
-                        src='../images/about/mark-skinsley.jpg'
+                        src={ProfileImg}
+                        // src='./public/images/about/mark-skinsley.jpg'
                         alt='Mark Skinsley' />
                     <p class='standfirst'>
                         My name is Mark Skinsley and I’m a full-time Web Developer and lifelong 

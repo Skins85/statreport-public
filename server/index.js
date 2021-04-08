@@ -1,10 +1,12 @@
 const express = require('express');
+const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const util = require('./server-util');
 const db = require('../config/db');
 
 const app = express();
+
 app.use(bodyParser.urlencoded({ extended: false })); // Middleware that allows you to handle data passed by requests
 app.use(pino);
 
@@ -15,6 +17,7 @@ app.get('/players', (req, res) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
     res.send(({ players: results }));
+    console.log('results data')
   })
 });
 
@@ -38,18 +41,8 @@ app.get('/snippets', (req, res) => {
   })
 });
 
-// Add match data
-app.post('/admin/add-result-complete', (req, res) => {
-  // Get data object from POST request
-  const resultsData = req.body;
-  console.log(resultsData);
-  util.targetTableInsert(resultsData, 'results');
-  util.targetTableInsert(resultsData, 'match_scorers');
-  util.targetTableInsert(resultsData, 'attendances');
-  util.targetTableInsert(resultsData, 'assists');
-  res.end();
-});
+// POST data config set in webpack.dev.js
 
-app.listen('3001', () => {
-    console.log('Server started on port 3001');
+app.listen('3002', () => {
+    console.log('Server running on port 3002');
 })
