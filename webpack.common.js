@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {  
     // Entry point for Webpack  
@@ -9,6 +10,12 @@ module.exports = {
         // Plugin to use HTML file for serving bundled js files 
         new HtmlWebpackPlugin({
             template: './src/index.html'
+        }),
+        // Analyse compiled bundle
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'server',
+            generateStatsFile: true,
+            statsOptions: { source: false }
         })
     ],
 
