@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const BrotliPlugin = require('brotli-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {  
     // Entry point for Webpack  
@@ -21,7 +22,9 @@ module.exports = {
         new BrotliPlugin({
             asset: '[file].br',
             test: /\.(js)$/
-        })
+        }),
+        // Only support 'en' locale for Moment.js date formatting
+        new MomentLocalesPlugin()
     ],
 
     // File path/name used for deploying the bundled file  

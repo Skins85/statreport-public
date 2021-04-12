@@ -39,7 +39,7 @@ export default function About() {
                         On the tech side, templates are built in ReactJS and server interactions 
                         by PHP. Styling is handled by SCSS and there are some third-party libraries such as 
                         ChartJS used to build the underlying functionality of the charts. My code 
-                        is publicly available on <a href='https://github.com/Skins85/statreport-reactjs'>GitHub</a>&nbsp;
+                        is publicly available on <a href='https://github.com/Skins85/statreport-public'>GitHub</a>&nbsp;
                         and you can find out more about me on my <a href='https://www.linkedin.com/in/mark-skinsley-9b4635a7'>LinkedIn page</a>. Further 
                         information is also available in my <a href='./about/bio'>Bio</a>.
                     </p>
