@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 module.exports = {  
     // Entry point for Webpack  
@@ -16,6 +17,10 @@ module.exports = {
             analyzerMode: 'server',
             generateStatsFile: true,
             statsOptions: { source: false }
+        }),
+        new BrotliPlugin({
+            asset: '[file].br',
+            test: /\.(js)$/
         })
     ],
 

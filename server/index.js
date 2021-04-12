@@ -4,11 +4,24 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const util = require('./server-util');
 const db = require('../config/db');
+const shrinkRay = require('shrink-ray');
 
 const app = express();
 
+// Middleware
 app.use(bodyParser.urlencoded({ extended: false })); // Middleware that allows you to handle data passed by requests
 app.use(pino);
+app.use(shrinkRay()); // Compress requests for use with Brotli
+
+app.get('*.js', (req, res, next) => {
+  if (req.header('Accept-Encoding').includes('br')) {
+    req.url = req.url + '.br';
+    console.log(req.header('Accept-Encoding'));
+    res.set('Content-Encoding', 'br');
+    res.set('Content-Type', 'application/javascript; charset=UTF-8');
+  }
+  next();
+});
 
 // Fetch all players
 app.get('/players', (req, res) => {
