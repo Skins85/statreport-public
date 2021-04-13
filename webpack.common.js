@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const BrotliPlugin = require('brotli-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 
 module.exports = {  
     // Entry point for Webpack  
@@ -23,8 +24,13 @@ module.exports = {
             asset: '[file].br',
             test: /\.(js)$/
         }),
-        // Only support 'en' locale for Moment.js date formatting
-        new MomentLocalesPlugin()
+        // Only support 'en' locale for Moment.js library's date formatting
+        new MomentLocalesPlugin(),
+        // Only support 'GB' time zone since 1991 for Moment.js library
+        new MomentTimezoneDataPlugin({
+            matchZones: 'GB',
+            startYear: 1991,
+        })
     ],
 
     // File path/name used for deploying the bundled file  
