@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function homepageBlock(props) {
     return (
-        <div className='homepage__link-block'>
+        <div className={`homepage__link-block ${props.class}`}>
             <Link
                 to={props.link}
                 className='circle'

@@ -12,38 +12,47 @@ export default function home() {
     document.title = `StatReport | An unofficial Dagenham & Redbridge statistics site`;
     return (
         <React.Fragment>
-            <Banner
+            {/* <Banner
                 name='StatReport'
                 description=''
                 image={BannerImg}
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-            />
+            /> */}
             <div className='wrapper--content__inpage'>
+                <div className='wrapper--homepage__title'>
+                    <h1>StatReport</h1>
+                    <p>An unofficial Dagenham & Redbridge statistics site</p>
+                </div>
+                
                 <div className='wrapper--homepage__link-block'>
-                    <HomepageBlock
-                        link='./matches'
-                        title='Matches'
-                        imgSrc={TableIcon}
-                        imgAlt='Table icon'
-                    />
-                    <HomepageBlock
-                        link='./players'
-                        title='Players'
-                        imgSrc={BarChartIcon}
-                        imgAlt='Players'
-                    />
-                    <HomepageBlock
-                        link='./matches/league-positions'
-                        title='League positions'
-                        imgSrc={LineChartIcon}
-                        imgAlt='League positions'
-                    />
-                    <HomepageBlock
-                        link='./matches/attendances'
-                        title='Attendances'
-                        imgSrc={PeopleIcon}
-                        imgAlt='Attendances'
-                    />
+                    <div className='homepage__link-block--left slide-bounce-right'>
+                        <HomepageBlock
+                            link='./matches'
+                            title='Matches'
+                            imgSrc={TableIcon}
+                            imgAlt='Table icon'
+                        />
+                        <HomepageBlock
+                            link='./players'
+                            title='Players'
+                            imgSrc={BarChartIcon}
+                            imgAlt='Players'
+                        />
+                    </div>
+                    <div className='homepage__link-block--right slide-bounce-left'>
+                        <HomepageBlock
+                            link='./matches/league-positions'
+                            title='League positions'
+                            imgSrc={LineChartIcon}
+                            imgAlt='League positions'
+                        />
+                        <HomepageBlock
+                            link='./matches/attendances'
+                            title='Attendances'
+                            imgSrc={PeopleIcon}
+                            imgAlt='Attendances'
+                        />
+                    </div>
                 </div>
             </div>
         </React.Fragment>
