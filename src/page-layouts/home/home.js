@@ -12,18 +12,13 @@ export default function home() {
     document.title = `StatReport | An unofficial Dagenham & Redbridge statistics site`;
     return (
         <React.Fragment>
-            {/* <Banner
-                name='StatReport'
-                description=''
-                image={BannerImg}
-                // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-            /> */}
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans" />
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,800" />
+            <div className='wrapper--homepage__title'>
+                <h1>StatReport</h1>
+                <p>An unofficial Dagenham & Redbridge statistics site</p>
+            </div>
             <div className='wrapper--content__inpage'>
-                <div className='wrapper--homepage__title'>
-                    <h1>StatReport</h1>
-                    <p>An unofficial Dagenham & Redbridge statistics site</p>
-                </div>
-                
                 <div className='wrapper--homepage__link-block'>
                     <div className='homepage__link-block--left slide-bounce-right'>
                         <HomepageBlock

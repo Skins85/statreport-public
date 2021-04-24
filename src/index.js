@@ -31,6 +31,7 @@ const Login = lazy(() => import(/* webpackChunkName: 'login' */ './components/lo
 const Matches = lazy(() => import(/* webpackChunkName: 'match' */ './components/match/match'));
 const Players = lazy(() => import(/* webpackChunkName: 'players' */ './page-layouts/players/players'));
 const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/teams/teams'));
+const DataFetchTest = lazy(() => import(/* webpackChunkName: 'data-fetch-test' */ './page-layouts/data-fetch-test/data-fetch-test'));
 
 const routing = (
     <Router>
