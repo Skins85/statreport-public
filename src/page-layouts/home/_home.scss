@@ -2,11 +2,37 @@
     grid-column-gap: 4/-9;
 }
 
-.content-wrapper {
+.wrapper--homepage__title {
+    font-family: 'Open Sans', 'Josefin Slab', 'Jura', serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    background: white;
+    text-align: center;
+    padding: $rem--one;
+    grid-column: 1/-1;
+
+    h1 {
+        animation-duration: 4s;
+        animation-name: fadeIn;
+        font-weight: bolder;
+        font-size: $rem--four;
+        display: inline;
+        border-bottom: $rem--half solid orange;
+        padding: 0 $rem--one;
+    }
+
+    p {
+        animation-duration: 1.5s;
+        animation-name: slide__in__left;
+        margin-top: $rem--two-half;
+    }
+}
+
+.content-wrapper .wrapper--content__inpage--homepage {
     // Background color transition effect inspiration drawn from Alison Quaglia in following article (https://dev.to/babib/amazing-pure-html-and-css-background-animations-4dim)
     background: linear-gradient(-45deg, $red70, $red40, $blue70, $blue40);
     background-size: 200% 200%;
     animation: gradient 30s ease infinite;
+    grid-column: 1/-1;
 
     @keyframes gradient {
         0% {
@@ -17,27 +43,6 @@
         }
         100% {
             background-position: 0% 50%;
-        }
-    }
-
-    .wrapper--homepage__title {
-        font-family: 'Open Sans', 'Josefin Slab', 'Jura', serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-style: italic;
-
-        h1 {
-            animation-duration: 4s;
-            animation-name: fadeIn;
-            font-weight: bolder;
-            font-size: $rem--four;
-            display: inline;
-            border-bottom: $rem--half solid orange;
-            padding: 0 $rem--one;
-        }
-    
-        p {
-            animation-duration: 1.5s;
-            animation-name: slide__in__left;
-            margin-top: $rem--two-half;
         }
     }
 
@@ -74,7 +79,7 @@
     @keyframes slide__in__left {
         from {
             margin-left: 100%;
-            width: 300%;
+            width: 50%;
         }
         to {
             margin-left: 0%;
@@ -89,7 +94,7 @@
         }
         to {
             margin-right: 0%;
-            width: 100%;
+            width: 50%;
         }
     }
 
@@ -97,10 +102,4 @@
         color: white;
     }
 
-    .wrapper--homepage__title {
-        background: white;
-        text-align: center;
-        padding: $rem--one;
-        grid-column: 1/-1;
-    }
 }

@@ -7,4 +7,26 @@
 .homepage__link-block {
     flex: 1;
     padding: $rem--two;
+
+    h2 {
+        margin-top: $rem--quarter;
+        font-family: 'Open Sans', 'Josefin Slab', 'Jura', serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .homepage__icon {
+        @include circle($gray11, 50px, 200px);
+        color: white;
+        background: $gray13;
+        transition: all 0.5s ease-in-out;
+        img {
+            transform: scale(1);
+            transition: all 0.5s ease-in-out;
+        }
+        &:hover {
+            background: $gray11;
+            img {
+                transform: scale(1.1);
+            }
+        }
+    }
 }

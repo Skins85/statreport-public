@@ -18,7 +18,7 @@ export default function home() {
                 <h1>StatReport</h1>
                 <p>An unofficial Dagenham & Redbridge statistics site</p>
             </div>
-            <div className='wrapper--content__inpage'>
+            <div className='wrapper--content__inpage--homepage'>
                 <div className='wrapper--homepage__link-block'>
                     <div className='homepage__link-block--left slide-bounce-right'>
                         <HomepageBlock

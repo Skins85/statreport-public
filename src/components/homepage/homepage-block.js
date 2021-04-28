@@ -6,16 +6,14 @@ export default function homepageBlock(props) {
         <div className={`homepage__link-block ${props.class}`}>
             <Link
                 to={props.link}
-                className='circle'
+                className='homepage__icon'
             >
                 <img 
                     src={props.imgSrc}
                     alt={props.imgAlt}
                 />
+                <h2>{props.title}</h2>
             </Link>
-            <h2>
-                <Link to={props.link}>{props.title}</Link>
-            </h2>
         </div>
     )
 }

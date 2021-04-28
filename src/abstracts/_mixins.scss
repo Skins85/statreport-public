@@ -1,10 +1,10 @@
-@mixin circle($color, $padding) {
+@mixin circle($color, $padding, $size) {
     border-radius: 50%;
     background-color: $color;
     padding: $padding;
     display: inline-block;
-    width: auto;
-    height: auto;
+    width: $size;
+    height: $size;
 }
 
 @mixin triangle($color, $direction, $size, $gradient: 1.75) {
@@ -40,8 +40,8 @@
 
 // Base classes using mixins
 .circle {
-    @include circle($gray8, 50px);
+    @include circle($gray10, 50px, 200px);
     &:hover {
-        background-color: $gray7;
+        background-color: $gray8;
     }
 }
