@@ -46,14 +46,14 @@
         }
     }
 
-    .slide-bounce-left {
+    .homepage__link-block--right {
         animation-name: slide__in__left;
         animation-timing-function: ease;
         animation-duration: 2s;
         flex: 1;
     }
 
-    .slide-bounce-right {
+    .homepage__link-block--left {
         animation-name: slide__in__right;
         animation-timing-function: ease;
         animation-duration: 2s;
@@ -69,32 +69,21 @@
         }
     }
 
-    @keyframes bounce {
-        0%   { transform: translateX(0); }
-        30%  { transform: translateX(-100px); }
-        50%  { transform: translateX(-50px); }
-        100% { transform: translateX(-25px); }
-    }
-
     @keyframes slide__in__left {
         from {
-            margin-left: 100%;
-            width: 50%;
+            margin-left: 10%;
         }
         to {
             margin-left: 0%;
-            width: 100%;
         }
     }
 
     @keyframes slide__in__right {
         from {
-            margin-right: 100%;
-            width: 300%;
+            margin-right: 10%;
         }
         to {
             margin-right: 0%;
-            width: 50%;
         }
     }
 
