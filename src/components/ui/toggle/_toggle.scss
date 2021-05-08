@@ -7,7 +7,7 @@
     cursor: pointer;
     &:after {
         content: '';
-        background: url(http://localhost:3000/images/icons/chevron-freepik.png) no-repeat;
+        // background: url(/icons/chevron-freepik.png) no-repeat;
         width: $rem--one;
         height: $rem--one;
         display: inline-block;    
