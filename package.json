@@ -10,7 +10,8 @@
     "build": "webpack --config webpack.prod.js",
     "server": "nodemon babel-node server/index.js",
     "dev": "run-p start run-server",
-    "bundle-report": "webpack-bundle-analyzer --port 4200 dist/stats.json"
+    "bundle-report": "webpack-bundle-analyzer --port 4200 dist/stats.json",
+    "test": "jest"
   },
   "proxy": "http://localhost:3001",
   "author": "",
