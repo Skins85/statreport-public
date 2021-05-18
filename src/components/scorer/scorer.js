@@ -124,7 +124,7 @@ export default function Scorers() {
         scorersListBySeason = playerAllGoalsArray.map(s => {
             return (
                 <p>{s.length}&nbsp;
-                    <a href={`../${s[0].scorer_id}`}>{s[0].first_name} {s[0].surname}</a>
+                    <a href={`../players/${s[0].scorer_id}`}>{s[0].first_name} {s[0].surname}</a>
                 </p>
             )
         })

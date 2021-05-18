@@ -34,7 +34,7 @@ const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/te
 
 const routing = (
     <Router>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Spinner />}>
             <ContentWrapper>
                 <Switch>
                     <Route exact path="/" component={Home} />
