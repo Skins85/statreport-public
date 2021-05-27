@@ -87,18 +87,24 @@ const playerStartsFilter = (data, player_id) => {
 }
 
 const playerSubsFilter = (data, player_id) => {
-    if (data) {
-        let filteredArray = data.filter(function (d) {
-            return  (
-                d.sub_1 === player_id || 
-                d.sub_2 === player_id ||
-                d.sub_3 === player_id ||
-                d.sub_4 === player_id ||
-                d.sub_5 === player_id
-            );
-        });
-        return filteredArray;
-    }
+    let filteredArray = data.filter(function (d) {
+        return  (
+            d.sub_1 === player_id || 
+            d.sub_2 === player_id ||
+            d.sub_3 === player_id ||
+            d.sub_4 === player_id ||
+            d.sub_5 === player_id
+        );
+    });
+    return filteredArray;
+}
+
+const removeEmptyObjectValues = obj => {
+    return (
+        Object.entries(obj)
+        //  .filter(([_, v]) => v != 0)
+        // .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
+    );
 }
 
 module.exports = {
@@ -109,5 +115,6 @@ module.exports = {
     filterArrayofObjects,
     toggleState,
     playerStartsFilter,
-    playerSubsFilter
+    playerSubsFilter,
+    removeEmptyObjectValues
 }
