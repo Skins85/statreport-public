@@ -86,38 +86,10 @@ const playerStartsFilter = (data, player_id) => {
     }
 }
 
-const playerStartsFilterNew = (data, array, player_id) => {
-    if (data) {
-        for (const a of array) {
-            let filteredArray = data.filter(function (d) {
-                return  (
-                    d[a] === player_id
-                );
-            });
-            console.log(filteredArray);
-            // })
-            // for (const d of data) {
-            //     console.log(d[a]);
-            // }
-        }
-        
-            // console.log(a);
-            // let filteredArray = data.filter(function (d) {
-            //     return  (
-            //         d[a] === player_id
-            //     );
-            // });
-            return 'filteredArray'
-        
-        
-    }
-}
-
 const playerSubsFilter = (data, player_id) => {
     let filteredArray = data.filter(function (d) {
-        let a = 'sub_1';
         return  (
-            d[a] === player_id || 
+            d.sub_1 === player_id || 
             d.sub_2 === player_id ||
             d.sub_3 === player_id ||
             d.sub_4 === player_id ||
@@ -135,6 +107,5 @@ module.exports = {
     filterArrayofObjects,
     toggleState,
     playerStartsFilter,
-    playerSubsFilter,
-    playerStartsFilterNew
+    playerSubsFilter
 }

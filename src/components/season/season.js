@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {playerStartsFilter, playerStartsFilterNew, playerSubsFilter, removeEmptyObjectValues} from '../../util';
+import {playerStartsFilter, playerSubsFilter, removeEmptyObjectValues} from '../../util';
 
 import Spinner from '../ui/spinner/spinner';
 import Table from '../hoc/table/table';
@@ -16,22 +16,40 @@ export default function Season() {
         players = playersData.results,
         playerInfoAll = []; // Send to appearances table component
 
-    const startsFull = ['player_1', 'player_2', 'player_3', 'player_4', 'player_5', 'player_6', 'player_7', 'player_8', 'player_9', 'player_10', 'player_11'];
-    const starts = ['player_1', 'player_2'];
-    let a = playerStartsFilterNew(matches, starts, 'justham-elliot');
-    console.log(a);
-
     if (matches && players) {
         matches = matches.filter((match) => match.season === '2020-21');
         
         for (const player of players) {
+
+            let starts = playerStartsFilter(matches, player.Player),
+                subs = playerSubsFilter(matches, player.Player);
+
             const playerInfo = {
                 id: player.Player,
-                starts: playerStartsFilter(matches, player.Player).length,
-                subs: playerSubsFilter(matches, player.Player).length,
+                appearances: [
+                    {
+                        competition: [
+                            {
+                                league: {
+                                    starts: starts.filter((start) => start.competition === 'League').length,
+                                    subs: subs.filter((sub) => sub.competition === 'League').length
+                                },
+                                facup: {
+                                    starts: starts.filter((start) => start.competition === 'FA Cup').length,
+                                    subs: subs.filter((sub) => sub.competition === 'FA Cup').length
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
-            playerInfo.total = playerInfo.starts + playerInfo.subs;
+
+            playerInfo.total =  playerInfo['appearances'][0]['competition'][0]['league']['starts'] + 
+                                playerInfo['appearances'][0]['competition'][0]['league']['subs'] +
+                                playerInfo['appearances'][0]['competition'][0]['facup']['starts'] +
+                                playerInfo['appearances'][0]['competition'][0]['facup']['subs'];
             playerInfo.total > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
+
         }
 
         console.log(playerInfoAll);
