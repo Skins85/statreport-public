@@ -14,7 +14,7 @@ export default function AppearancesTable(props) {
                     <td>
                         {d.appearances[0]['competition'][0]['league']['starts']}
                         {d.appearances[0]['competition'][0]['league']['subs'] > 0 ? ` (${d.appearances[0]['competition'][0]['league']['subs']})` : null}
-                        
+                        {d.appearances[0]['competition'][0]['league']['starts'] + d.appearances[0]['competition'][0]['league']['subs']}
                     </td>
                 </tr>
             )
@@ -23,7 +23,29 @@ export default function AppearancesTable(props) {
 
     return (
         <Table
-            headers={['', 'League','FA Cup']}
+            headers={
+                [
+                    {
+                        "row": 2, 
+                        "col": 1,
+                        "val": ""
+                    },
+                    {
+                        "row": 1,
+                        "col": [
+                            "Starts (subs)", "Total"
+                        ],
+                        "val": "League"
+                    },
+                    {
+                        "row": 1,
+                        "col": [
+                            "Starts (subs)", "Total"
+                        ],
+                        "val": "FA Cup"
+                    }
+                ]
+            }
         >
             {appearances}
         </Table>
