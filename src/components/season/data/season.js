@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {playerStartsFilter, playerSubsFilter, removeEmptyObjectValues} from '../../../util';
+import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
 import Season from '../layout/season';
 import axios from 'axios';
@@ -7,23 +7,29 @@ import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
 
 export default function Appearances() {
-    const { data: matchesData, hasError: matchesError, dataLoaded: matchesDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-matches.php');
-    const { data: playersData, hasError: playersError, dataLoaded: playersDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-players.php');
+    const { data: matchesData, hasError: matchesDataError, dataLoaded: matchesDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-matches.php');
+    const { data: playersData, hasError: playersDataError, dataLoaded: playersDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-players.php');
+    const { data: goalsData, hasError: goalsDataError, dataLoaded: goalsDataLoaded } = useAxios(' https://www.statreport.co.uk/api/json/data-players-goals-all.php');
     
     // Variables
     let matches = matchesData.results,
         players = playersData.results,
+        goals = goalsData.results,
         playerInfoAll = []; // Send to appearances table component
 
-    if (matches && players) {
+    if (matches && players && goals) {
     
         matches = matches.filter((match) => match.season === '2019-20');
+        goals = goals.filter((goal) => goal.season === '2019-20');
     
         for (const player of players) {
 
             let starts = playerStartsFilter(matches, player.Player),
-                subs = playerSubsFilter(matches, player.Player);
+                subs = playerSubsFilter(matches, player.Player),
+                filteredGoals = playerGoalsFilter(goals, player.Player);
 
+                console.log(filteredGoals);
+            
             const playerInfo = {
                 id: player.Player,
                 appearances: [
@@ -58,10 +64,24 @@ export default function Appearances() {
                             }
                         ]
                     }
+                ],
+                goals: [
+                    {
+                        competition: [
+                            {
+                                league: filteredGoals.filter((goal) => goal.competition === 'League').length,
+                                faCup: filteredGoals.filter((goal) => goal.competition === 'FA Cup').length,
+                                faTrophy: filteredGoals.filter((goal) => goal.competition === 'FA Trophy').length,
+                                leagueCup: filteredGoals.filter((goal) => goal.competition === 'League Cup').length,
+                                footballLeagueTrophy: filteredGoals.filter((goal) => goal.competition === 'Football League Trophy').length,
+                                essexSeniorCup: filteredGoals.filter((goal) => goal.competition === 'Essex Senior Cup').length
+                            }
+                        ]
+                    }
                 ]
             }
 
-            playerInfo.total =  
+            let appearancesTotal =
                 playerInfo['appearances'][0]['competition'][0]['league']['starts'] + 
                 playerInfo['appearances'][0]['competition'][0]['league']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['faCup']['starts'] +
@@ -75,15 +95,19 @@ export default function Appearances() {
                 playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['starts'] +
                 playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['subs'];
 
-            playerInfo.total > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
+            appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
         }
     }
+
+    console.log(playerInfoAll);
 
     return (
         
         <Season
-            matches={playerInfoAll}
+            matches={matches}
+            appearances={playerInfoAll}
             players={playersData}
+            goals={goalsData}
         />
     ) 
    

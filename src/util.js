@@ -99,6 +99,15 @@ const playerSubsFilter = (data, player_id) => {
     return filteredArray;
 }
 
+const playerGoalsFilter = (data, player_id) => {
+    let filteredArray = data.filter(function (d) {
+        return  (
+            d.scorer_id === player_id
+        );
+    });
+    return filteredArray;
+}
+
 module.exports = {
     groupArrayOfObjects,
     nameFormat,
@@ -107,5 +116,6 @@ module.exports = {
     filterArrayofObjects,
     toggleState,
     playerStartsFilter,
-    playerSubsFilter
+    playerSubsFilter,
+    playerGoalsFilter
 }

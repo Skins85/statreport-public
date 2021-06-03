@@ -29,21 +29,13 @@ export default function Table(props) {
                 for (const option of options) {
                     subheaderVals.push(option);
                 }
-                // subheaderVals.push(header['col'])
             }
         }
     }
-
-    // for (const s of subheaderVals) {
-    //     console.log(s);
-    // }
-
-    // console.log(subheaderVals)
-    subheaderVals ? 
+    subheaderVals.length > 0 ? 
         subheaders = 
             <tr>
                 {subheaderVals.map(s => {
-                    // console.log(s.length);
                     return (
                         <th>{s}</th>
                     )
@@ -57,13 +49,21 @@ export default function Table(props) {
                 className={props.className}
                 data-final-row-highlight={props.finalRowHighlight}
             >
-                <thead>
-                    {headers}
-                    {subheaders}
-                </thead>
-                <tbody>
-                    {props.children}
-                </tbody>
+                {(headers || subheaderVals.length > 0) ?
+                    <React.Fragment>
+                        <thead>
+                            {headers}
+                            {subheaders}
+                        </thead>
+                        <tbody>
+                            {props.children}
+                        </tbody>
+                    </React.Fragment>
+                    :
+                    <React.Fragment>
+                        {props.children}
+                    </React.Fragment>
+                }
             </table>
         </div>
     )

@@ -11,11 +11,9 @@ export default function AppearancesTable(props) {
             return (
                 <tr key={d.id}>
                     <td>{d.first_name} {d.surname}</td>
-                    <td>
-                        {d.appearances[0]['competition'][0]['league']['starts']}
-                        {d.appearances[0]['competition'][0]['league']['subs'] > 0 ? ` (${d.appearances[0]['competition'][0]['league']['subs']})` : null}
-                        {d.appearances[0]['competition'][0]['league']['starts'] + d.appearances[0]['competition'][0]['league']['subs']}
-                    </td>
+                    <td className='align-right'>{d.appearances[0]['competition'][0]['league']['starts']}
+                        {d.appearances[0]['competition'][0]['league']['subs'] > 0 ? ` (${d.appearances[0]['competition'][0]['league']['subs']})` : null}</td>
+                    <td className='align-right'>{d.appearances[0]['competition'][0]['league']['starts'] + d.appearances[0]['competition'][0]['league']['subs']}</td>
                 </tr>
             )
         });
