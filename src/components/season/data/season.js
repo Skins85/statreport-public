@@ -27,8 +27,6 @@ export default function Appearances() {
             let starts = playerStartsFilter(matches, player.Player),
                 subs = playerSubsFilter(matches, player.Player),
                 filteredGoals = playerGoalsFilter(goals, player.Player);
-
-                console.log(filteredGoals);
             
             const playerInfo = {
                 id: player.Player,
@@ -104,10 +102,8 @@ export default function Appearances() {
     return (
         
         <Season
-            matches={matches}
-            appearances={playerInfoAll}
+            appearancesGoals={playerInfoAll}
             players={playersData}
-            goals={goalsData}
         />
     ) 
    
