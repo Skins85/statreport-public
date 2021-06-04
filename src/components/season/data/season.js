@@ -81,19 +81,27 @@ export default function Appearances() {
                 ]
             }
 
-            let appearancesTotal =
+            let startsTotal = 
                 playerInfo['appearances'][0]['competition'][0]['league']['starts'] + 
-                playerInfo['appearances'][0]['competition'][0]['league']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['faCup']['starts'] +
-                playerInfo['appearances'][0]['competition'][0]['faCup']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['faTrophy']['starts'] +
-                playerInfo['appearances'][0]['competition'][0]['faTrophy']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['leagueCup']['starts'] +
-                playerInfo['appearances'][0]['competition'][0]['leagueCup']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['footballLeagueTrophy']['starts'] +
+                playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['starts'],
+            
+            subsTotal = 
+                playerInfo['appearances'][0]['competition'][0]['league']['subs'] + 
+                playerInfo['appearances'][0]['competition'][0]['faCup']['subs'] +
+                playerInfo['appearances'][0]['competition'][0]['faTrophy']['subs'] +
+                playerInfo['appearances'][0]['competition'][0]['leagueCup']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['footballLeagueTrophy']['subs'] +
-                playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['starts'] +
-                playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['subs'];
+                playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['subs'],
+
+            appearancesTotal = startsTotal + subsTotal;
+
+            // Create total starts and substitute appearances to player data
+            playerInfo['appearances']['totalStarts'] = startsTotal;
+            playerInfo['appearances']['totalSubs'] = subsTotal;
 
             appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
         }

@@ -47,10 +47,18 @@ export default function AppearancesTable(props) {
                 "val": competition
             })
         }
+        tableheadings.push({
+                "row": 1,
+                "col": [
+                    "Starts (subs)", "Goals"
+                ],
+                "val": 'Total'
+            })
     } 
 
     // Table body data => Row for each player with multiple table cells
     let appearances = Array.from(props.appearances).map((d) => {
+        console.log(d.appearances)
         return (
             <tr key={d.id}>
                 <td>{d.first_name} {d.surname}</td>
@@ -63,6 +71,10 @@ export default function AppearancesTable(props) {
                         />
                     )
                 })}
+                <AppearancesTableCell 
+                    starts={d.appearances['totalStarts']} 
+                    subs={d.appearances['totalSubs']} 
+                />
             </tr>
         )
     });
