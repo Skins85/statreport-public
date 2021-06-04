@@ -15,12 +15,14 @@ export default function Appearances() {
     let matches = matchesData.results,
         players = playersData.results,
         goals = goalsData.results,
+        competitions,
         playerInfoAll = []; // Send to appearances table component
 
     if (matches && players && goals) {
     
-        matches = matches.filter((match) => match.season === '2019-20');
-        goals = goals.filter((goal) => goal.season === '2019-20');
+        matches = matches.filter((match) => match.season === '2013-14');
+        goals = goals.filter((goal) => goal.season === '2013-14');
+        competitions = [...new Set(matches.map(match => match.competition))];
     
         for (const player of players) {
 
@@ -97,13 +99,11 @@ export default function Appearances() {
         }
     }
 
-    console.log(playerInfoAll);
-
     return (
-        
         <Season
             appearancesGoals={playerInfoAll}
             players={playersData}
+            competitions={competitions}
         />
     ) 
    

@@ -6,7 +6,8 @@ import AppearancesTable from '../components/appearancesTable';
 export default function Season(props) {
 
     let appearances = props.appearancesGoals,
-        players = props.players;
+        players = props.players,
+        competitions = props.competitions;
 
     if (appearances && players) {
         players = Array.from(players.results);
@@ -24,6 +25,7 @@ export default function Season(props) {
         <div className='wrapper--content__inpage'>
             <AppearancesTable
                 appearances={appearances}
+                competitions={competitions}
             />
         </div>
     )
