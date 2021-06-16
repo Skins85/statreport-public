@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import Appearances from '../data/season';
 import AppearancesTable from '../components/appearancesTable';
+import SeasonOptions from '../../form/options/season';
+import Select from '../../form/ui/select/select';
 
 export default function Season(props) {
 
@@ -22,12 +24,10 @@ export default function Season(props) {
     }
     
     return (
-        <div className='wrapper--content__inpage'>
-            <AppearancesTable
-                appearances={appearances}
-                competitions={competitions}
-            />
-        </div>
+        <AppearancesTable
+            appearances={appearances}
+            competitions={competitions}
+        />
     )
 
 }

@@ -2,6 +2,7 @@ import Appearances from '../layout/season';
 import AppearancesTableCell from './appearancesTableCell';
 import React from 'react';
 import Table from '../../hoc/table/table';
+import { nanoid } from 'nanoid';
 
 export default function AppearancesTable(props) {
 
@@ -64,6 +65,7 @@ export default function AppearancesTable(props) {
                 {competitionsKeys.map((competition) => {
                     return (
                         <AppearancesTableCell 
+                            key={`key${nanoid()}`}
                             starts={d.appearances[0]['competition'][0][`${competition}`]['starts']} 
                             subs={d.appearances[0]['competition'][0][`${competition}`]['subs']}
                             goals={d.goals[0]['competition'][0][`${competition}`]}

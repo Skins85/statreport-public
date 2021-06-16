@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {Link} from 'react-router-dom';
 import SiteIcon from '../../images/logos/statreport.png';
+import { nanoid } from 'nanoid';
 
 const links = [
 	{
@@ -108,6 +109,7 @@ export default function Navigation() {
 			let subPagesData = data.pages;
 			if (subPagesData) {
 				toggleBtn = <button 
+								key={`key${nanoid()}`}
 								data-section={data.section}
 								data-section-open='false'
 								onClick={(e) =>{						
@@ -118,7 +120,7 @@ export default function Navigation() {
 			}
 			subPages = subPagesData.map((data) => {
 				return (
-					<li>
+					<li key={`key${nanoid()}`}>
 						<Link 
 							to={data.path}
 							data-toggle-open={sectionPath === data.section ? `true` : `false`}

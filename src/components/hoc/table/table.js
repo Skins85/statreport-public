@@ -1,4 +1,5 @@
 import React from 'react';
+import { nanoid } from 'nanoid';
 
 export default function Table(props) {
 
@@ -7,12 +8,12 @@ export default function Table(props) {
 
     headers ? headers =
             <tr>
-                {headers.map(header => {
+                {headers.map((header, index) => {
                     header['col'].length > 1 ? subheaders = true : null;
                     return (
-                        <th
-                            rowspan={header['row']}
-                            colspan={header['col'].length}
+                        <th key={`key${nanoid()}`}
+                            rowSpan={header['row']}
+                            colSpan={header['col'].length}
                         >
                             {header['val']}
                         </th>
@@ -37,14 +38,14 @@ export default function Table(props) {
             <tr>
                 {subheaderVals.map(s => {
                     return (
-                        <th>{s}</th>
+                        <th key={`key${nanoid()}`}>{s}</th>
                     )
                 })}
             </tr>
         : null
 
     return (
-        <div class='wrapper--table'>
+        <div className='wrapper--table'>
             <table 
                 className={props.className}
                 data-final-row-highlight={props.finalRowHighlight}

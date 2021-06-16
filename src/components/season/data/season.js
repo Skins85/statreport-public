@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
 import Season from '../layout/season';
+import SeasonOptions from '../../form/options/season';
+import Select from '../../form/ui/select/select';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
@@ -118,11 +120,17 @@ export default function Appearances() {
     }
 
     return (
-        <Season
-            appearancesGoals={playerInfoAll}
-            players={playersData}
-            competitions={competitions}
-        />
+        <div className='wrapper--content__inpage'>
+            <h1>Test</h1>
+            <Select>
+                <SeasonOptions />
+            </Select>
+            <Season
+                appearancesGoals={playerInfoAll}
+                players={playersData}
+                competitions={competitions}
+            />
+        </div>
     ) 
    
 }
