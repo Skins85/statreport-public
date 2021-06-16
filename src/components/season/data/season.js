@@ -97,13 +97,23 @@ export default function Appearances() {
                 playerInfo['appearances'][0]['competition'][0]['footballLeagueTrophy']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['essexSeniorCup']['subs'],
 
+            goalsTotal = 
+                playerInfo['goals'][0]['competition'][0]['league'] + 
+                playerInfo['goals'][0]['competition'][0]['faCup'] +
+                playerInfo['goals'][0]['competition'][0]['faTrophy'] +
+                playerInfo['goals'][0]['competition'][0]['leagueCup'] +
+                playerInfo['goals'][0]['competition'][0]['footballLeagueTrophy'] +
+                playerInfo['goals'][0]['competition'][0]['essexSeniorCup'],
+
             appearancesTotal = startsTotal + subsTotal;
 
-            // Create total starts and substitute appearances to player data
+            // Build object of data for each player storing starts/subs/goals by competition
             playerInfo['appearances']['totalStarts'] = startsTotal;
             playerInfo['appearances']['totalSubs'] = subsTotal;
+            playerInfo['goals']['totalGoals'] = goalsTotal;
 
             appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
+
         }
     }
 
