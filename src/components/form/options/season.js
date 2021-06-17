@@ -1,6 +1,7 @@
 import React from 'react';
 
-const seasonOptions = () => {
+const seasonOptions = (props) => {
+    console.log(props);
     return (
         <React.Fragment>
             <option value="2020-21" name="2020-21">2020-21</option>

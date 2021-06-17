@@ -7,11 +7,27 @@ import Select from '../../form/ui/select/select';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
+import { useHistory } from 'react-router-dom';
 
 export default function Appearances() {
+
+    // Data
     const { data: matchesData, hasError: matchesDataError, dataLoaded: matchesDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-matches.php');
     const { data: playersData, hasError: playersDataError, dataLoaded: playersDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-players.php');
     const { data: goalsData, hasError: goalsDataError, dataLoaded: goalsDataLoaded } = useAxios(' https://www.statreport.co.uk/api/json/data-players-goals-all.php');
+    
+    // State
+    const initialSeasonValue = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const [season, setSeason] = useState(initialSeasonValue);
+
+    // Access history properties to dynamic change URL path
+    const history = useHistory();
+
+    // Event handlers
+    const seasonChangeHandler = e => setSeason(e.target.value);
+
+    // Update URL path on season change
+    useEffect(() => history.push(`/season/${season}`), [season]);
     
     // Variables
     let matches = matchesData.results,
@@ -22,8 +38,8 @@ export default function Appearances() {
 
     if (matches && players && goals) {
     
-        matches = matches.filter((match) => match.season === '2013-14');
-        goals = goals.filter((goal) => goal.season === '2013-14');
+        matches = matches.filter((match) => match.season === season);
+        goals = goals.filter((goal) => goal.season === season);
         competitions = [...new Set(matches.map(match => match.competition))];
     
         for (const player of players) {
@@ -121,9 +137,9 @@ export default function Appearances() {
 
     return (
         <div className='wrapper--content__inpage'>
-            <h1>Test</h1>
-            <Select>
-                <SeasonOptions />
+            <h1>Season review: {season}</h1>
+            <Select onChange={e => seasonChangeHandler(e)}>
+                <SeasonOptions selected={season} />
             </Select>
             <Season
                 appearancesGoals={playerInfoAll}
