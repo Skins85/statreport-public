@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
+import Input from '../../form/ui/input/input';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
@@ -19,12 +20,14 @@ export default function Appearances() {
     // State
     const initialSeasonValue = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
     const [season, setSeason] = useState(initialSeasonValue);
+    const [allData, setAllData] = useState(false);
 
     // Access history properties to dynamic change URL path
     const history = useHistory();
 
     // Event handlers
     const seasonChangeHandler = e => setSeason(e.target.value);
+    const allDataHandler = e => setAllData(!allData);
 
     // Update URL path on season change
     useEffect(() => history.push(`/season/${season}`), [season]);
@@ -41,6 +44,10 @@ export default function Appearances() {
         matches = matches.filter((match) => match.season === season);
         goals = goals.filter((goal) => goal.season === season);
         competitions = [...new Set(matches.map(match => match.competition))];
+
+        // Order competitions
+        const competitionOrder = ['League', 'Playoff', 'FA Cup', 'League Cup', 'FA Trophy', 'Football League Trophy', 'Essex Senior Cup'];
+        competitions.sort((a, b) => competitionOrder.indexOf(a) - competitionOrder.indexOf(b));
     
         for (const player of players) {
 
@@ -57,6 +64,10 @@ export default function Appearances() {
                                 league: {
                                     starts: starts.filter((start) => start.competition === 'League').length,
                                     subs: subs.filter((sub) => sub.competition === 'League').length,
+                                },
+                                playoff: {
+                                    starts: starts.filter((start) => start.competition === 'Playoff').length,
+                                    subs: subs.filter((sub) => sub.competition === 'Playoff').length,
                                 },
                                 faCup: {
                                     starts: starts.filter((start) => start.competition === 'FA Cup').length,
@@ -88,6 +99,7 @@ export default function Appearances() {
                         competition: [
                             {
                                 league: filteredGoals.filter((goal) => goal.competition === 'League').length,
+                                playoff: filteredGoals.filter((goal) => goal.competition === 'Playoff').length,
                                 faCup: filteredGoals.filter((goal) => goal.competition === 'FA Cup').length,
                                 faTrophy: filteredGoals.filter((goal) => goal.competition === 'FA Trophy').length,
                                 leagueCup: filteredGoals.filter((goal) => goal.competition === 'League Cup').length,
@@ -101,6 +113,7 @@ export default function Appearances() {
 
             let startsTotal = 
                 playerInfo['appearances'][0]['competition'][0]['league']['starts'] + 
+                playerInfo['appearances'][0]['competition'][0]['playoff']['starts'] + 
                 playerInfo['appearances'][0]['competition'][0]['faCup']['starts'] +
                 playerInfo['appearances'][0]['competition'][0]['faTrophy']['starts'] +
                 playerInfo['appearances'][0]['competition'][0]['leagueCup']['starts'] +
@@ -109,6 +122,7 @@ export default function Appearances() {
             
             subsTotal = 
                 playerInfo['appearances'][0]['competition'][0]['league']['subs'] + 
+                playerInfo['appearances'][0]['competition'][0]['playoff']['subs'] + 
                 playerInfo['appearances'][0]['competition'][0]['faCup']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['faTrophy']['subs'] +
                 playerInfo['appearances'][0]['competition'][0]['leagueCup']['subs'] +
@@ -117,6 +131,7 @@ export default function Appearances() {
 
             goalsTotal = 
                 playerInfo['goals'][0]['competition'][0]['league'] + 
+                playerInfo['goals'][0]['competition'][0]['playoff'] + 
                 playerInfo['goals'][0]['competition'][0]['faCup'] +
                 playerInfo['goals'][0]['competition'][0]['faTrophy'] +
                 playerInfo['goals'][0]['competition'][0]['leagueCup'] +
@@ -126,12 +141,14 @@ export default function Appearances() {
             appearancesTotal = startsTotal + subsTotal;
 
             // Build object of data for each player storing starts/subs/goals by competition
-            playerInfo['appearances']['totalStarts'] = startsTotal;
+            playerInfo['appearances']['startsTotal'] = startsTotal;
             playerInfo['appearances']['totalSubs'] = subsTotal;
-            playerInfo['goals']['totalGoals'] = goalsTotal;
-
+            playerInfo['appearances']['startsCups'] = startsTotal - playerInfo['appearances'][0]['competition'][0]['league']['starts'];
+            playerInfo['appearances']['subsCups'] = subsTotal - playerInfo['appearances'][0]['competition'][0]['league']['subs'];
+            playerInfo['goals']['goalsTotal'] = goalsTotal;
+            playerInfo['goals']['goalsCups'] = goalsTotal - playerInfo['goals'][0]['competition'][0]['league'];
+            
             appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
-
         }
     }
 
@@ -141,10 +158,18 @@ export default function Appearances() {
             <Select onChange={e => seasonChangeHandler(e)}>
                 <SeasonOptions selected={season} />
             </Select>
+            <Input 
+                onChange={allDataHandler}
+                inputId='season-all-data'
+                inputType='checkbox' 
+                labelRequired
+                labelText='Full view'
+            />
             <Season
                 appearancesGoals={playerInfoAll}
                 players={playersData}
                 competitions={competitions}
+                allData={allData}
             />
         </div>
     ) 

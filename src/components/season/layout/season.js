@@ -27,6 +27,7 @@ export default function Season(props) {
         <AppearancesTable
             appearances={appearances}
             competitions={competitions}
+            allData={props.allData}
         />
     )
 

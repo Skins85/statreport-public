@@ -7,10 +7,10 @@ const seasonOptions = (props) => {
         seasons.map((season) => {
             return (
                 props.selected === season 
-                    ? <option selected value={season} name={season}>{season}</option>
-                    : <option value={season} name={season}>{season}</option>
+                    ? <option key={season} defaultValue value={season} name={season}>{season}</option>
+                    : <option key={season} value={season} name={season}>{season}</option>
             );
-        });
+        })
     );
 };
 

@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 
 export default function AppearancesTable(props) {
 
-    let competitionTypes = ['league', 'faCup', 'faTrophy', 'leagueCup', 'essexSeniorCup', 'footballLeagueTrophy'],
+    let competitionTypes = ['league', 'playoff', 'faCup', 'faTrophy', 'leagueCup', 'essexSeniorCup', 'footballLeagueTrophy'],
     competitionsKeys = [],
         tableheadings = [
         {
@@ -14,7 +14,8 @@ export default function AppearancesTable(props) {
             "col": 1,
             "val": ""
         },
-    ];
+    ],
+    appearances;
 
     // Table headings => Build array of values to pass to Table component
     if (props.competitions) {
@@ -22,6 +23,9 @@ export default function AppearancesTable(props) {
             switch(competition) {
                 case 'League':
                     competitionsKeys.push('league')
+                    break;
+                case 'Playoff':
+                    competitionsKeys.push('playoff')
                     break;
                 case 'FA Cup':
                     competitionsKeys.push('faCup')
@@ -58,28 +62,32 @@ export default function AppearancesTable(props) {
     } 
 
     // Table body data => Row for each player with multiple table cells
-    let appearances = Array.from(props.appearances).map((d) => {
-        return (
-            <tr key={d.id}>
-                <td>{d.first_name} {d.surname}</td>
-                {competitionsKeys.map((competition) => {
-                    return (
-                        <AppearancesTableCell 
-                            key={`key${nanoid()}`}
-                            starts={d.appearances[0]['competition'][0][`${competition}`]['starts']} 
-                            subs={d.appearances[0]['competition'][0][`${competition}`]['subs']}
-                            goals={d.goals[0]['competition'][0][`${competition}`]}
-                        />
-                    )
-                })}
-                <AppearancesTableCell 
-                    starts={d.appearances['totalStarts']} 
-                    subs={d.appearances['totalSubs']} 
-                    goals={d.goals['totalGoals']}
-                />
-            </tr>
-        )
-    });
+    if (props.allData) {
+        appearances = Array.from(props.appearances).map((d) => {
+            return (
+                <tr key={d.id}>
+                    <td>{d.first_name} {d.surname}</td>
+                    {competitionsKeys.map((competition) => {
+                        return (
+                            <AppearancesTableCell 
+                                key={`key${nanoid()}`}
+                                starts={d.appearances[0]['competition'][0][`${competition}`]['starts']} 
+                                subs={d.appearances[0]['competition'][0][`${competition}`]['subs']}
+                                goals={d.goals[0]['competition'][0][`${competition}`]}
+                            />
+                        )
+                    })}
+                    <AppearancesTableCell 
+                        starts={d.appearances['startsTotal']} 
+                        subs={d.appearances['totalSubs']} 
+                        goals={d.goals['goalsTotal']}
+                    />
+                </tr>
+            )
+        })
+    } else {
+        appearances = <p>Summary data</p>
+    }
 
     return (
         <Table headers={tableheadings}>
