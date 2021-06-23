@@ -12,6 +12,10 @@ export default function Season(props) {
         competitions = props.competitions;
 
     if (appearances && players) {
+
+        // If data summary selected, condense competitions array to two values (League and Cup)
+        !props.allData ? competitions = ['League', 'Cup'] : null;
+
         players = Array.from(players.results);
         
         const mergeArraysByObjectId = (a1, a2) =>

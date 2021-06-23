@@ -2,7 +2,9 @@ import Appearances from '../layout/season';
 import AppearancesTableCell from './appearancesTableCell';
 import React from 'react';
 import Table from '../../hoc/table/table';
+import { Transition } from 'react-transition-group';
 import { nanoid } from 'nanoid';
+import { useState } from 'react';
 
 export default function AppearancesTable(props) {
 
@@ -63,6 +65,7 @@ export default function AppearancesTable(props) {
 
     // Table body data => Row for each player with multiple table cells
     if (props.allData) {
+        // Data arrangement: All competitions and total
         appearances = Array.from(props.appearances).map((d) => {
             return (
                 <tr key={d.id}>
@@ -86,7 +89,29 @@ export default function AppearancesTable(props) {
             )
         })
     } else {
-        appearances = <p>Summary data</p>
+        // Data arrangment: League/Cup/Total 
+        appearances = Array.from(props.appearances).map((d) => {
+            return (
+                <tr key={d.id}>
+                    <td>{d.first_name} {d.surname}</td>
+                    <AppearancesTableCell 
+                        starts={d.appearances[0]['competition'][0]['league']['starts']} 
+                        subs={d.appearances[0]['competition'][0]['league']['subs']}
+                        goals={d.goals[0]['competition'][0]['league']}
+                    />
+                    <AppearancesTableCell 
+                        starts={d.appearances['startsCups']} 
+                        subs={d.appearances['subsCups']} 
+                        goals={d.goals['goalsCups']}
+                    />
+                    <AppearancesTableCell 
+                        starts={d.appearances['startsTotal']} 
+                        subs={d.appearances['totalSubs']} 
+                        goals={d.goals['goalsTotal']}
+                    />
+                </tr>
+            )
+        });
     }
 
     return (

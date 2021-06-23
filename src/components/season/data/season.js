@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
 import Input from '../../form/ui/input/input';
