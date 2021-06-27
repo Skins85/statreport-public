@@ -5,10 +5,25 @@ import Input from '../../form/ui/input/input';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
+import { Transition } from 'react-transition-group';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
 import { useHistory } from 'react-router-dom';
+
+const duration = 300;
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered:  { opacity: 1 },
+  exiting:  { opacity: 0 },
+  exited:  { opacity: 0 },
+};
 
 export default function Appearances() {
 
@@ -18,7 +33,7 @@ export default function Appearances() {
     const { data: goalsData, hasError: goalsDataError, dataLoaded: goalsDataLoaded } = useAxios(' https://www.statreport.co.uk/api/json/data-players-goals-all.php');
     
     // State
-    const initialSeasonValue = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    let initialSeasonValue = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
     const [season, setSeason] = useState(initialSeasonValue);
     const [allData, setAllData] = useState(false);
 
@@ -29,19 +44,21 @@ export default function Appearances() {
     const seasonChangeHandler = e => setSeason(e.target.value);
     const allDataHandler = e => setAllData(!allData);
 
-    // Update URL path on season change
-    useEffect(() => history.push(`/season/${season}`), [season]);
+    // Update URL path on season change if season not blank
+    useEffect(() => season !== 'season' ? history.push(`/season/${season}`) : null, [season]);
     
     // Variables
     let matches = matchesData.results,
         players = playersData.results,
         goals = goalsData.results,
         competitions,
+        defaultSeason = '2020-21',
         playerInfoAll = []; // Send to appearances table component
 
     if (matches && players && goals) {
     
-        matches = matches.filter((match) => match.season === season);
+        // Filter matches on selected season. If no season, default to latest season
+        season !== 'season' ? matches = matches.filter((match) => match.season === season) : matches = matches.filter((match) => match.season === defaultSeason);
         goals = goals.filter((goal) => goal.season === season);
         competitions = [...new Set(matches.map(match => match.competition))];
 
@@ -165,12 +182,14 @@ export default function Appearances() {
                 labelRequired
                 labelText='Full view'
             />
-            <Season
-                appearancesGoals={playerInfoAll}
-                players={playersData}
-                competitions={competitions}
-                allData={allData}
-            />
+            <Transition in={allData} timeout={500}>
+                <Season
+                    appearancesGoals={playerInfoAll}
+                    players={playersData}
+                    competitions={competitions}
+                    allData={allData}
+                />
+            </Transition>
         </div>
     ) 
    

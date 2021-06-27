@@ -1,5 +1,6 @@
 import Appearances from '../layout/season';
 import AppearancesTableCell from './appearancesTableCell';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import Table from '../../hoc/table/table';
 import { Transition } from 'react-transition-group';
@@ -69,7 +70,9 @@ export default function AppearancesTable(props) {
         appearances = Array.from(props.appearances).map((d) => {
             return (
                 <tr key={d.id}>
-                    <td>{d.first_name} {d.surname}</td>
+                    <td>
+                        <Link to={`../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
+                    </td>
                     {competitionsKeys.map((competition) => {
                         return (
                             <AppearancesTableCell 
@@ -93,7 +96,9 @@ export default function AppearancesTable(props) {
         appearances = Array.from(props.appearances).map((d) => {
             return (
                 <tr key={d.id}>
-                    <td>{d.first_name} {d.surname}</td>
+                    <td>
+                        <Link to={`../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
+                    </td>
                     <AppearancesTableCell 
                         starts={d.appearances[0]['competition'][0]['league']['starts']} 
                         subs={d.appearances[0]['competition'][0]['league']['subs']}
