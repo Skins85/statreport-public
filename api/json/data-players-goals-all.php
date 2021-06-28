@@ -3,7 +3,7 @@
 
     include '../../config/db.php';
 
-    $season_exclude = '2012-13';
+    $season_exclude = '';
 
     $stmt = $conn->prepare(
         "SELECT first_name, surname, season, match_scorers.match_id, s_drfc_goal_1_scorer AS scorer_id, season, drfc_goal_1_minute AS goal_time

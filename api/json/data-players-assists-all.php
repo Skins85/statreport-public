@@ -4,7 +4,7 @@
     include '../../config/db.php';
 
     $assistsQuery = '';
-    $season_exclude = '2012-13';
+    $season_exclude = '';
 
     // For later: dynamically create query by loop
     // for ($i = 1; $i <= 8; $i++) {     
