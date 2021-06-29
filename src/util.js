@@ -65,6 +65,49 @@ const toggleState = (el, setStateRef, value, defaultText, toggledText) => {
         : (el.target.innerText = defaultText) && (el.target.className = 'toggle toggle--open');
 }
 
+const playerStartsFilter = (data, player_id) => {
+    if (data) {
+        let filteredArray = data.filter(function (d) {
+            return  (
+                d.player_1 === player_id || 
+                d.player_2 === player_id ||
+                d.player_3 === player_id ||
+                d.player_4 === player_id ||
+                d.player_5 === player_id ||
+                d.player_6 === player_id ||
+                d.player_7 === player_id ||
+                d.player_8 === player_id ||
+                d.player_9 === player_id ||
+                d.player_10 === player_id ||
+                d.player_11 === player_id 
+            );
+        });
+        return filteredArray;
+    }
+}
+
+const playerSubsFilter = (data, player_id) => {
+    let filteredArray = data.filter(function (d) {
+        return  (
+            d.sub_1 === player_id || 
+            d.sub_2 === player_id ||
+            d.sub_3 === player_id ||
+            d.sub_4 === player_id ||
+            d.sub_5 === player_id
+        );
+    });
+    return filteredArray;
+}
+
+const playerGoalsFilter = (data, player_id) => {
+    let filteredArray = data.filter(function (d) {
+        return  (
+            d.scorer_id === player_id
+        );
+    });
+    return filteredArray;
+}
+
 module.exports = {
     groupArrayOfObjects,
     nameFormat,
@@ -72,4 +115,7 @@ module.exports = {
     objectInstancesToArray,
     filterArrayofObjects,
     toggleState,
+    playerStartsFilter,
+    playerSubsFilter,
+    playerGoalsFilter
 }

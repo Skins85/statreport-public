@@ -3,7 +3,11 @@ import React from 'react';
 const input = (props) => {
     return (
         <React.Fragment>
-            {props.labelRequired ? <label for={props.inputName}>{props.labelText}</label> : null}
+            {props.labelRequired 
+                ? props.inputType === 'checkbox' 
+                    ? <label for={props.inputId}>{props.labelText}</label> 
+                    : <label for={props.inputName}>{props.labelText}</label>
+                : null}
             <input 
                 class={props.className}
                 type={props.inputType ? props.inputType: 'text'}
