@@ -17,6 +17,13 @@ input {
         background-color: $secondaryColor;
     }
 }
+
 .wrapper--input {
     @include input-wrapper($blue80, $blue70);
+}
+
+label {
+    &[type='checkbox'] {
+        display: inline;
+    }
 }

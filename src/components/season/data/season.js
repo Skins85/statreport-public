@@ -166,6 +166,7 @@ export default function Appearances() {
             playerInfo['goals']['goalsCups'] = goalsTotal - playerInfo['goals'][0]['competition'][0]['league'];
             
             appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
+
         }
     }
 
