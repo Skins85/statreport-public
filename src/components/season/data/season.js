@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
+import Attendances from '../components/attendances';
 import Input from '../../form/ui/input/input';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
@@ -182,6 +183,9 @@ export default function Appearances() {
                 inputType='checkbox' 
                 labelRequired
                 labelText='Full view'
+            />
+            <Attendances
+                data={matches}
             />
             <Transition in={allData} timeout={500}>
                 <Season
