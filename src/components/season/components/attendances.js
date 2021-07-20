@@ -3,19 +3,30 @@ import React from 'react';
 export default function Attendances(props) {
     
     let attendances = props.data,
-        attendancesHomeLeauge = [];
+        attendancesHomeLeauge = [],
+        attendanceAverage;
     
     if (attendances) {
         for (const att of attendances) {
-            att.team_home === 'Dagenham & Redbridge' ? attendancesHomeLeauge.push(parseInt(att.attendance)) : null;
+            if (att.team_home === 'Dagenham & Redbridge') {
+                if (att.attendance_calc_exclude === '0') {
+                    attendancesHomeLeauge.push(parseInt(att.attendance))
+                }
+            }
         }
         const attendanceTotal = attendancesHomeLeauge.reduce((a, b) => a + b, 0);
-        const attendanceAverage  = (attendanceTotal / attendancesHomeLeauge.length);
-        console.log(attendanceAverage);
+        
+        // Only calculate average attendance if at least three home games exist with the attendance not being excluded
+        attendancesHomeLeauge.length > 3 ? attendanceAverage = attendanceTotal / attendancesHomeLeauge.length : null;
+        
     }
     return (
         <>
-            <p>Attendances</p>
+            <h2>Attendances</h2>
+            {attendanceAverage 
+                ? <p><strong>Average:</strong> {attendanceAverage}</p> 
+                : <p>Due to attendance restrictions in place during the season, this season has omitted from average attendance calculations.</p>
+            }
         </>
     )
 }

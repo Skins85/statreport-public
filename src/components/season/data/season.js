@@ -60,7 +60,7 @@ export default function Appearances() {
     
         // Filter matches on selected season. If no season, default to latest season
         season !== 'season' ? matches = matches.filter((match) => match.season === season) : matches = matches.filter((match) => match.season === defaultSeason);
-        goals = goals.filter((goal) => goal.season === season);
+        season !== 'season' ? goals = goals.filter((goal) => goal.season === season) : goals = goals.filter((goal) => goal.season === defaultSeason);
         competitions = [...new Set(matches.map(match => match.competition))];
 
         // Order competitions

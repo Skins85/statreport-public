@@ -71,6 +71,7 @@
                 'attendance'=>$row['attendance_total'],
                 'attendance_away'=>$row['attendance_away'],
                 'attendance_note'=>$row['attendance_note'],
+                'attendance_calc_exclude'=>$row['attendance_calc_exclude'],
                 'league_position'=>$row['league_position'],
                 'referee'=>$row['referee']
             );
