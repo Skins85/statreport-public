@@ -24,7 +24,7 @@ export default function Attendances(props) {
         <>
             <h2>Attendances</h2>
             {attendanceAverage 
-                ? <p><strong>Average:</strong> {attendanceAverage}</p> 
+                ? <p><strong>Average:</strong> {Math.round(attendanceAverage).toLocaleString()}</p> 
                 : <p>Due to attendance restrictions in place during the season, this season has omitted from average attendance calculations.</p>
             }
         </>

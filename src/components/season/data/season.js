@@ -12,20 +12,6 @@ import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
 import { useHistory } from 'react-router-dom';
 
-const duration = 300;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-}
-
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered:  { opacity: 1 },
-  exiting:  { opacity: 0 },
-  exited:  { opacity: 0 },
-};
-
 export default function Appearances() {
 
     // Data
@@ -67,6 +53,7 @@ export default function Appearances() {
         const competitionOrder = ['League', 'Playoff', 'FA Cup', 'League Cup', 'FA Trophy', 'Football League Trophy', 'Essex Senior Cup'];
         competitions.sort((a, b) => competitionOrder.indexOf(a) - competitionOrder.indexOf(b));
     
+        // START: Generate data objects to pass to child components
         for (const player of players) {
 
             let starts = playerStartsFilter(matches, player.Player),
@@ -168,7 +155,13 @@ export default function Appearances() {
             
             appearancesTotal > 0 ? playerInfoAll.push(playerInfo) : null; // Only capture players with at least 1 appearance
 
+
+
         }
+
+
+
+        // END: Generate data objects to pass to child components
     }
 
     return (
