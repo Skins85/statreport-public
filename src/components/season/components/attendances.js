@@ -1,30 +1,21 @@
 import React from 'react';
+import ordinal from 'ordinal';
 
 export default function Attendances(props) {
-    
-    let attendances = props.data,
-        attendancesHomeLeauge = [],
-        attendanceAverage;
-    
-    if (attendances) {
-        for (const att of attendances) {
-            if (att.team_home === 'Dagenham & Redbridge') {
-                if (att.attendance_calc_exclude === '0') {
-                    attendancesHomeLeauge.push(parseInt(att.attendance))
-                }
-            }
-        }
-        const attendanceTotal = attendancesHomeLeauge.reduce((a, b) => a + b, 0);
+
+    const data = props['data'];
+    const rank = data.findIndex(x => x.season === props['season']);
+    const filteredSeasonAttendanceData = props.data.filter((d) => d.season === props.season);
         
-        // Only calculate average attendance if at least three home games exist with the attendance not being excluded
-        attendancesHomeLeauge.length > 3 ? attendanceAverage = attendanceTotal / attendancesHomeLeauge.length : null;
-        
-    }
     return (
         <>
             <h2>Attendances</h2>
-            {attendanceAverage 
-                ? <p><strong>Average:</strong> {Math.round(attendanceAverage).toLocaleString()}</p> 
+            {filteredSeasonAttendanceData.length > 0 && filteredSeasonAttendanceData[0]['averageAttendance'] > 0
+                ?   <p>
+                        <strong>Average: </strong> 
+                        {Math.round(filteredSeasonAttendanceData[0]['averageAttendance']).toLocaleString()}
+                        <small> ({`${ordinal(rank)}`})</small>
+                    </p> 
                 : <p>Due to attendance restrictions in place during the season, this season has omitted from average attendance calculations.</p>
             }
         </>
