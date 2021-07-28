@@ -4,8 +4,10 @@ import React, {Suspense, lazy, useEffect, useState} from 'react';
 import { Route, BrowserRouter as Router, Switch, withRouter } from 'react-router-dom';
 
 import App from './App';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Spinner from './components/ui/spinner/spinner';
+import { configureStore } from './store';
 import { createBrowserHistory } from 'history';
 
 // import * as serviceWorker from './serviceWorker';
@@ -34,31 +36,33 @@ const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/te
 const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/season/data/season'));
 
 const routing = (
-    <Router>
-        <Suspense fallback={<Spinner />}>
-            <ContentWrapper>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/about" component={About} />
-                    <Route exact path="/about/bio" component={Bio} />
-                    <Route exact path="/cookies" component={CookiePolicy} />
-                    <Route path="/disclaimer" component={Disclaimer} />
-                    <Route path="/matches/attendances" component={Attendances} />
-                    <Route path="/matches/league-positions" component={LeaguePositions} />
-                    <Route exact path="/matches" component={Matches} />
-                    <Route path="/players/scorers" component={Goalscorers} />
-                    <Route exact path="/players" component={Players} />
-                    <Route path="/players/" component={Players} />
-                    <Route path="/season" component={Season} />
-                    <Route path="/admin/add-result" component={AddResultForm} />
-                    <Route path="/admin/add-result-complete" component={AddResultsComplete} />
-                    <Route path="/login" component={Login} />
-                    <Route exact path="/teams" component={Teams} /> 
-                    <Route exact="/teams" component={Teams}/>
-                </Switch>
-            </ContentWrapper>
-        </Suspense>
-    </Router>
+    <Provider store={configureStore()} >
+        <Router>
+            <Suspense fallback={<Spinner />}>
+                <ContentWrapper>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/about" component={About} />
+                        <Route exact path="/about/bio" component={Bio} />
+                        <Route exact path="/cookies" component={CookiePolicy} />
+                        <Route path="/disclaimer" component={Disclaimer} />
+                        <Route path="/matches/attendances" component={Attendances} />
+                        <Route path="/matches/league-positions" component={LeaguePositions} />
+                        <Route exact path="/matches" component={Matches} />
+                        <Route path="/players/scorers" component={Goalscorers} />
+                        <Route exact path="/players" component={Players} />
+                        <Route path="/players/" component={Players} />
+                        <Route path="/season" component={Season} />
+                        <Route path="/admin/add-result" component={AddResultForm} />
+                        <Route path="/admin/add-result-complete" component={AddResultsComplete} />
+                        <Route path="/login" component={Login} />
+                        <Route exact path="/teams" component={Teams} /> 
+                        <Route exact="/teams" component={Teams}/>
+                    </Switch>
+                </ContentWrapper>
+            </Suspense>
+        </Router>
+    </Provider>
 )
 
 ReactDOM.render(routing, document.getElementById('root'));
