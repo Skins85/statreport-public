@@ -14,7 +14,7 @@ export default function Attendances(props) {
                 ?   <p>
                         <strong>Average: </strong> 
                         {Math.round(filteredSeasonAttendanceData[0]['averageAttendance']).toLocaleString()}
-                        <small> ({`${ordinal(rank)}`})</small>
+                        <small> ({`${ordinal(rank + 1)}`})</small>
                     </p> 
                 : <p>Due to attendance restrictions in place during the season, this season has omitted from average attendance calculations.</p>
             }
