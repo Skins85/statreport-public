@@ -41,7 +41,8 @@ export default function Appearances() {
         competitions,
         defaultSeason = '2020-21',
         attendancesData = [],
-        playerInfoAll = [];
+        playerInfoAll = [],
+        attendanceHighest;
 
     if (matches && players && goals) {
     
@@ -158,10 +159,17 @@ export default function Appearances() {
             
         }
 
+        /***** 
+         ********** ATTENDANCES **********
+        *****/
+
+        // Convert attendances from strings to integers
+        for (const m of matchesData.results) {
+            m.attendance = parseInt(m.attendance);
+        }
+
         function averageAttendance(season) {
             
-            const attendancesHomeLeauge = [];
-
             const attendances = matchesData.results.filter(function (el) {
                 return (
                     el.team_home === 'Dagenham & Redbridge' && 
@@ -170,12 +178,17 @@ export default function Appearances() {
                 )
             });
 
+            // Group all home league attendances
+            const attendancesHomeLeauge = [];
             for (const att of attendances) {
-                attendancesHomeLeauge.push(parseInt(att.attendance))
+                attendancesHomeLeauge.push(att.attendance)
             }
 
+            // Highest home attendance
+            const attendancesSorted = attendances.sort((a, b) => a.attendance < b.attendance && 1 || -1);
+            attendanceHighest = attendancesSorted[0];
+
             const attendanceTotal = attendancesHomeLeauge.reduce((a, b) => a + b, 0);
-            // const averageAttendance = Math.round(attendanceTotal / attendances.length);
             let averageAttendance;
 
             Math.round(attendanceTotal / attendances.length) > 0 
@@ -191,7 +204,8 @@ export default function Appearances() {
         for (const season of seasons) {
             const attendanceObject = {
                 season: season,
-                averageAttendance: averageAttendance(season)
+                averageAttendance: averageAttendance(season),
+                highest: attendanceHighest
             }
             if (attendanceObject.averageAttendance > 0) {
                 attendancesData.push(attendanceObject);
