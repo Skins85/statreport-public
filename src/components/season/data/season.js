@@ -179,9 +179,11 @@ export default function Appearances() {
                 )
             });
 
+            const attendancesLeague = attendances.filter((att) => att.competition === 'League');
+
             // Group all home league attendances
             const attendancesHomeLeauge = [];
-            for (const att of attendances) {
+            for (const att of attendancesLeague) {
                 attendancesHomeLeauge.push(att.attendance)
             }
 
@@ -210,13 +212,13 @@ export default function Appearances() {
                 highest: attendanceHighest,
                 lowest: attendanceLowest
             }
-            if (attendanceObject.averageAttendance > 0) {
-                attendancesData.push(attendanceObject);
-            }
+            attendanceObject.averageAttendance > 0 ? attendancesData.push(attendanceObject) : null;
+            
         }
+
+        // Sort needed to create ordinal rank in child component
         attendancesData.sort((a, b) => a.averageAttendance < b.averageAttendance && 1 || -1);
 
-        // END: Generate data objects to pass to child components
     }
 
     return (
