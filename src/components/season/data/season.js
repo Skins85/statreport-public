@@ -42,7 +42,8 @@ export default function Appearances() {
         defaultSeason = '2020-21',
         attendancesData = [],
         playerInfoAll = [],
-        attendanceHighest;
+        attendanceHighest,
+        attendanceLowest;
 
     if (matches && players && goals) {
     
@@ -187,6 +188,7 @@ export default function Appearances() {
             // Highest home attendance
             const attendancesSorted = attendances.sort((a, b) => a.attendance < b.attendance && 1 || -1);
             attendanceHighest = attendancesSorted[0];
+            attendanceLowest = attendancesSorted.slice(-1).pop();
 
             const attendanceTotal = attendancesHomeLeauge.reduce((a, b) => a + b, 0);
             let averageAttendance;
@@ -205,7 +207,8 @@ export default function Appearances() {
             const attendanceObject = {
                 season: season,
                 averageAttendance: averageAttendance(season),
-                highest: attendanceHighest
+                highest: attendanceHighest,
+                lowest: attendanceLowest
             }
             if (attendanceObject.averageAttendance > 0) {
                 attendancesData.push(attendanceObject);
