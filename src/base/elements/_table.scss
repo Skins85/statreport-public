@@ -8,6 +8,16 @@ table {
     border: $border-fine solid $gray2;
     overflow-x: scroll;
 
+    &.align-center {
+        th, td {
+            text-align: center;
+        }
+    }
+
+    &.table-layout-fixed {
+        table-layout: fixed;
+    }
+
     thead {
         text-align: right;
         background-color: $blue70;
@@ -27,6 +37,10 @@ table {
 
     .align-right {
         text-align: right;
+    }
+
+    .align-center {
+        text-align: center;
     }
 
     tbody {

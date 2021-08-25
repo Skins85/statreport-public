@@ -3,6 +3,7 @@ import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../
 
 import Attendances from '../components/attendances';
 import Input from '../../form/ui/input/input';
+import LeagueSummary from '../components/leagueSummary';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
@@ -227,6 +228,15 @@ export default function Appearances() {
             <Select onChange={e => seasonChangeHandler(e)}>
                 <SeasonOptions selected={season} />
             </Select>
+            <LeagueSummary 
+                data={matchesData}
+                season={season}
+            />
+            <Attendances
+                data={attendancesData}
+                season={season}
+            />
+            {/* <Transition in={allData} timeout={500}> */}
             <Input 
                 onChange={allDataHandler}
                 inputId='season-all-data'
@@ -234,18 +244,13 @@ export default function Appearances() {
                 labelRequired
                 labelText='Full view'
             />
-            <Attendances
-                data={attendancesData}
-                season={season}
+            <Season
+                appearancesGoals={playerInfoAll}
+                players={playersData}
+                competitions={competitions}
+                allData={allData}
             />
-            <Transition in={allData} timeout={500}>
-                <Season
-                    appearancesGoals={playerInfoAll}
-                    players={playersData}
-                    competitions={competitions}
-                    allData={allData}
-                />
-            </Transition>
+            {/* </Transition> */}
         </div>
     ) 
    

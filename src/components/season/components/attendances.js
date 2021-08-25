@@ -9,7 +9,6 @@ export default function Attendances(props) {
     const data = props['data'];
     const rank = data.findIndex(x => x.season === props['season']);
     const filteredSeasonAttendanceData = props.data.filter((d) => d.season === props.season);
-    console.log(data.length);
         
     return (
         <>
@@ -19,6 +18,7 @@ export default function Attendances(props) {
                         <p>
                             <strong>Average: </strong> 
                             {Math.round(filteredSeasonAttendanceData[0].averageAttendance).toLocaleString()}
+                            <sup>*</sup>
                             <small> ({`${ordinal(rank + 1)} of ${data.length} seasons`})</small>
                         </p> 
                         <p>
@@ -46,6 +46,11 @@ export default function Attendances(props) {
                                 {filteredSeasonAttendanceData[0].lowest.team_away},&nbsp;
                                 {filteredSeasonAttendanceData[0].lowest.competition},&nbsp;
                                 {<Moment format="DD/MM/YYYY">{filteredSeasonAttendanceData[0].lowest.date}</Moment>})</small>
+                        </p>
+                        <p>
+                            <small>
+                                <sup>* </sup>League only
+                            </small>
                         </p>
                     </>
                 : <p>Due to attendance restrictions in place during the season, this season has omitted from attendance calculations.</p>
