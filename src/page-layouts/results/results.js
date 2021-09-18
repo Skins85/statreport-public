@@ -18,7 +18,7 @@ class Results extends Component {
         this.state = {
           data: '',
           location: '',
-          season: '2020-21',
+          season: '2021-22',
           opposition: 'all',
           teamsData: '',
           filteredResults: '',
