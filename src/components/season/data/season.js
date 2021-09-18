@@ -19,32 +19,37 @@ export default function Appearances() {
     const { data: matchesData, hasError: matchesDataError, dataLoaded: matchesDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-matches.php');
     const { data: playersData, hasError: playersDataError, dataLoaded: playersDataLoaded } = useAxios('https://www.statreport.co.uk/api/json/data-players.php');
     const { data: goalsData, hasError: goalsDataError, dataLoaded: goalsDataLoaded } = useAxios(' https://www.statreport.co.uk/api/json/data-players-goals-all.php');
-    
-    // State
-    let initialSeasonValue = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-    const [season, setSeason] = useState(initialSeasonValue);
-    const [allData, setAllData] = useState(false);
 
-    // Access history properties to dynamic change URL path
-    const history = useHistory();
-
-    // Event handlers
-    const seasonChangeHandler = e => setSeason(e.target.value);
-    const allDataHandler = e => setAllData(!allData);
-
-    // Update URL path on season change if season not blank
-    useEffect(() => season !== 'season' ? history.push(`/season/${season}`) : null, [season]);
-    
     // Variables
     let matches = matchesData.results,
         players = playersData.results,
         goals = goalsData.results,
         competitions,
-        defaultSeason = '2020-21',
         attendancesData = [],
         playerInfoAll = [],
         attendanceHighest,
         attendanceLowest;
+
+    const defaultSeason = '2020-21';
+    
+    // Determine season from final URL string
+    let initialSeasonValue;
+    let finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    finalUrlString === 'season' ? initialSeasonValue = defaultSeason : initialSeasonValue = finalUrlString;
+    
+    // State
+    const [allData, setAllData] = useState(false);
+    const [season, setSeason] = useState(initialSeasonValue);
+
+    // Access history properties to dynamic change URL path
+    const history = useHistory();
+
+    // Update URL path on season change if season not blank
+    useEffect(() => season !== defaultSeason ? history.push(`/season/${season}`) : null, [season]);
+
+    // Event handlers
+    const seasonChangeHandler = e => setSeason(e.target.value);
+    const allDataHandler = e => setAllData(!allData);
 
     if (matches && players && goals) {
     

@@ -16,7 +16,7 @@ class Form extends Component {
             data: '',
             playersData: '',
             snippetsData: '',
-            season: '2020-21',
+            season: '2021-22',
             homeTeam: '',
             awayTeam: '',
             homeGoals: '',
@@ -348,6 +348,22 @@ class Form extends Component {
                             inputId={`scorer-${i}-pen`} 
                             inputValue={`pen`}
                             inputName={`match_scorers.drfc_goal_${i}_pen`}
+                        />
+                        <Input 
+                            inputType={`checkbox`} 
+                            labelRequired 
+                            labelText={`Free kick`} 
+                            inputId={`scorer-${i}-pen`} 
+                            inputValue={`Y`}
+                            inputName={`match_scorers.drfc_goal_${i}_free_kick`}
+                        />
+                        <Input 
+                            inputType={`checkbox`} 
+                            labelRequired 
+                            labelText={`Corner`} 
+                            inputId={`scorer-${i}-corner`} 
+                            inputValue={`Y`}
+                            inputName={`match_scorers.drfc_goal_${i}_corner`}
                         />
                         <Input 
                             inputType={`checkbox`} 
