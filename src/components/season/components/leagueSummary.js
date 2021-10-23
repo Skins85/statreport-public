@@ -11,11 +11,15 @@ export default function LeagueSummary(props) {
         homeDefeats = 0,
         homeGoalsFor = 0,
         homeGoalsAgainst = 0,
+        homeGoalsForTotal = 0,
+        homeGoalsAgainstTotal = 0,
         awayWins = 0,
         awayDraws = 0,
         awayDefeats = 0,
         awayGoalsFor = 0,
-        awayGoalsAgainst = 0;
+        awayGoalsAgainst = 0,
+        awayGoalsForTotal = 0,
+        awayGoalsAgainstTotal = 0;
 
     /**
      * Keep a running count of values, e.g. wins, draws, etc.
@@ -31,12 +35,17 @@ export default function LeagueSummary(props) {
                 x.goals_home === x.goals_away ? homeDraws += 1 : null;
                 homeGoalsFor += parseInt(x.goals_home);
                 homeGoalsAgainst += parseInt(x.goals_away);
+                homeGoalsForTotal += parseInt(x.goals_home);
+                homeGoalsAgainstTotal += parseInt(x.goals_away);
+                
             } else {
                 x.goals_home < x.goals_away ? awayWins += 1 : null;
                 x.goals_home > x.goals_away ? awayDefeats += 1 : null;
                 x.goals_home === x.goals_away ? awayDraws += 1 : null;
                 awayGoalsFor += parseInt(x.goals_away);
                 awayGoalsAgainst += parseInt(x.goals_home);
+                awayGoalsForTotal += parseInt(x.goals_away);
+                awayGoalsAgainstTotal += parseInt(x.goals_home);
             }
         }
     }
@@ -55,34 +64,43 @@ export default function LeagueSummary(props) {
     return (
         <>
             <h2>League summary</h2>
-            <p><strong>Final position: {`${ordinal(parseInt(leaguePosition))}`}</strong></p>
+            <p><strong>Position: {`${ordinal(parseInt(leaguePosition))}`}</strong></p>
             <Table className='align-center table-layout-fixed'>
                 <thead>
                     <tr>
                         <th 
-                            colspan='3'
+                            colspan='5'
                             className='align-center'
+                            location='home--primary'
                         >Home
                         </th>
                         <th 
-                            colspan='3'
+                            colspan='5'
                             className='align-center'
+                            location='away--primary'
                         >Away</th>
                         <th 
-                            colspan='3'
+                            colspan='5'
                             className='align-center'
+                            location='all--primary'
                         >Total</th>
                     </tr>
                     <tr>
-                        <th>W</th>
-                        <th>D</th>
-                        <th>L</th>
-                        <th>W</th>
-                        <th>D</th>
-                        <th>L</th>
-                        <th>W</th>
-                        <th>D</th>
-                        <th>L</th>
+                        <th location='home--secondary'>W</th>
+                        <th location='home--secondary'>D</th>
+                        <th location='home--secondary'>L</th>
+                        <th location='home--secondary'>F</th>
+                        <th location='home--secondary'>A</th>
+                        <th location='away--secondary'>W</th>
+                        <th location='away--secondary'>D</th>
+                        <th location='away--secondary'>L</th>
+                        <th location='away--secondary'>F</th>
+                        <th location='away--secondary'>A</th>
+                        <th location='all--secondary'>W</th>
+                        <th location='all--secondary'>D</th>
+                        <th location='all--secondary'>L</th>
+                        <th location='all--secondary'>F</th>
+                        <th location='all--secondary'>A</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,16 +109,22 @@ export default function LeagueSummary(props) {
                             wins={homeWins}
                             draws={homeDraws}
                             defeats={homeDefeats}
+                            goalsFor={homeGoalsForTotal}
+                            goalsAgainst={homeGoalsAgainstTotal}
                         />
                         <LeagueOutcomes
                             wins={awayWins}
                             draws={awayDraws}
                             defeats={awayDefeats}
+                            goalsFor={awayGoalsForTotal}
+                            goalsAgainst={awayGoalsAgainstTotal}
                         />
                         <LeagueOutcomes
                             wins={homeWins + awayWins}
                             draws={homeDraws + awayDraws}
                             defeats={homeDefeats + awayDefeats}
+                            goalsFor={homeGoalsForTotal + awayGoalsForTotal}
+                            goalsAgainst={homeGoalsAgainstTotal + awayGoalsAgainstTotal}
                         />
                     </tr>
                 </tbody>

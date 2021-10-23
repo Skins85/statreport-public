@@ -4,6 +4,7 @@ import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../
 import Attendances from '../components/attendances';
 import Input from '../../form/ui/input/input';
 import LeagueSummary from '../components/leagueSummary';
+import Scorer from '../../scorer/scorer';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
@@ -30,7 +31,7 @@ export default function Appearances() {
         attendanceHighest,
         attendanceLowest;
 
-    const defaultSeason = '2020-21';
+    const defaultSeason = '2021-22';
     
     // Determine season from final URL string
     let initialSeasonValue;
@@ -209,7 +210,7 @@ export default function Appearances() {
             
         }
 
-        const seasons = ['2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2014-15', '2013-14', '2012-13'];
+        const seasons = ['2021-22', '2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2014-15', '2013-14', '2012-13'];
 
         for (const season of seasons) {
             const attendanceObject = {
@@ -219,7 +220,6 @@ export default function Appearances() {
                 lowest: attendanceLowest
             }
             attendanceObject.averageAttendance > 0 ? attendancesData.push(attendanceObject) : null;
-            
         }
 
         // Sort needed to create ordinal rank in child component
@@ -228,7 +228,7 @@ export default function Appearances() {
     }
 
     return (
-        <div className='wrapper--content__inpage'>
+        <div className='wrapper--content__inpage season'>
             <h1>Season review: {season}</h1>
             <Select onChange={e => seasonChangeHandler(e)}>
                 <SeasonOptions selected={season} />
@@ -240,6 +240,11 @@ export default function Appearances() {
             <Attendances
                 data={attendancesData}
                 season={season}
+            />
+            <Scorer
+                headingLevel='2'
+                titleFormat='short'
+                seasonSelect='false'
             />
             {/* <Transition in={allData} timeout={500}> */}
             <Input 

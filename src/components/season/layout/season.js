@@ -29,8 +29,6 @@ import Select from '../../form/ui/select/select';
 
 export default function Season(props) {
 
-    // console.log(props)
-
     let appearances = props.appearancesGoals,
         players = props.players,
         competitions = props.competitions;

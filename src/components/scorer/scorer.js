@@ -8,7 +8,7 @@ import axios from 'axios';
 import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
-export default function Scorers() {
+export default function Scorers(props) {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState({});
     const [totalGoalsData, setTotalGoalsData] = useState({});
@@ -131,19 +131,23 @@ export default function Scorers() {
 
         let seasonFormatted = seasonId.replace('-', '/');
 
+        const Heading = 'h' + props.headingLevel;
+
         if (dataLoaded) {
             return (
                 <React.Fragment>
                     <div className='wrapper--content__inpage'>
-                        <h1>Daggers' goalscorers for {seasonFormatted} season</h1>
-                        <Select 
-                            labelText={`Season`} 
-                            selectName={`results.season`} 
-                            onChange={seasonChange.bind(this)}
-                        >
-                            <option value="" selected disabled hidden>Select season</option>
-                            <SeasonOptions />
-                        </Select>
+                        {props.titleFormat === 'short' ? <Heading>Goalscorers</Heading> : <Heading>Daggers' goalscorers for {seasonFormatted} season</Heading>}
+                        {props.seasonSelect !== 'false' ?
+                            <Select 
+                                labelText={`Season`} 
+                                selectName={`results.season`} 
+                                onChange={seasonChange.bind(this)}
+                            >
+                                <option value="" selected disabled hidden>Select season</option>
+                                <SeasonOptions />
+                            </Select>
+                        : null}
                         {scorersListBySeason}
                     </div>
                 </React.Fragment>
