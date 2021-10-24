@@ -22,39 +22,12 @@ table {
         text-align: right;
         background-color: $blue70;
         color: white;
-        th {
-            &[location = 'home--primary'] {
-                background: $gray4;
-                color: black;
-            }
-            &[location = 'home--secondary'] {
-                background: $gray2;
-                color: black;
-            }
-            &[location = 'away--primary'] {
-                background: $gray4;
-                color: black;
-            }
-            &[location = 'away--secondary'] {
-                background: $gray2;
-                color: black;
-            }
-            &[location = 'all--primary'] {
-                background: $gray4;
-                color: black;
-            }
-            &[location = 'all--secondary'] {
-                background: $gray2;
-                color: black;
-            }
-        }
     }
     
     tr {
         border-top: $border-fine solid $gray2;
         td, th {
             padding: $rem--half $rem--half;
-            border: $border-fine solid $gray10;
         }
     }
 

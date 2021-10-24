@@ -46,7 +46,7 @@ export default function Appearances() {
     const history = useHistory();
 
     // Update URL path on season change if season not blank
-    useEffect(() => season !== defaultSeason ? history.push(`/season/${season}`) : null, [season]);
+    useEffect(() => season !== defaultSeason ? history.push(`/season/${season}`) : history.push(`/season/${defaultSeason}`), [season]);
 
     // Event handlers
     const seasonChangeHandler = e => setSeason(e.target.value);

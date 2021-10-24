@@ -48,6 +48,7 @@ export default function Table(props) {
         <div className='wrapper--table'>
             <table 
                 className={props.className}
+                type={props.type}
                 data-final-row-highlight={props.finalRowHighlight}
             >
                 {(headers || subheaderVals.length > 0) ?

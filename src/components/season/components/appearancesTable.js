@@ -15,7 +15,7 @@ export default function AppearancesTable(props) {
         {
             "row": 2, 
             "col": 1,
-            "val": ""
+            "val": "Player"
         },
     ],
     appearances;
@@ -46,7 +46,6 @@ export default function AppearancesTable(props) {
                     competitionsKeys.push('footballLeagueTrophy')
                     break;
             }
-
             tableheadings.push({
                 "row": 1,
                 "col": [
@@ -120,7 +119,10 @@ export default function AppearancesTable(props) {
     }
 
     return (
-        <Table headers={tableheadings}>
+        <Table 
+            headers={tableheadings}
+            type='data'
+        >
             {appearances}
         </Table>
     )
