@@ -50,7 +50,10 @@ export default function Appearances() {
 
     // Event handlers
     const seasonChangeHandler = e => setSeason(e.target.value);
-    const allDataHandler = e => setAllData(!allData);
+    const allDataHandler = e => {
+        setAllData(!allData);
+
+    }
 
     if (matches && players && goals) {
     
@@ -234,6 +237,7 @@ export default function Appearances() {
                 <SeasonOptions selected={season} />
             </Select>
             <LeagueSummary 
+                className={allData ? 'fade-in' : 'fade-out'}
                 data={matchesData}
                 season={season}
             />

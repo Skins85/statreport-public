@@ -66,7 +66,7 @@ export default function LeagueSummary(props) {
             <h2>League summary</h2>
             <p><strong>Position: {`${ordinal(parseInt(leaguePosition))}`}</strong></p>
             <Table 
-                className='align-center table-layout-fixed'
+                className={`align-center table-layout-fixed ${props.className}`}
                 type='data'
             >
                 <thead>
