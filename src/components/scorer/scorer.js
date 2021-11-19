@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import Chart from '../chart/chart';
 import DataContext from '../data-context/data-context';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
@@ -18,6 +19,7 @@ export default function Scorers(props) {
     document.title = `${nameFormat('Dagenham & Redbridge')} goalscorers | StatReport`;
 
     useEffect(() => {
+
         async function fetchData() {
 
             // Cache GET requests
@@ -121,7 +123,9 @@ export default function Scorers(props) {
         }
         
         // Map over each player's goalscoring data and output JSX
+        let chartValues = [];
         scorersListBySeason = playerAllGoalsArray.map(s => {
+            chartValues.push(s.length);
             return (
                 <p>{s.length}&nbsp;
                     <a href={`../players/${s[0].scorer_id}`}>{s[0].first_name} {s[0].surname}</a>
@@ -129,29 +133,51 @@ export default function Scorers(props) {
             )
         })
 
+        // Create array of unique goalscorers to form chart labels
+        let chartLabels = [];
+        playerAllGoalsArray.map(s => {
+            chartLabels.push(`${s[0]['first_name']} ${s[0]['surname']}`);
+        });
+
         let seasonFormatted = seasonId.replace('-', '/');
 
         const Heading = 'h' + props.headingLevel;
 
         if (dataLoaded) {
-            return (
-                <React.Fragment>
-                    <div className='wrapper--content__inpage'>
-                        {props.titleFormat === 'short' ? <Heading>Goalscorers</Heading> : <Heading>Daggers' goalscorers for {seasonFormatted} season</Heading>}
-                        {props.seasonSelect !== 'false' ?
-                            <Select 
-                                labelText={`Season`} 
-                                selectName={`results.season`} 
-                                onChange={seasonChange.bind(this)}
-                            >
-                                <option value="" selected disabled hidden>Select season</option>
-                                <SeasonOptions />
-                            </Select>
-                        : null}
-                        {scorersListBySeason}
-                    </div>
-                </React.Fragment>
-            )
+            if (props.type === 'chart') {
+                return (
+                    <Chart
+                        type='horizontalBar'
+                        labels={chartLabels}
+                        theme='red'
+                        data={chartValues}
+                        headingLevel = '2'
+                        title='Goalscorers'
+                        xMin = '0'
+                        xMax = '10'
+                        xStep = '2'
+                    />
+                )
+            } else {
+                return (
+                    <React.Fragment>
+                        <div className='wrapper--content__inpage'>
+                            {props.titleFormat === 'short' ? <Heading>Goalscorers</Heading> : <Heading>Daggers' goalscorers for {seasonFormatted} season</Heading>}
+                            {props.seasonSelect !== 'false' ?
+                                <Select 
+                                    labelText={`Season`} 
+                                    selectName={`results.season`} 
+                                    onChange={seasonChange.bind(this)}
+                                >
+                                    <option value="" selected disabled hidden>Select season</option>
+                                    <SeasonOptions />
+                                </Select>
+                            : null}
+                            {scorersListBySeason}
+                        </div>
+                    </React.Fragment>
+                )
+            } // End: chart type check
         } else {
             return (
                 <Spinner />
@@ -167,7 +193,7 @@ export default function Scorers(props) {
                         <a href={`../players/${s.Player}`}>{s.first_name} {s.surname}</a>
                     </p>
                 )
-            })
+            });
         }
         if (dataLoaded) {
             return (

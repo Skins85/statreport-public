@@ -249,6 +249,7 @@ export default function Appearances() {
                 headingLevel='2'
                 titleFormat='short'
                 seasonSelect='false'
+                type='chart'
             />
             {/* <Transition in={allData} timeout={500}> */}
             <Input 
