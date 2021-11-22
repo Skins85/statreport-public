@@ -15,6 +15,7 @@ export default function ChartComponent(props) {
         // Chart colour rules
         let backgroundColor,
             borderColor;
+
         switch(props.theme) {
             case 'red':
                 backgroundColor = '#f12745'
@@ -23,13 +24,22 @@ export default function ChartComponent(props) {
 
         const data = {
             labels: props.labels,
-            datasets: [{
-                label: 'Goals',
-                backgroundColor: backgroundColor,
-                borderColor: borderColor,
-                borderWidth: props.borderWidth ? props.borderWidth : 1,
-                data: props.data,
-            }]
+            datasets: [
+                {
+                    label: 'Goals',
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: props.borderWidth ? props.borderWidth : 1,
+                    data: props.dataValues1
+                },
+                {
+                    label: 'Goalss',
+                    backgroundColor: 'green',
+                    borderColor: borderColor,
+                    borderWidth: props.borderWidth ? props.borderWidth : 1,
+                    data: props.dataValues2
+                }
+            ]
         };
         
         const config = {
@@ -37,14 +47,22 @@ export default function ChartComponent(props) {
             data: data,
             options: {
                 scales: {
-                    xAxes: [{
-                        ticks: {
-                            reverse: props.xReverse,
-                            min: parseInt(props.xMin),
-                            max: parseInt(props.xMax),
-                            stepSize: parseInt(props.xStep)
+                    xAxes: [
+                        {
+                            ticks: {
+                                reverse: props.xReverse,
+                                min: parseInt(props.xMin),
+                                max: parseInt(props.xMax),
+                                stepSize: parseInt(props.xStep)
+                            },
+                            stacked: true
                         }
-                    }]
+                    ],
+                    yAxes: [
+                        {
+                            stacked: true
+                        }
+                    ]
                 },
                 showTooltips: false
                 }

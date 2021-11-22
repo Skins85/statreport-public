@@ -10,6 +10,9 @@ import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Scorers(props) {
+
+    // console.log(props);
+    
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState({});
     const [totalGoalsData, setTotalGoalsData] = useState({});
@@ -148,9 +151,10 @@ export default function Scorers(props) {
                 return (
                     <Chart
                         type='horizontalBar'
-                        labels={chartLabels}
+                        labels={props.labels}
                         theme='red'
-                        data={chartValues}
+                        dataValues1={props.dataValues1}
+                        dataValues2={props.dataValues2}
                         headingLevel = '2'
                         title='Goalscorers'
                         xMin = '0'

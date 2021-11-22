@@ -29,7 +29,15 @@ export default function Appearances() {
         attendancesData = [],
         playerInfoAll = [],
         attendanceHighest,
-        attendanceLowest;
+        attendanceLowest,
+        playersIds = [],
+        goalsLeague = [],
+        goalsCups = [],
+        sortedPlayers = [],
+        sortedGoalsLeague = [],
+        sortedGoalsCup = [],
+        scorersChartDataset1 = {},
+        scorersChartDataset2 = {};
 
     const defaultSeason = '2021-22';
     
@@ -52,7 +60,6 @@ export default function Appearances() {
     const seasonChangeHandler = e => setSeason(e.target.value);
     const allDataHandler = e => {
         setAllData(!allData);
-
     }
 
     if (matches && players && goals) {
@@ -170,6 +177,46 @@ export default function Appearances() {
             
         }
 
+        playerInfoAll.map((p) => {
+            p['goals']['goalsTotal'] > 0 ? (
+                // playersIds.push(p['id']) &&
+                goalsLeague.push(parseInt(p['goals']['goalsTotal'] - p['goals']['goalsCups'])) &&
+                goalsCups.push(parseInt(p['goals']['goalsCups']))
+            )
+            : null;
+        });
+
+
+
+        // Sort array of player objects by total goals scored
+        let playersObjectSorted = playerInfoAll.sort((a, b) => a['goals']['goalsTotal'] < b['goals']['goalsTotal'] && 1 || -1);
+        
+        // Create sorted arrays to send to Chart component
+        playersObjectSorted.map((p) => {
+            p['goals']['goalsTotal'] > 0
+            ? sortedPlayers.push(p['id']) &&
+              sortedGoalsLeague.push(p['goals']['goalsTotal'] - p['goals']['goalsCups']) &&
+              sortedGoalsCup.push(p['goals']['goalsCups'])
+            : null;
+        });
+
+        // Create array of player objects with IDs and player names
+        const mergeArraysByObjectId = (a1, a2) =>
+        a1.map(itm => ({
+            ...a2.find((item) => (item.Player === itm.id) && item),
+            ...itm
+        }));
+
+        let playerObjectsFull = mergeArraysByObjectId(playersObjectSorted, players);
+        playerObjectsFull.map((player) => {
+            player['goals']['goalsTotal'] > 0 ? playersIds.push(`${player['first_name']} ${player['surname']}`) : null;
+        });
+
+        scorersChartDataset1 = {
+            label: 'League',
+            data: sortedGoalsLeague
+        }
+
         /***** 
          ********** ATTENDANCES **********
         *****/
@@ -250,6 +297,9 @@ export default function Appearances() {
                 titleFormat='short'
                 seasonSelect='false'
                 type='chart'
+                labels={playersIds}
+                dataValues1={sortedGoalsLeague}
+                dataValues2={sortedGoalsCup}
             />
             {/* <Transition in={allData} timeout={500}> */}
             <Input 

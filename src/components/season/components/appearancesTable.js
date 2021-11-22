@@ -118,8 +118,6 @@ export default function AppearancesTable(props) {
         });
     }
 
-    props.allData ? console.log('a') : console.log('b');
-
     return (
         <Table 
             className={props.allData ? 'data-full' : 'data-condensed'}

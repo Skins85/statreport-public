@@ -6,27 +6,6 @@ import AppearancesTable from '../components/appearancesTable';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
 
-{/* <style>
-    .transition-enter {
-    opacity: 0.01;
-    transform: translate(0, -10px);
-  }
-  .transition-enter-active {
-    opacity: 1;
-    transform: translate(0, 0);
-    transition: all 300ms ease-in;
-  }
-  .transition-exit {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
-  .transition-exit-active {
-    opacity: 0.01;
-    transform: translate(0, 10px);
-    transition: all 300ms ease-in;
-  }
-    </style> */}
-
 export default function Season(props) {
 
     let appearances = props.appearancesGoals,
