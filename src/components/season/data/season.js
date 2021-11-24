@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {playerGoalsFilter, playerStartsFilter, playerSubsFilter} from '../../../util';
 
 import Attendances from '../components/attendances';
+import Chart from '../../chart/chart';
 import Input from '../../form/ui/input/input';
 import LeagueSummary from '../components/leagueSummary';
 import Scorer from '../../scorer/scorer';
@@ -277,6 +278,11 @@ export default function Appearances() {
 
     }
 
+    // X-axis to reflect individual's maximum goal tally. If odd, add 1 to ensure consistent axis ticks display
+    let totalGoalsMax = Math.max(parseInt(sortedGoalsLeague) + parseInt(sortedGoalsCup));
+    totalGoalsMax % 2 === 1 ? totalGoalsMax += 1 : null;
+    
+
     return (
         <div className='wrapper--content__inpage season'>
             <h1>Season review: {season}</h1>
@@ -292,14 +298,17 @@ export default function Appearances() {
                 data={attendancesData}
                 season={season}
             />
-            <Scorer
+            <Chart
                 headingLevel='2'
-                titleFormat='short'
-                seasonSelect='false'
-                type='chart'
+                title='Goalscorers'
+                type='horizontalBar'
                 labels={playersIds}
                 dataValues1={sortedGoalsLeague}
                 dataValues2={sortedGoalsCup}
+                theme='red'
+                xMin='0'
+                xMax={totalGoalsMax}
+                xStep='2'
             />
             {/* <Transition in={allData} timeout={500}> */}
             <Input 
