@@ -4,8 +4,6 @@ import Chart from 'chart.js';
 
 export default function ChartComponent(props) {
 
-    console.log(props);
-
     let ctx = document.getElementById('myChart'),
         myChart,
         finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);

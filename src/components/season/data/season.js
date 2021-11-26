@@ -5,13 +5,10 @@ import Attendances from '../components/attendances';
 import Chart from '../../chart/chart';
 import Input from '../../form/ui/input/input';
 import LeagueSummary from '../components/leagueSummary';
-import Scorer from '../../scorer/scorer';
 import Season from '../layout/season';
 import SeasonOptions from '../../form/options/season';
 import Select from '../../form/ui/select/select';
-import { Transition } from 'react-transition-group';
 import axios from 'axios';
-import { setupCache } from 'axios-cache-adapter';
 import useAxios from '../../../hooks/useAxios';
 import { useHistory } from 'react-router-dom';
 
@@ -36,9 +33,7 @@ export default function Appearances() {
         goalsCups = [],
         sortedPlayers = [],
         sortedGoalsLeague = [],
-        sortedGoalsCup = [],
-        scorersChartDataset1 = {},
-        scorersChartDataset2 = {};
+        sortedGoalsCup = [];
 
     const defaultSeason = '2021-22';
     
@@ -180,14 +175,11 @@ export default function Appearances() {
 
         playerInfoAll.map((p) => {
             p['goals']['goalsTotal'] > 0 ? (
-                // playersIds.push(p['id']) &&
                 goalsLeague.push(parseInt(p['goals']['goalsTotal'] - p['goals']['goalsCups'])) &&
                 goalsCups.push(parseInt(p['goals']['goalsCups']))
             )
             : null;
         });
-
-
 
         // Sort array of player objects by total goals scored
         let playersObjectSorted = playerInfoAll.sort((a, b) => a['goals']['goalsTotal'] < b['goals']['goalsTotal'] && 1 || -1);
@@ -195,8 +187,7 @@ export default function Appearances() {
         // Create sorted arrays to send to Chart component
         playersObjectSorted.map((p) => {
             p['goals']['goalsTotal'] > 0
-            ? sortedPlayers.push(p['id']) &&
-              sortedGoalsLeague.push(p['goals']['goalsTotal'] - p['goals']['goalsCups']) &&
+            ? sortedGoalsLeague.push(p['goals']['goalsTotal'] - p['goals']['goalsCups']) &&
               sortedGoalsCup.push(p['goals']['goalsCups'])
             : null;
         });
@@ -212,11 +203,6 @@ export default function Appearances() {
         playerObjectsFull.map((player) => {
             player['goals']['goalsTotal'] > 0 ? playersIds.push(`${player['first_name']} ${player['surname']}`) : null;
         });
-
-        scorersChartDataset1 = {
-            label: 'League',
-            data: sortedGoalsLeague
-        }
 
         /***** 
          ********** ATTENDANCES **********
@@ -281,7 +267,6 @@ export default function Appearances() {
     // X-axis to reflect individual's maximum goal tally. If odd, add 1 to ensure consistent axis ticks display
     let totalGoalsMax = Math.max(parseInt(sortedGoalsLeague) + parseInt(sortedGoalsCup));
     totalGoalsMax % 2 === 1 ? totalGoalsMax += 1 : null;
-    
 
     return (
         <div className='wrapper--content__inpage season'>
@@ -298,19 +283,21 @@ export default function Appearances() {
                 data={attendancesData}
                 season={season}
             />
-            <Chart
-                headingLevel='2'
-                title='Goalscorers'
-                type='horizontalBar'
-                labels={playersIds}
-                dataValues1={sortedGoalsLeague}
-                dataValues2={sortedGoalsCup}
-                theme='red'
-                xMin='0'
-                xMax={totalGoalsMax}
-                xStep='2'
-            />
-            {/* <Transition in={allData} timeout={500}> */}
+            { // Check variables exist before rendering chart
+            sortedGoalsLeague && sortedGoalsCup && playersIds && totalGoalsMax ?
+                <Chart
+                    headingLevel='2'
+                    title='Goalscorers'
+                    type='horizontalBar'
+                    labels={playersIds}
+                    dataValues1={sortedGoalsLeague}
+                    dataValues2={sortedGoalsCup}
+                    theme='red'
+                    xMin='0'
+                    xMax={totalGoalsMax}
+                    xStep='2'
+                />
+            : null}
             <Input 
                 onChange={allDataHandler}
                 inputId='season-all-data'
@@ -324,8 +311,6 @@ export default function Appearances() {
                 competitions={competitions}
                 allData={allData}
             />
-            {/* </Transition> */}
         </div>
-    ) 
-   
+    )
 }
