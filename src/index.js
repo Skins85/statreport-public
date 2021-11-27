@@ -49,7 +49,7 @@ const routing = (
                     <Route path="/players/scorers" component={Goalscorers} />
                     <Route exact path="/players" component={Players} />
                     <Route path="/players/" component={Players} />
-                    <Route path="/season" component={Season} />
+                    <Route path="/matches/seasons" component={Season} />
                     <Route path="/admin/add-result" component={AddResultForm} />
                     <Route path="/admin/add-result-complete" component={AddResultsComplete} />
                     <Route path="/login" component={Login} />

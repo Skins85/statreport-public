@@ -11,31 +11,35 @@ export default function ChartComponent(props) {
     useEffect(() => {
         
         // Chart colour rules
-        let backgroundColor,
-            borderColor;
+        let dataset1BackgroundColor,
+            dataset1BorderColor,
+            dataset2BackgroundColor,
+            dataset2BorderColor;
 
         switch(props.theme) {
-            case 'red':
-                backgroundColor = '#f12745'
-                borderColor = '#a80b22'
-            }
+            case 'red-blue':
+                dataset1BackgroundColor = '#f12745'
+                dataset1BorderColor = '#a80b22'
+                dataset2BackgroundColor = '#3375e6'
+                dataset2BorderColor = '#14479f'
+        }
 
         const data = {
             labels: props.labels,
             datasets: [
                 {
-                    label: 'Goals',
-                    backgroundColor: backgroundColor,
-                    borderColor: borderColor,
+                    label: props.dataset1Label,
+                    backgroundColor: dataset1BackgroundColor,
+                    borderColor: dataset1BorderColor,
                     borderWidth: props.borderWidth ? props.borderWidth : 1,
-                    data: props.dataValues1
+                    data: props.dataset1Values
                 },
                 {
-                    label: 'Goalss',
-                    backgroundColor: 'green',
-                    borderColor: borderColor,
+                    label: props.dataset2Label,
+                    backgroundColor: dataset2BackgroundColor,
+                    borderColor: dataset2BorderColor,
                     borderWidth: props.borderWidth ? props.borderWidth : 1,
-                    data: props.dataValues2
+                    data: props.dataset2Values
                 }
             ]
         };

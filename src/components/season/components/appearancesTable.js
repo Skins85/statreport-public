@@ -70,7 +70,7 @@ export default function AppearancesTable(props) {
             return (
                 <tr key={d.id}>
                     <td>
-                        <Link to={`../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
+                        <Link to={`../../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
                     </td>
                     {competitionsKeys.map((competition) => {
                         return (
@@ -96,7 +96,7 @@ export default function AppearancesTable(props) {
             return (
                 <tr key={d.id}>
                     <td>
-                        <Link to={`../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
+                        <Link to={`../../players/${d.Player}`}>{d.first_name} {d.surname}</Link>
                     </td>
                     <AppearancesTableCell 
                         starts={d.appearances[0]['competition'][0]['league']['starts']} 

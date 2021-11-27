@@ -40,7 +40,7 @@ export default function Appearances() {
     // Determine season from final URL string
     let initialSeasonValue;
     let finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-    finalUrlString === 'season' ? initialSeasonValue = defaultSeason : initialSeasonValue = finalUrlString;
+    finalUrlString === 'seasons' ? initialSeasonValue = defaultSeason : initialSeasonValue = finalUrlString;
     
     // State
     const [allData, setAllData] = useState(false);
@@ -49,8 +49,8 @@ export default function Appearances() {
     // Access history properties to dynamic change URL path
     const history = useHistory();
 
-    // Update URL path on season change if season not blank
-    useEffect(() => season !== defaultSeason ? history.push(`/season/${season}`) : history.push(`/season/${defaultSeason}`), [season]);
+    // Update URL path on season change if season not blank (or is no season)
+    useEffect(() => season !== defaultSeason ? history.push(`/matches/seasons/${season}`) : history.push(`/matches/seasons/${defaultSeason}`), [season]);
 
     // Event handlers
     const seasonChangeHandler = e => setSeason(e.target.value);
@@ -290,9 +290,11 @@ export default function Appearances() {
                     title='Goalscorers'
                     type='horizontalBar'
                     labels={playersIds}
-                    dataValues1={sortedGoalsLeague}
-                    dataValues2={sortedGoalsCup}
-                    theme='red'
+                    dataset1Label='League'
+                    dataset1Values={sortedGoalsLeague}
+                    dataset2Label='Cup'
+                    dataset2Values={sortedGoalsCup}
+                    theme='red-blue'
                     xMin='0'
                     xMax={totalGoalsMax}
                     xStep='2'

@@ -23,6 +23,10 @@ const links = [
 		section: '/matches',
 		name: 'Matches',
         pages: [
+			{
+                name: 'Seasons',
+                path: '/matches/season'
+            },
             {
                 name: 'Attendances',
                 path: '/matches/attendances'
@@ -58,25 +62,6 @@ export default function Navigation() {
 	const [primaryToggle, setPrimaryToggle] = useState(false);
 	const [secondaryToggle, setSecondaryToggle] = useState(false);
 	const [sectionPath, setSectionPath] = useState({});
-	
-  	// useEffect(() => {
-
-	// 	async function fetchData() {
-    //         const res = await fetch("/get-navigation-links");
-    //         res
-    //             .json()
-    //             .then(res => setData(res))
-    //             .catch(err => setErrors(err));
-	// 	}
-	// 	fetchData();
-
-	// 	// If users reaches page directly or by refresh, highlight correct primary section
-	// 	let url = window.location.href;
-	// 	let urlParts = url.split('/');
-	// 	setSectionPath(`/${urlParts[3]}`);
-
-    // },[]);
-
 
 	let subPages, subLinks;
 
