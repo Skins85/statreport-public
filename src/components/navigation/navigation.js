@@ -25,7 +25,7 @@ const links = [
         pages: [
 			{
                 name: 'Seasons',
-                path: '/matches/season'
+                path: '/matches/seasons'
             },
             {
                 name: 'Attendances',

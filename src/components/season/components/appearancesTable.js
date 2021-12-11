@@ -20,6 +20,9 @@ export default function AppearancesTable(props) {
     ],
     appearances;
 
+    // Sort appearances table alphabetically (by surname)
+    let playersAlphabetical = props.appearances.sort((a, b) => a['surname'] > b['surname'] && 1 || -1);
+
     // Table headings => Build array of values to pass to Table component
     if (props.competitions) {
         for (const competition of props.competitions) {
@@ -66,7 +69,7 @@ export default function AppearancesTable(props) {
     // Table body data => Row for each player with multiple table cells
     if (props.allData) {
         // Data arrangement: All competitions and total
-        appearances = Array.from(props.appearances).map((d) => {
+        appearances = Array.from(playersAlphabetical).map((d) => {
             return (
                 <tr key={d.id}>
                     <td>
@@ -92,7 +95,7 @@ export default function AppearancesTable(props) {
         })
     } else {
         // Data arrangment: League/Cup/Total 
-        appearances = Array.from(props.appearances).map((d) => {
+        appearances = Array.from(playersAlphabetical).map((d) => {
             return (
                 <tr key={d.id}>
                     <td>
