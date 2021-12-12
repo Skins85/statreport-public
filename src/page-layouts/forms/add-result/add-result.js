@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import CompetitionOptions from '../../../components/form/options/competition';
 import Input from '../../../components/form/ui/input/input';
 import RoundOptions from '../../../components/form/options/round';
-import SeasonOptions from '../../../components/form/options/season';
+import SeasonOptions from '../../../components/form/options/seasonAdmin';
 import Select from '../../../components/form/ui/select/select';
 import auth from '../../../config/auth';
 import {filterArrayofObjects} from '../../../util';
