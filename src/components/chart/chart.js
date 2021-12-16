@@ -4,6 +4,8 @@ import Chart from 'chart.js';
 
 export default function ChartComponent(props) {
 
+    console.log(props.labels.length * 100);
+
     let ctx = document.getElementById('myChart'),
         myChart,
         finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
@@ -82,7 +84,7 @@ export default function ChartComponent(props) {
     return (
         <>
             <Heading>{props.title}</Heading>
-            <canvas id="myChart" width="500" height="400"></canvas>
+            <canvas id="myChart" width="500" height={props.labels.length * 30}></canvas>
         </>
     )
-}
+} 
