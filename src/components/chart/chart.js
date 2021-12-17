@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 
 export default function ChartComponent(props) {
 
-    console.log(props.labels.length * 100);
+    // console.log(props.labels.length * 100);
 
     let ctx = document.getElementById('myChart'),
         myChart,
@@ -64,11 +64,12 @@ export default function ChartComponent(props) {
                     ],
                     yAxes: [
                         {
-                            stacked: true
+                            stacked: true,
                         }
                     ]
                 },
-                showTooltips: false
+                showTooltips: false,
+                responsive: true,
                 }
             }
 
@@ -84,7 +85,7 @@ export default function ChartComponent(props) {
     return (
         <>
             <Heading>{props.title}</Heading>
-            <canvas id="myChart" width="500" height={props.labels.length * 30}></canvas>
+            <canvas id="myChart" width="500" height={props.labels.length * 25} />
         </>
     )
 } 
