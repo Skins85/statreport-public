@@ -5,7 +5,7 @@ import Input from '../../../components/form/ui/input/input';
 import RoundOptions from '../../../components/form/options/round';
 import SeasonOptions from '../../../components/form/options/seasonAdmin';
 import Select from '../../../components/form/ui/select/select';
-import auth from '../../../config/auth';
+// import auth from '../../../config/auth';
 import {filterArrayofObjects} from '../../../util';
 
 class Form extends Component {
@@ -143,7 +143,9 @@ class Form extends Component {
 
     render() {
 
-        if (sessionStorage.loggedIn === 'true') {
+        <h2>Test</h2>
+
+        // if (sessionStorage.loggedIn === 'true') {
 
             // Update players list based on season select
             let players = this.state.playersData.players;
@@ -465,15 +467,16 @@ class Form extends Component {
             console.log(attendanceSnippets)
         
             return (
+                <>
                 <div className="add-result">
                     <h1>Add result</h1>   
 
                     <button 
-                        onClick={() => {
-                            auth.logout(() => {
-                                this.props.history.push("/login");
-                            })
-                        }}
+                        // onClick={() => {
+                        //     auth.logout(() => {
+                        //         this.props.history.push("/login");
+                        //     })
+                        // }}
                     >
                         Logout
                     </button>
@@ -647,11 +650,13 @@ class Form extends Component {
                         <button>Submit</button>
                     </form>
                 </div>
+                </>
             )
-        } else {
-            this.props.history.push('/login');
-            return null;
-        }
+        // } else {
+            // this.props.history.push('/login');
+        //     <h1>Test</h1>
+        //     return null;
+        // }
     }
 }
 

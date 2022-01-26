@@ -8,10 +8,6 @@ import ReactDOM from 'react-dom';
 import Spinner from './components/ui/spinner/spinner';
 import { createBrowserHistory } from 'history';
 
-// import * as serviceWorker from './serviceWorker';
-
-
-
 const history = createBrowserHistory();
 const rootEl = document.getElementById('root');
 
@@ -27,7 +23,7 @@ const Disclaimer = lazy(() => import(/* webpackChunkName: 'disclaimer' */ './pag
 const Goalscorers = lazy(() => import(/* webpackChunkName: 'scorer' */ './components/scorer/scorer'));
 const Home = lazy(() => import(/* webpackChunkName: 'home' */ './page-layouts/home/home'));
 const LeaguePositions = lazy(() => import(/* webpackChunkName: 'league-positions' */ './components/league-positions/league-positions'));
-const Login = lazy(() => import(/* webpackChunkName: 'login' */ './components/login/login'));
+// const Login = lazy(() => import(/* webpackChunkName: 'login' */ './components/login/login'));
 const Matches = lazy(() => import(/* webpackChunkName: 'match' */ './components/match/match'));
 const Players = lazy(() => import(/* webpackChunkName: 'players' */ './page-layouts/players/players'));
 const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/teams/teams'));
@@ -36,6 +32,7 @@ const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/
 const routing = (
     <Router>
         <Suspense fallback={<Spinner />}>
+            <CookieNotice />
             <ContentWrapper>
                 <Switch>
                     <Route exact path="/" component={Home} />
@@ -50,9 +47,9 @@ const routing = (
                     <Route exact path="/players" component={Players} />
                     <Route path="/players/" component={Players} />
                     <Route path="/matches/seasons" component={Season} />
-                    <Route path="/admin/add-result" component={AddResultForm} />
+                    <Route exact path="/admin/add-result" component={AddResultForm} />
                     <Route path="/admin/add-result-complete" component={AddResultsComplete} />
-                    <Route path="/login" component={Login} />
+                    {/* <Route path="/login" component={Login} /> */}
                     <Route exact path="/teams" component={Teams} /> 
                     <Route exact="/teams" component={Teams}/>
                 </Switch>
