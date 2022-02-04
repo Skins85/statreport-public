@@ -30,6 +30,11 @@
                 border: $border-fine solid $gray8;
             }
         }
+        td {
+            &.team__home {
+                text-align: right;
+            }
+        }
     }
     
 }

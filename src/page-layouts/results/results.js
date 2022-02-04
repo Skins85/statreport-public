@@ -155,6 +155,7 @@ class Results extends Component {
                     goals_home={result.goals_home}
                     goals_away={result.goals_away}
                     team_away={result.team_away}
+                    attendance={result.attendance}
                     link_enabled
                   />
                 )
@@ -230,11 +231,6 @@ class Results extends Component {
                     <option value="all">All teams</option>
                     {teamsList}
                   </select>
-              
-                  {/* <select name="season" onChange={this.onChange}>
-                    <option value="all">All seasons</option>
-                    {season_select}
-                  </select> */}
                   <Select 
                     labelText={`Season`} 
                     selectName={`results.season`} 
@@ -247,12 +243,12 @@ class Results extends Component {
                 <Table>
                   <thead data-content-align='left'>
                     <tr>
-                      <th />
                       <th>Date</th>
                       <th>Competition</th>
                       <th></th>
                       <th></th>
                       <th></th>
+                      <th>Attendance</th>
                     </tr>
                   </thead>
                   <tbody>

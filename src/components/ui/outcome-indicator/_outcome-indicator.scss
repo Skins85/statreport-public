@@ -1,24 +1,16 @@
 .outcome {
-    &:before {
-        content: '';
-        width: $rem--one;
-        height: $rem--one;
-        display: inline-block;
-        margin-right: $rem--half;
+    text-align: center;
+    color: white;
+    a {
+        color: white;
     }
     &.outcome--win {
-        &:before {
-            background: green;
-        }
+        background: green;
     }
     &.outcome--draw {
-        &:before {
-            background: orange;
-        }
+        background: orange;
     }
     &.outcome--loss {
-        &:before {
-            background: red;
-        }
+        background: red;
     }
 }
