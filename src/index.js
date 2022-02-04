@@ -17,7 +17,7 @@ const AddResultsComplete = lazy(() => import(/* webpackChunkName: 'add-result-co
 const Attendances = lazy(() => import(/* webpackChunkName: 'attendances' */ './components/attendances/attendances'));
 const Bio = lazy(() => import(/* webpackChunkName: 'bio' */ './page-layouts/about/bio/bio'));
 const ContentWrapper = lazy(() => import(/* webpackChunkName: 'component-wrapper' */ './components/hoc/component-wrapper/wrapper'));
-const CookieNotice = lazy(() => import(/* webpackChunkName: 'cookie-notice' */ './components/cookies/cookie-notice/cookie-notice'));
+// const CookieNotice = lazy(() => import(/* webpackChunkName: 'cookie-notice' */ './components/cookies/cookie-notice/cookie-notice'));
 const CookiePolicy = lazy(() => import(/* webpackChunkName: 'cookie-policy' */ './components/cookies/cookie-policy/cookie-policy'));
 const Disclaimer = lazy(() => import(/* webpackChunkName: 'disclaimer' */ './page-layouts/disclaimer/disclaimer'));
 const Goalscorers = lazy(() => import(/* webpackChunkName: 'scorer' */ './components/scorer/scorer'));
@@ -32,7 +32,7 @@ const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/
 const routing = (
     <Router>
         <Suspense fallback={<Spinner />}>
-            <CookieNotice />
+            {/* <CookieNotice /> */}
             <ContentWrapper>
                 <Switch>
                     <Route exact path="/" component={Home} />
