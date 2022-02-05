@@ -8,6 +8,8 @@ import moment from 'moment';
 export default function Result(props) {
 const [showButton, setShowButton] = useState(true);
 
+    props.league_position ? console.log('true') : console.log('false');
+
     let outcome;
     if (props.team_home === 'Dagenham & Redbridge') { 
         if (props.goals_home > props.goals_away) {
@@ -32,15 +34,16 @@ const [showButton, setShowButton] = useState(true);
     return (
         <tr key={props.id}>
             <td>{moment(props.date).format('DD/MM/YYYY')}</td>
-            <td>{props.competition}</td>
+            <td className="results__competition no-wrap">{props.competition === "Essex Senior Cup" ? <abbr title="Essex Senior Cup">ESC</abbr> : props.competition}</td>
             <td className='team__home no-wrap'>{nameFormat(props.team_home)}</td>
-            <td className={outcome} no-wrap>
+            <td className={`${outcome} no-wrap`}>
                 {props.link_enabled ? <Link to={`/matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
                 </Link> : `${props.goals_home}-${props.goals_away}`}
             </td>
             <td className='team_away no-wrap'>{nameFormat(props.team_away)}</td>
             <td className='align-right results__attendance' >{props.attendance == 0 ? '-' : parseInt(props.attendance).toLocaleString()}</td>
+            <td className='align-right results__league__position no-wrap'>{props.league_position ? props.league_position : '-'}</td>
         </tr>
     )
 }

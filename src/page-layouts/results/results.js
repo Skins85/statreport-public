@@ -143,6 +143,8 @@ class Results extends Component {
                 } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home < result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away < result.goals_home)) {
                   outcome = 'L';
                 }
+
+                console.log(result);
       
                 return (
                   <Result
@@ -156,6 +158,7 @@ class Results extends Component {
                     goals_away={result.goals_away}
                     team_away={result.team_away}
                     attendance={result.attendance}
+                    league_position={result.league_position}
                     link_enabled
                   />
                 )
@@ -248,7 +251,8 @@ class Results extends Component {
                       <th></th>
                       <th></th>
                       <th></th>
-                      <th>Attendance</th>
+                      <th className="align-right"><abbr title="Attendance">Att</abbr></th>
+                      <th className="align-right"><abbr title="League position">Pos</abbr></th>
                     </tr>
                   </thead>
                   <tbody>

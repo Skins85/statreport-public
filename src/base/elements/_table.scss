@@ -27,7 +27,7 @@ table {
     tr {
         border-top: $border-fine solid $gray2;
         td, th {
-            padding: $rem--half $rem--half;
+            padding: $rem--one $rem--half;
         }
     }
 
@@ -46,7 +46,9 @@ table {
     tbody {
         tr {
             &:hover {
-                background: $gray1;
+                background: $gray2;
+                border-radius: $rem--one;
+                border: $border-fine solid $blue30;
             }
             td {
                 &[data-type='num'] {
