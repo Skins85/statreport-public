@@ -1,15 +1,20 @@
 import '../main.scss';
 
 import React, {Suspense, lazy, useEffect, useState} from 'react';
-import { Route, BrowserRouter as Router, Switch, withRouter } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, withRouter } from 'react-router-dom'; // Doc uses react-router
+import configureStore, { history } from '../configureStore';
 
 import App from './App';
+import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Spinner from './components/ui/spinner/spinner';
 import { createBrowserHistory } from 'history';
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 const rootEl = document.getElementById('root');
+const store = configureStore({});
+
 
 const About = lazy(() => import(/* webpackChunkName: 'about' */ './page-layouts/about/about'));
 const AddResultForm = lazy(() => import(/* webpackChunkName: 'add-result' */ './page-layouts/forms/add-result/add-result'));
@@ -30,32 +35,36 @@ const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/te
 const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/season/data/season'));
 
 const routing = (
-    <Router>
-        <Suspense fallback={<Spinner />}>
-            {/* <CookieNotice /> */}
-            <ContentWrapper>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/about" component={About} />
-                    <Route exact path="/about/bio" component={Bio} />
-                    <Route exact path="/cookies" component={CookiePolicy} />
-                    <Route path="/disclaimer" component={Disclaimer} />
-                    <Route path="/matches/attendances" component={Attendances} />
-                    <Route path="/matches/league-positions" component={LeaguePositions} />
-                    <Route exact path="/matches" component={Matches} />
-                    <Route path="/players/scorers" component={Goalscorers} />
-                    <Route exact path="/players" component={Players} />
-                    <Route path="/players/" component={Players} />
-                    <Route path="/matches/seasons" component={Season} />
-                    <Route exact path="/admin/add-result" component={AddResultForm} />
-                    <Route path="/admin/add-result-complete" component={AddResultsComplete} />
-                    {/* <Route path="/login" component={Login} /> */}
-                    <Route exact path="/teams" component={Teams} /> 
-                    <Route exact="/teams" component={Teams}/>
-                </Switch>
-            </ContentWrapper>
-        </Suspense>
-    </Router>
+    <Provider store={store}>
+        <ConnectedRouter history={history}> { /* place ConnectedRouter under Provider */ }
+            <Router>
+                <Suspense fallback={<Spinner />}>
+                    {/* <CookieNotice /> */}
+                    <ContentWrapper>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/about" component={About} />
+                            <Route exact path="/about/bio" component={Bio} />
+                            <Route exact path="/cookies" component={CookiePolicy} />
+                            <Route path="/disclaimer" component={Disclaimer} />
+                            <Route path="/matches/attendances" component={Attendances} />
+                            <Route path="/matches/league-positions" component={LeaguePositions} />
+                            <Route exact path="/matches" component={Matches} />
+                            <Route path="/players/scorers" component={Goalscorers} />
+                            <Route exact path="/players" component={Players} />
+                            <Route path="/players/" component={Players} />
+                            <Route path="/matches/seasons" component={Season} />
+                            <Route exact path="/admin/add-result" component={AddResultForm} />
+                            <Route path="/admin/add-result-complete" component={AddResultsComplete} />
+                            {/* <Route path="/login" component={Login} /> */}
+                            <Route exact path="/teams" component={Teams} /> 
+                            <Route exact="/teams" component={Teams}/>
+                        </Switch>
+                    </ContentWrapper>
+                </Suspense>
+            </Router>
+        </ConnectedRouter>
+    </Provider>
 )
 
 Goalscorers.defaultProps = {
