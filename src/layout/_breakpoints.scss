@@ -3,3 +3,39 @@ $tablet: 768px;
 $small: 1024px;
 $desktop: 1280px;
 $large: 1440px;
+
+// $widths: $mobile, $tablet, $small, $desktop, $large;
+// $widths: 480px, 768px, 1024px, 1280px, 1440px;
+// $widths: 'mobile', 'tablet', 'small', 'desktop', 'large';
+
+// @each $width in $widths {
+//     [data-display='#{$width}'] {
+//         @media screen and (max-width: $width) {
+//             display: none;
+//         }
+//     }
+// }
+
+[data-display='large'] {
+    @media screen and (max-width: $large) {
+        display: none;
+    }
+}
+
+[data-display='desktop'] {
+    @media screen and (max-width: $desktop) {
+        display: none;
+    }
+}
+
+[data-display='small'] {
+    @media screen and (max-width: $small) {
+        display: none;
+    }
+}
+
+[data-display='tablet'] {
+    @media screen and (max-width: $tablet) {
+        display: none;
+    }
+}

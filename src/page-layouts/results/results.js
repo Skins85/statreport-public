@@ -251,8 +251,14 @@ class Results extends Component {
                       <th></th>
                       <th></th>
                       <th></th>
-                      <th className="align-right"><abbr title="Attendance">Att</abbr></th>
-                      <th className="align-right"><abbr title="League position">Pos</abbr></th>
+                      <th 
+                        className="align-right"
+                        data-display="small"
+                      ><abbr title="Attendance">Att</abbr></th>
+                      <th 
+                        className="align-right"
+                        data-display="small"
+                      ><abbr title="League position">Pos</abbr></th>
                     </tr>
                   </thead>
                   <tbody>

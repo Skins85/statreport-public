@@ -42,8 +42,13 @@ const [showButton, setShowButton] = useState(true);
                 </Link> : `${props.goals_home}-${props.goals_away}`}
             </td>
             <td className='team_away no-wrap'>{nameFormat(props.team_away)}</td>
-            <td className='align-right results__attendance' >{props.attendance == 0 ? '-' : parseInt(props.attendance).toLocaleString()}</td>
-            <td className='align-right results__league__position no-wrap'>{props.league_position ? props.league_position : '-'}</td>
+            <td 
+                className='align-right results__attendance'
+                data-display='small'>{props.attendance == 0 ? '-' : parseInt(props.attendance).toLocaleString()}</td>
+            <td 
+                className='align-right results__league__position no-wrap'
+                data-display='small'
+            >{props.league_position ? props.league_position : '-'}</td>
         </tr>
     )
 }
