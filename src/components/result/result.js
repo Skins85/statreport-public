@@ -30,12 +30,30 @@ let competitionShort;
         }
     }
 
+    // Short competition name
     switch(props.competition) {
+        case 'Essex Senior Cup':
+            competitionShort = 'ESC'
+            break;
+        case 'FA Cup':
+            competitionShort = 'FAC';
+            break;
+        case 'FA Trophy':
+            competitionShort = 'FTR';
+            break;
+        case 'Football League Trophy':
+            competitionShort = 'FLT';
+            break;
         case 'League':
-            competitionShort = 'LG';
+            competitionShort = 'LGE';
+            break;
+        case 'League Cup':
+            competitionShort = 'LGC';
+            break;
+        case 'Playoff':
+            competitionShort = 'PLY';
             break;
         default:
-            // code block
     }
 
     return (
@@ -51,13 +69,13 @@ let competitionShort;
                 data-display="mobile-only"
             >{competitionShort}
             </td>
-            <td className='team__home no-wrap'>{nameFormat(props.team_home)}</td>
+            <td className='team__home'>{nameFormat(props.team_home)}</td>
             <td className={`${outcome} no-wrap`}>
                 {props.link_enabled ? <Link to={`/matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
                 </Link> : `${props.goals_home}-${props.goals_away}`}
             </td>
-            <td className='team_away no-wrap'>{nameFormat(props.team_away)}</td>
+            <td className='team_away'>{nameFormat(props.team_away)}</td>
             <td 
                 className='align-right results__attendance'
                 data-display='small'>{props.attendance == 0 ? '-' : parseInt(props.attendance).toLocaleString()}</td>

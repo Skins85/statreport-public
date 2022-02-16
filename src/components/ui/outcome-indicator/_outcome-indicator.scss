@@ -3,14 +3,32 @@
     color: white;
     a {
         color: white;
+        padding: $rem--threequarters;
+        border-radius: $rem--half;
+        outline-offset: $rem--eighth;
+        &:focus,
+        &:active {
+            outline: $border-narrow dotted black;
+        }
     }
     &.outcome--win {
-        background: green;
+        a {
+            background: green;
+        }
     }
     &.outcome--draw {
-        background: orange;
+        a {
+            background: orange;
+        }
     }
     &.outcome--loss {
-        @include itemBackgroundColor($red60);
+        a {
+            @include itemBackgroundColor($red60);
+        }
     }
+}
+
+.team_home,
+.team_away {
+    overflow-wrap: break-word;
 }
