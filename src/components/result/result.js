@@ -7,8 +7,7 @@ import moment from 'moment';
 
 export default function Result(props) {
 const [showButton, setShowButton] = useState(true);
-
-    props.league_position ? console.log('true') : console.log('false');
+let competitionShort;
 
     let outcome;
     if (props.team_home === 'Dagenham & Redbridge') { 
@@ -31,10 +30,27 @@ const [showButton, setShowButton] = useState(true);
         }
     }
 
+    switch(props.competition) {
+        case 'League':
+            competitionShort = 'LG';
+            break;
+        default:
+            // code block
+    }
+
     return (
         <tr key={props.id}>
             <td>{moment(props.date).format('DD/MM/YYYY')}</td>
-            <td className="results__competition no-wrap">{props.competition === "Essex Senior Cup" ? <abbr title="Essex Senior Cup">ESC</abbr> : props.competition}</td>
+            <td 
+                className="results__competition no-wrap"
+                data-display="mobile"
+            >{props.competition === "Essex Senior Cup" ? <abbr title="Essex Senior Cup">ESC</abbr> : props.competition}
+            </td>
+            <td
+                className=""
+                data-display="mobile-only"
+            >{competitionShort}
+            </td>
             <td className='team__home no-wrap'>{nameFormat(props.team_home)}</td>
             <td className={`${outcome} no-wrap`}>
                 {props.link_enabled ? <Link to={`/matches/?m=${props.match_id}`}>

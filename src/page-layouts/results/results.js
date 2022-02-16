@@ -246,8 +246,8 @@ class Results extends Component {
                 <Table>
                   <thead data-content-align='left'>
                     <tr>
-                      <th>Date</th>
-                      <th>Competition</th>
+                      <th data-display-hidden='mobile'><span>Date</span></th>
+                      <th data-display-hidden='mobile'><span>Competition</span></th>
                       <th></th>
                       <th></th>
                       <th></th>

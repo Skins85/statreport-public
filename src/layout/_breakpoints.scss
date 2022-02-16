@@ -39,3 +39,23 @@ $large: 1440px;
         display: none;
     }
 }
+
+[data-display='mobile'] {
+    @media screen and (max-width: $mobile) {
+        display: none;
+    }
+}
+
+[data-display='mobile-only'] {
+    @media screen and (min-width: $mobile) {
+        display: none;
+    }
+}
+
+[data-display-hidden='mobile'] {
+    @media screen and (max-width: $mobile) {
+        & > * {
+            display: none;
+        }
+    }
+}
