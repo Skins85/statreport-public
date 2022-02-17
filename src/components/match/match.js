@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getData, getPlayerData } from '../../../redux/actions/matchActions';
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
@@ -26,20 +27,8 @@ export default function Matches() {
 
     let location;
 
-    const content = useSelector(state => state);
+    const state = useSelector(state => state);
     const dispatch = useDispatch();
-
-    function getData() {
-        return dispatch => {
-            axios.get("https://jsonplaceholder.typicode.com/todos")
-                .then(res =>
-                dispatch({
-                    type: "FETCH_DATA",
-                    data: res.data
-                })
-            );
-        };
-    }
 
     useEffect(() => {
         async function fetchData() {
@@ -105,8 +94,11 @@ export default function Matches() {
             await setDataLoaded(true);
         }
         dispatch(getData());
+        dispatch(getPlayerData());
         fetchData();
     },[]);
+
+    console.log(state);
 
     let matches = data.results,
         players = playerData.results,
