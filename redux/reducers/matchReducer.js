@@ -1,10 +1,13 @@
-const matchReducer = (state = {}, action) => {
-    switch (action.type) {
-        case "FETCHDATA":
-            return state + 1;
-        default:
-            return state;
-    }
+function matchReducer(state = { data: "" }, action) {
+  switch (action.type) {
+    case "FETCH_DATA":
+      return {
+        ...state,
+        data: action.data
+      };
+    default:
+      return state;
+  }
 }
 
 export default matchReducer;

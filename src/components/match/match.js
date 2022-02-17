@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
 import MatchGoals from './match-goals';
@@ -24,6 +25,21 @@ export default function Matches() {
     const [dataLoaded, setDataLoaded] = useState(false);
 
     let location;
+
+    const content = useSelector(state => state);
+    const dispatch = useDispatch();
+
+    function getData() {
+        return dispatch => {
+            axios.get("https://jsonplaceholder.typicode.com/todos")
+                .then(res =>
+                dispatch({
+                    type: "FETCH_DATA",
+                    data: res.data
+                })
+            );
+        };
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -88,6 +104,7 @@ export default function Matches() {
 
             await setDataLoaded(true);
         }
+        dispatch(getData());
         fetchData();
     },[]);
 
