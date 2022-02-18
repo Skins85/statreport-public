@@ -1,34 +1,11 @@
 .outcome {
-    text-align: center;
-    color: white;
-    a {
-        color: white;
-        padding: $rem--threequarters;
-        border-radius: $rem--half;
-        outline-offset: $rem--eighth;
-        &:focus,
-        &:active {
-            outline: $border-narrow dotted black;
-        }
-    }
     &.outcome--win {
-        a {
-            background: green;
-        }
+        @include cta($backgroundColor: $green-dark70);
     }
     &.outcome--draw {
-        a {
-            background: orange;
-        }
+        @include cta($backgroundColor: $yellow80, $color: black);
     }
     &.outcome--loss {
-        a {
-            @include itemBackgroundColor($red60);
-        }
+        @include cta;
     }
-}
-
-.team_home,
-.team_away {
-    overflow-wrap: break-word;
 }
