@@ -2,26 +2,29 @@ import { useDispatch, useSelector } from "react-redux";
 
 import axios from 'axios';
 
-export const getData = () => {
+export const fetchMatchesData = (data) => {
     return dispatch => {
-        axios.get("https://www.statreport.co.uk/api/json/data-matches.php")
-            .then(res =>
-            dispatch({
-                type: "FETCH_DATA",
-                data: res.data
-            })
-        );
-    };
+        dispatch({
+            type: "FETCH_MATCHES_DATA",
+            matchesData: data
+        })
+    }
 }
 
-export const getPlayerData = () => {
+export const fetchPlayersData = (data) => {
     return dispatch => {
-        axios.get("https://www.statreport.co.uk/api/json/data-players.php")
-            .then(res =>
-            dispatch({
-                type: "FETCH_PLAYER_DATA",
-                playerData: res.data
-            })
-        );
-    };
+        dispatch({
+            type: "FETCH_PLAYERS_DATA",
+            playersData: data
+        })
+    }
+}
+
+export const fetchAssistsData = (data) => {
+    return dispatch => {
+        dispatch({
+            type: "FETCH_ASSISTS_DATA",
+            assistsData: data
+        })
+    }
 }

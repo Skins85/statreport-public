@@ -1,14 +1,19 @@
-function matchReducer(state = { data: "" }, action) {
+function matchReducer(state = {}, action) {
     switch (action.type) {
-        case "FETCH_DATA":
+        case "FETCH_MATCHES_DATA":
             return {
                 ...state,
-                data: action.data
+                matchesData: action.matchesData
         };
-        case "FETCH_PLAYER_DATA":
+        case "FETCH_PLAYERS_DATA":
             return {
                 ...state,
-                playerData: action.playerData
+                playersData: action.playersData
+        };
+        case "FETCH_ASSISTS_DATA":
+            return {
+                ...state,
+                assistsData: action.assistsData
         };
     default:
         return state;

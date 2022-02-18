@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getData, getPlayerData } from '../../../redux/actions/matchActions';
+import { fetchAssistsData, fetchMatchesData, fetchPlayersData } from '../../../redux/actions/matchActions';
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
@@ -49,6 +49,8 @@ export default function Matches() {
             })
         
             // Cache GET responses and save in state
+
+            // OLD
             await api({
                 url: 'https://www.statreport.co.uk/api/json/data-matches.php',
                 method: 'get'
@@ -56,11 +58,28 @@ export default function Matches() {
                 setData(response.data);
             })
 
+            // NEW
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
+                method: 'get'
+            }).then(async (response) => {
+                dispatch(fetchMatchesData(response.data));
+            })
+
+            // OLD
             await api({
                 url: 'https://www.statreport.co.uk/api/json/data-players.php',
                 method: 'get'
             }).then(async (response) => {
                 setPlayerData(response.data);
+            })
+
+            // NEW
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players.php',
+                method: 'get'
+            }).then(async (response) => {
+                dispatch(fetchPlayersData(response.data));
             })
 
             await api({
@@ -84,6 +103,7 @@ export default function Matches() {
                 setOppositionScorersData(response.data);
             })
 
+            // OLD
             await api({
                 url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
                 method: 'get'
@@ -91,10 +111,19 @@ export default function Matches() {
                 setAssistsData(response.data);
             })
 
+            // NEW
+            await api({
+                url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
+                method: 'get'
+            }).then(async (response) => {
+                dispatch(fetchAssistsData(response.data));
+            })
+
             await setDataLoaded(true);
         }
-        dispatch(getData());
-        dispatch(getPlayerData());
+        // dispatch(getData());
+        dispatch(fetchPlayersData());
+        // dispatch(test(response.data));
         fetchData();
     },[]);
 
