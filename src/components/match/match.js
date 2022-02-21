@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAssistsData, fetchMatchesData, fetchPlayersData } from '../../../redux/actions/matchActions';
+import { fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
@@ -16,20 +16,12 @@ import { setupCache } from 'axios-cache-adapter';
 
 export default function Matches() {
 
-    const [hasError, setErrors] = useState(false);
-    const [data, setData] = useState({});
-    const [playerData, setPlayerData] = useState({});
-    const [scorersData, setScorersData] = useState({});
-    const [assistsData, setAssistsData] = useState({});
-    const [ownGoalsData, setOwnGoalsData] = useState({});
-    const [oppositionScorersData, setOppositionScorersData] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
-
-    let location;
-
     const state = useSelector(state => state);
     const dispatch = useDispatch();
 
+    let location;
+    
     useEffect(() => {
         async function fetchData() {
             
@@ -49,69 +41,23 @@ export default function Matches() {
             })
         
             // Cache GET responses and save in state
+            function apiCall(path, dispatchMethod) {
+                api({
+                    url: path,
+                    method: 'get'
+                }).then(async (response) => {
+                    dispatch(dispatchMethod(response.data));
+                })
+            }
 
-            // OLD
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
-                method: 'get'
-            }).then(async (response) => {
-                setData(response.data);
-            })
+            await apiCall('https://www.statreport.co.uk/api/json/data-matches.php', fetchMatchesData);
+            await apiCall('https://www.statreport.co.uk/api/json/data-players.php', fetchPlayersData);
+            await apiCall('https://www.statreport.co.uk/api/json/data-players-goals-all.php', fetchPlayersGoalsData);
+            await apiCall('https://www.statreport.co.uk/api/json/data-scorers-own-goals.php', fetchOppositionOwnGoalsData);
+            await apiCall('https://www.statreport.co.uk/api/json/data-scorers-opposition.php', fetchOppositionGoalsData);
+            // await apiCall('https://www.statreport.co.uk/api/json/data-players-assists-all.php', fetchAssistsData);
 
-            // NEW
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-matches.php',
-                method: 'get'
-            }).then(async (response) => {
-                dispatch(fetchMatchesData(response.data));
-            })
-
-            // OLD
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-players.php',
-                method: 'get'
-            }).then(async (response) => {
-                setPlayerData(response.data);
-            })
-
-            // NEW
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-players.php',
-                method: 'get'
-            }).then(async (response) => {
-                dispatch(fetchPlayersData(response.data));
-            })
-
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-players-goals-all.php',
-                method: 'get'
-            }).then(async (response) => {
-                setScorersData(response.data);
-            })
-
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-scorers-own-goals.php',
-                method: 'get'
-            }).then(async (response) => {
-                setOwnGoalsData(response.data);
-            })
-
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-scorers-opposition.php',
-                method: 'get'
-            }).then(async (response) => {
-                setOppositionScorersData(response.data);
-            })
-
-            // OLD
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
-                method: 'get'
-            }).then(async (response) => {
-                setAssistsData(response.data);
-            })
-
-            // NEW
+            // Feed needs to be called this way
             await api({
                 url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
                 method: 'get'
@@ -121,20 +67,15 @@ export default function Matches() {
 
             await setDataLoaded(true);
         }
-        // dispatch(getData());
-        dispatch(fetchPlayersData());
-        // dispatch(test(response.data));
         fetchData();
     },[]);
 
-    console.log(state);
-
-    let matches = data.results,
-        players = playerData.results,
-        scorers = scorersData.results,
-        assists = assistsData.results,
-        ownGoals = ownGoalsData.results,
-        oppScorers = oppositionScorersData.results,
+    let matches = (state.match.matchesData ? matches = state.match.matchesData.results: null),
+        players = (state.match.playersData ? players = state.match.playersData.results: null),
+        scorers = (state.match.playersGoalsData ? scorers = state.match.playersGoalsData.results: null),
+        assists = (state.match.assistsData ? assists = state.match.assistsData.results: null),
+        ownGoals = (state.match.oppositionOwnGoalsData ? ownGoals = state.match.oppositionOwnGoalsData.results: null),
+        oppScorers = (state.match.oppositionGoalsData ? oppScorers = state.match.oppositionGoalsData.results: null),
         search = window.location.search,
         params = new URLSearchParams(search),
         matchId = params.get('m'),

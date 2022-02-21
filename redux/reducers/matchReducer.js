@@ -15,6 +15,21 @@ function matchReducer(state = {}, action) {
                 ...state,
                 assistsData: action.assistsData
         };
+        case "FETCH_PLAYERS_GOALS_DATA":
+            return {
+                ...state,
+                playersGoalsData: action.playersGoalsData
+        };
+        case "FETCH_OPPOSITION_OWN_GOALS_DATA":
+            return {
+                ...state,
+                oppositionOwnGoalsData: action.oppositionOwnGoalsData
+        };
+        case "FETCH_OPPOSITION_GOALS_DATA":
+            return {
+                ...state,
+                oppositionGoalsData: action.oppositionGoalsData
+        };
     default:
         return state;
     }
