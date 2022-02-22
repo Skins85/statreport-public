@@ -55,3 +55,12 @@ export const fetchOppositionGoalsData = (data) => {
         })
     }
 }
+
+export const dataLoadedd = (data) => {
+    return dispatch => {
+        dispatch({
+            type: "DATA_LOADED",
+            dataLoaded: data
+        })
+    }
+}

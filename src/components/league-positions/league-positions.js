@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import Chart from 'chart.js';
-import Counter from '../counter/counter';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../ui/spinner/spinner';
@@ -205,7 +204,6 @@ export default function LeaguePositions() {
     return (
         <React.Fragment>
             <div className="wrapper--content__inpage">
-                <Counter />
                 {season ? <h1>League positions: {season}</h1> : <h1>League positions by season</h1>}
                 <Select 
                     labelRequired 

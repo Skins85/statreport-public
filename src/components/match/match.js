@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
+import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
@@ -16,7 +16,6 @@ import { setupCache } from 'axios-cache-adapter';
 
 export default function Matches() {
 
-    const [dataLoaded, setDataLoaded] = useState(false);
     const state = useSelector(state => state);
     const dispatch = useDispatch();
 
@@ -57,7 +56,6 @@ export default function Matches() {
             await apiCall('https://www.statreport.co.uk/api/json/data-scorers-opposition.php', fetchOppositionGoalsData);
             // await apiCall('https://www.statreport.co.uk/api/json/data-players-assists-all.php', fetchAssistsData);
 
-            // Feed needs to be called this way
             await api({
                 url: 'https://www.statreport.co.uk/api/json/data-players-assists-all.php',
                 method: 'get'
@@ -65,7 +63,7 @@ export default function Matches() {
                 dispatch(fetchAssistsData(response.data));
             })
 
-            await setDataLoaded(true);
+            await dispatch(dataLoadedd(true));
         }
         fetchData();
     },[]);
@@ -552,7 +550,7 @@ export default function Matches() {
                 </div>
             </React.Fragment>
         )
-    } else if (!dataLoaded) {
+    } else if (!state.match.dataLoaded) {
         return (
             <Spinner />
         )

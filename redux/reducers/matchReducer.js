@@ -1,4 +1,4 @@
-function matchReducer(state = {}, action) {
+function matchReducer(state = {dataLoaded: false}, action) {
     switch (action.type) {
         case "FETCH_MATCHES_DATA":
             return {
@@ -29,6 +29,11 @@ function matchReducer(state = {}, action) {
             return {
                 ...state,
                 oppositionGoalsData: action.oppositionGoalsData
+        };
+        case "DATA_LOADED":
+            return {
+                ...state,
+                dataLoaded: action.dataLoaded
         };
     default:
         return state;
