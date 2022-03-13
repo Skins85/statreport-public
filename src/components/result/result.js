@@ -69,7 +69,7 @@ let competitionShort;
                 data-display="mobile-only"
             >{competitionShort}
             </td>
-            <td className='team__home'>{nameFormat(props.team_home)}</td>
+            <td className='align-right team__home'>{nameFormat(props.team_home)}</td>
             <td className={`${outcome} no-wrap`}>
                 {props.link_enabled ? <Link to={`/matches/?m=${props.match_id}`}>
                     {props.goals_home}-{props.goals_away}
