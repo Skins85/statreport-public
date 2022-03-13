@@ -45,3 +45,27 @@
         background-color: $gray8;
     }
 }
+
+@mixin cta($color: white, $backgroundColor: $red60, $outlineColor: black) {
+    text-align: center;
+    color: $color;
+    a {
+        color: $color;
+        background: $backgroundColor;
+        padding: $rem--threequarters;
+        border-radius: $rem--half;
+        outline-offset: $rem--eighth;
+        text-decoration: none;
+        &:focus,
+        &:active {
+            outline: $border-narrow dotted $outlineColor;
+        }
+    }
+}
+
+@mixin cta_underline() {
+    @include cta;
+    a {
+        text-decoration: underline;
+    }
+}

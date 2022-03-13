@@ -1,24 +1,11 @@
 .outcome {
-    &:before {
-        content: '';
-        width: $rem--one;
-        height: $rem--one;
-        display: inline-block;
-        margin-right: $rem--half;
-    }
     &.outcome--win {
-        &:before {
-            background: green;
-        }
+        @include cta($backgroundColor: $green-dark70);
     }
     &.outcome--draw {
-        &:before {
-            background: orange;
-        }
+        @include cta($backgroundColor: $yellow80, $color: black);
     }
     &.outcome--loss {
-        &:before {
-            background: red;
-        }
+        @include cta;
     }
 }

@@ -143,6 +143,8 @@ class Results extends Component {
                 } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home < result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away < result.goals_home)) {
                   outcome = 'L';
                 }
+
+                console.log(result);
       
                 return (
                   <Result
@@ -155,6 +157,8 @@ class Results extends Component {
                     goals_home={result.goals_home}
                     goals_away={result.goals_away}
                     team_away={result.team_away}
+                    attendance={result.attendance}
+                    league_position={result.league_position}
                     link_enabled
                   />
                 )
@@ -230,11 +234,6 @@ class Results extends Component {
                     <option value="all">All teams</option>
                     {teamsList}
                   </select>
-              
-                  {/* <select name="season" onChange={this.onChange}>
-                    <option value="all">All seasons</option>
-                    {season_select}
-                  </select> */}
                   <Select 
                     labelText={`Season`} 
                     selectName={`results.season`} 
@@ -247,12 +246,19 @@ class Results extends Component {
                 <Table>
                   <thead data-content-align='left'>
                     <tr>
-                      <th />
-                      <th>Date</th>
-                      <th>Competition</th>
+                      <th data-display-hidden='mobile'><span>Date</span></th>
+                      <th data-display-hidden='mobile'><span>Competition</span></th>
                       <th></th>
                       <th></th>
                       <th></th>
+                      <th 
+                        className="align-right"
+                        data-display="small"
+                      ><abbr title="Attendance">Att</abbr></th>
+                      <th 
+                        className="align-right"
+                        data-display="small"
+                      ><abbr title="League position">Pos</abbr></th>
                     </tr>
                   </thead>
                   <tbody>

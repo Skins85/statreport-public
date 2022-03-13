@@ -27,7 +27,7 @@ table {
     tr {
         border-top: $border-fine solid $gray2;
         td, th {
-            padding: $rem--half $rem--half;
+            padding: $rem--one $rem--half;
         }
     }
 
@@ -45,8 +45,11 @@ table {
 
     tbody {
         tr {
+            transition: background-color 0.3s ease-in;
             &:hover {
-                background: $gray1;
+                background-color: $gray2;
+                border-radius: $rem--one;
+                border: $border-fine solid $blue30;
             }
             td {
                 &[data-type='num'] {
