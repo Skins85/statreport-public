@@ -1,5 +1,5 @@
 import React, {Component, Suspense, lazy} from 'react';
-import {groupArrayOfObjects, nameFormat} from '../../util';
+import {groupArrayOfObjects, nameFormat, rankArrayObjects} from '../../util';
 
 import Banner from '../../components/banner/banner';
 import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
@@ -61,7 +61,6 @@ class Players extends Component {
             url: 'https://www.statreport.co.uk/api/json/data-players.php',
             method: 'get'
         }).then(async (response) => {
-            console.log(response.data);
             this.setState({playersData: response.data.results})
         })
 
@@ -366,6 +365,10 @@ class Players extends Component {
 
                     }
                 )
+
+                // RANKS
+                console.log(rankArrayObjects(filterPlayersNoName, 'count'));
+                // RANKS
 
                 // Filter players with at least 50 appearances
                 let fiftyApps = filterPlayersNoName.filter(

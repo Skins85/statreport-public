@@ -108,6 +108,20 @@ const playerGoalsFilter = (data, player_id) => {
     return filteredArray;
 }
 
+const rankArrayObjects = (array, property) => {
+    let ranks = new Set(Object.keys(array).map(key => array[key][property])),
+        orderedRanks = Array.from(ranks).sort((a, b) => b - a),
+        item;
+
+    return (
+        Object.keys(array).forEach(function (key) {
+            item = array[key];
+            item.rank = orderedRanks.indexOf(item[property]) + 1;
+            // console.log(item);
+        })
+    )
+}
+
 module.exports = {
     groupArrayOfObjects,
     nameFormat,
@@ -117,5 +131,6 @@ module.exports = {
     toggleState,
     playerStartsFilter,
     playerSubsFilter,
-    playerGoalsFilter
+    playerGoalsFilter,
+    rankArrayObjects
 }
