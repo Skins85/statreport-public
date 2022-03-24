@@ -366,10 +366,6 @@ class Players extends Component {
                     }
                 )
 
-                // RANKS
-                console.log(rankArrayObjects(filterPlayersNoName, 'count'));
-                // RANKS
-
                 // Filter players with at least 50 appearances
                 let fiftyApps = filterPlayersNoName.filter(
                     (name) => {
@@ -377,10 +373,11 @@ class Players extends Component {
                     }
                 )
 
-                if (filteredSearchResults.length > 0) {
-                    indexTemplate = filteredSearchResults.map(p => 
+                let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
+                if (appearancesByRank.length > 0) {
+                    indexTemplate = appearancesByRank.map(p => 
                         <p key={`${p.Player}`}>
-                            {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
+                            {p.rank}. {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
                         </p>
                     )
                 } else {

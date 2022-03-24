@@ -108,18 +108,24 @@ const playerGoalsFilter = (data, player_id) => {
     return filteredArray;
 }
 
-const rankArrayObjects = (array, property) => {
-    let ranks = new Set(Object.keys(array).map(key => array[key][property])),
+/**
+ * Rank array of objects on a key value.
+ *
+ * @param {Array} array - The array of data.
+ * @param {String} key - The object key to rank on.
+ * @return {Array} - An array of objects ranked by key.
+ **/
+const rankArrayObjects = (array, key) => {
+    let ranks = Object.keys(array).map(k => array[k][key]),
         orderedRanks = Array.from(ranks).sort((a, b) => b - a),
         item;
-
-    return (
-        Object.keys(array).forEach(function (key) {
-            item = array[key];
-            item.rank = orderedRanks.indexOf(item[property]) + 1;
-            // console.log(item);
-        })
-    )
+        return (
+            Object.keys(array).map((k) => {
+                item = array[k];
+                item.rank = orderedRanks.indexOf(item[key]) + 1;
+                return item;
+            })
+        );
 }
 
 module.exports = {
