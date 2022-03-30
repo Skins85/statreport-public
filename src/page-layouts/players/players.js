@@ -106,7 +106,7 @@ class Players extends Component {
             seasonTemplate,
             playerResultsTemplate,
             playerResultsTableStart,
-            indexTemplate,
+            indexTemplate = '',
             selectedPlayerName,
             firstStartDate,
             firstSubDate,
@@ -376,9 +376,11 @@ class Players extends Component {
                 let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
                 if (appearancesByRank.length > 0) {
                     indexTemplate = appearancesByRank.map(p => 
-                        <p key={`${p.Player}`}>
-                            {p.rank}. {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
-                        </p>
+                        <tr key={`${p.Player}`}>
+                            <td className='width--half'>{p.rank}.</td>
+                            <td className='width--threequarters' data-type='num'>{p.count}</td>
+                            <td><a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a></td>
+                        </tr>
                     )
                 } else {
                     indexTemplate = <p>No results were returned. Please enter another search term.</p>
@@ -408,7 +410,21 @@ class Players extends Component {
                                     onChange={(event) => this.setState({playerSearchText: event.target.value})} 
                                 />
                             </div>
-                            {indexTemplate}
+                            <Table 
+                                className='width--75'
+                                type='list'
+                            >
+                                <thead data-content-align='left'>
+                                    <tr>
+                                        <th aria-hidden='true' aria-label='Rank'></th>
+                                        <th aria-hidden='true' aria-label='Appearances'></th>
+                                        <th aria-hidden='true' aria-label='Player'></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexTemplate}
+                                </tbody>
+                            </Table>
                         </div>
                     </React.Fragment>
                 )

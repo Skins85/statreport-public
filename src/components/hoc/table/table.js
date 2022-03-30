@@ -53,6 +53,7 @@ export default function Table(props) {
             >
                 {(headers || subheaderVals.length > 0) ?
                     <React.Fragment>
+                        {props}
                         <thead>
                             {headers}
                             {subheaders}
