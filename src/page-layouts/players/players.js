@@ -1,5 +1,5 @@
 import React, {Component, Suspense, lazy} from 'react';
-import {groupArrayOfObjects, nameFormat} from '../../util';
+import {groupArrayOfObjects, nameFormat, rankArrayObjects} from '../../util';
 
 import Banner from '../../components/banner/banner';
 import BannerImg from '../../images/banner/football-field-alfredo-camacho.jpg';
@@ -61,7 +61,6 @@ class Players extends Component {
             url: 'https://www.statreport.co.uk/api/json/data-players.php',
             method: 'get'
         }).then(async (response) => {
-            console.log(response.data);
             this.setState({playersData: response.data.results})
         })
 
@@ -107,7 +106,7 @@ class Players extends Component {
             seasonTemplate,
             playerResultsTemplate,
             playerResultsTableStart,
-            indexTemplate,
+            indexTemplate = '',
             selectedPlayerName,
             firstStartDate,
             firstSubDate,
@@ -374,11 +373,14 @@ class Players extends Component {
                     }
                 )
 
-                if (filteredSearchResults.length > 0) {
-                    indexTemplate = filteredSearchResults.map(p => 
-                        <p key={`${p.Player}`}>
-                            {p.count} <a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a>
-                        </p>
+                let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
+                if (appearancesByRank.length > 0) {
+                    indexTemplate = appearancesByRank.map(p => 
+                        <tr key={`${p.Player}`}>
+                            <td className='width--half'>{p.rank}.</td>
+                            <td className='width--threequarters' data-type='num'>{p.count}</td>
+                            <td><a href={`../players/${p.Player}`}>{p.first_name} {p.surname}</a></td>
+                        </tr>
                     )
                 } else {
                     indexTemplate = <p>No results were returned. Please enter another search term.</p>
@@ -408,7 +410,21 @@ class Players extends Component {
                                     onChange={(event) => this.setState({playerSearchText: event.target.value})} 
                                 />
                             </div>
-                            {indexTemplate}
+                            <Table 
+                                className='width--75'
+                                type='list'
+                            >
+                                <thead data-content-align='left'>
+                                    <tr>
+                                        <th aria-hidden='true' aria-label='Rank'></th>
+                                        <th aria-hidden='true' aria-label='Appearances'></th>
+                                        <th aria-hidden='true' aria-label='Player'></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexTemplate}
+                                </tbody>
+                            </Table>
                         </div>
                     </React.Fragment>
                 )

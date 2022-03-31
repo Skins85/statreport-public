@@ -2,6 +2,16 @@
     overflow-x: auto;
 
     table {
+        tr {
+            border-right: 1px solid transparent;
+            border-left: 1px solid transparent;
+            transition: background-color 0.3s ease-in;
+            &:hover {
+                background-color: $gray2;
+                border-radius: $rem--one;
+                border: $border-fine solid $blue30;
+            }
+        }
         &[data-final-row-highlight] {
             tbody {
                 tr {
@@ -30,10 +40,11 @@
                 border: $border-fine solid $gray8;
             }
         }
-        td {
-            // &.team__home {
-            //     text-align: right;
-            // }
+        &[type='list'] {
+            border: 0;
+            thead {
+                display: none;
+            }
         }
     }
     

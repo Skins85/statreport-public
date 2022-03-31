@@ -45,12 +45,6 @@ table {
 
     tbody {
         tr {
-            transition: background-color 0.3s ease-in;
-            &:hover {
-                background-color: $gray2;
-                border-radius: $rem--one;
-                border: $border-fine solid $blue30;
-            }
             td {
                 &[data-type='num'] {
                     text-align: right;
