@@ -7,7 +7,7 @@ const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 
 module.exports = {  
     // Entry point for Webpack  
-    entry: './src/index.js',
+    entry: './src/index.tsx',
 
     plugins: [
         // Plugin to use HTML file for serving bundled js files 
@@ -48,6 +48,11 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -96,5 +101,9 @@ module.exports = {
                 ]
             }
         ]
+    },
+
+    resolve: {
+        extensions: [ '.tsx', '.ts', '.js' ],
     }
 }
