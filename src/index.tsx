@@ -28,22 +28,6 @@ const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/
 
 // import { createBrowserHistory } from 'history';
 
-interface FullName {
-    firstName: string;
-    lastName: string;
-}
-
-function Person({firstName, lastName}:FullName){
-    return <h1>Hello there, {firstName} {lastName}</h1>;
-}
-
-let block = (
-    <>
-        <h1>Hello, this is React and Typescript</h1>
-        <Person firstName="Steve" lastName="Jones" />
-    </>
-)
-
 const routing = (
     <Router>
         <Suspense fallback={<Spinner />}>
@@ -51,6 +35,21 @@ const routing = (
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/about" component={About} />
+                    <Route exact path="/about/bio" component={Bio} />
+                    {/* <Route exact path="/cookies" component={CookiePolicy} />
+                    <Route path="/disclaimer" component={Disclaimer} />
+                    <Route path="/matches/attendances" component={Attendances} />
+                    <Route path="/matches/league-positions" component={LeaguePositions} />
+                    <Route exact path="/matches" component={Matches} />
+                    <Route path="/players/scorers" component={Goalscorers} />
+                    <Route exact path="/players" component={Players} />
+                    <Route path="/players/" component={Players} />
+                    <Route path="/matches/seasons" component={Season} />
+                    <Route path="/admin/add-result" component={AddResultForm} />
+                    <Route path="/admin/add-result-complete" component={AddResultsComplete} />
+                    <Route path="/login" component={Login} />
+                    <Route exact path="/teams" component={Teams} /> 
+                    <Route exact="/teams" component={Teams}/> */}
                 </Switch>
             </ContentWrapper>
         </Suspense>

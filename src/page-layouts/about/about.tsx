@@ -14,12 +14,12 @@ export default function About() {
                 // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
             />
             <div className='wrapper--content__inpage'>
-                <div class='about'>
+                <div className='about'>
                     <img 
                         src={ProfileImg}
-                        // src='./public/images/about/mark-skinsley.jpg'
-                        alt='Mark Skinsley' />
-                    <p class='standfirst'>
+                        alt='Mark Skinsley' 
+                    />
+                    <p className='standfirst'>
                         My name is Mark Skinsley and I’m a full-time Web Developer and lifelong 
                         Dagenham & Redbridge supporter.  I created this site because I’ve always 
                         had a passion for statistics and wanted to apply this to the team I love.

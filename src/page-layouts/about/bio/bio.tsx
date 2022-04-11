@@ -8,7 +8,7 @@ export default function Bio() {
                 <div className='about about--bio'>
                     <h1>Bio</h1>
 
-                     <p class='standfirst'>
+                     <p className='standfirst'>
                         My love of the Daggers dates back to the late 1990s. I've seen the highs and 
                         lows from the Ryman League to League 1 with many magical Cup runs in between. I hope 
                         the site is of interest to Daggers fans old and new and serves as a reminder to some of 
