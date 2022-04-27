@@ -4,7 +4,7 @@ export default function Disclaimer() {
     return (
         <React.Fragment>
             <div className='wrapper--content__inpage'>
-                <div class='disclaimer'>
+                <div className='disclaimer'>
                     <h1>Disclaimer</h1>
                     <p>
                         The information contained in this website is for general information 

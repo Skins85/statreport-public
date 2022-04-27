@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
+import { IResponse } from '../../types/html';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
@@ -11,16 +12,52 @@ import axios from 'axios';
 import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
-export default function Attendances() {
+interface Props {
+    chartData: number[];
+}
+
+export default function Attendances({ chartData }: Props) {
     const [hasError, setErrors] = useState(false);
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     const [attData, setAttData] = useState({});
     const [aveAttData, setAveAttData] = useState({});
     const [oppData, setOppData] = useState({});
-    const [season, setSeason] = useState();
+    const [season, setSeason] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
+
+    // old
+    // useEffect(() => {
+    //     async function fetchData() {
+            
+    //         // Cache GET requests
+    //         let cache;
+    //         function cacheReq() {
+            
+    //             // Define cache adapter and manage properties
+    //             cache = setupCache({
+    //                 maxAge: 15 * 60 * 1000
+    //             })
+    //         }
+    //         await cacheReq(cache);
+
+    //         // Create cache adapter instance
+    //         const api = axios.create({
+    //             adapter: cache.adapter
+    //         })
+        
+    //         // Cache GET responses and save in state
+    //         await api({
+    //             url: 'https://www.statreport.co.uk/api/json/data-attendances.php',
+    //             method: 'get'
+    //         }).then(async (response) => {
+    //             setData(response.data);
+    //         })
+    //         await setDataLoaded(true);
+    //     }
+    //     fetchData();
+    // },[]);
 
     useEffect(() => {
         async function fetchData() {
@@ -28,13 +65,15 @@ export default function Attendances() {
             // Cache GET requests
             let cache;
             function cacheReq() {
+                console.log('cache request function')
             
                 // Define cache adapter and manage properties
                 cache = setupCache({
                     maxAge: 15 * 60 * 1000
                 })
+                console.log('cache: ' + cache)
             }
-            await cacheReq(cache);
+            await cacheReq(cache); // Was previously blank/no argument
 
             // Create cache adapter instance
             const api = axios.create({
@@ -51,27 +90,51 @@ export default function Attendances() {
             await setDataLoaded(true);
         }
         fetchData();
+        console.log(dataLoaded);
     },[]);
 
+    console.log('test');
+    console.log(data.results);
+
     // Global refs/vars
-    let attendances = data.results,
-        attendancesBySeasonArray = [],
-        opponentBySeasonArray = [],
-        rollingAverageArray = [],
-        rollingTotal = 0,
-        rollingCount = 0,
-        ctx = document.getElementById('myChart'),
-        myChart,
+
+
+    interface Data {
+        attendance: any
+        competition: any
+        date: any
+        goals_away: any
+        goals_home: any
+        match_id: any
+        season: any
+        team_away: any
+        team_home: any
+    }
+
+    let attendancesNew: { attendance: any, competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any }[] = data.results];
+    console.log(attendancesNew);
+
+    let attendances: [] = data.results,
+        attendancesBySeasonArray: any = [],
+        opponentBySeasonArray: any = [],
+        rollingAverageArray: number[] = [],
+        rollingTotal: number = 0,
+        rollingCount: number = 0,
+        ctx = document.getElementById('myChart') as HTMLCanvasElement,
+        myChart: any,
         attendancesDescending,
         attendancesAscending,
-        top10,
-        bottom10;
+        top10: JSX.Element[],
+        bottom10: JSX.Element[];
+
+    console.log('attendances var')
+    console.log(attendances);
 
         // Feed exclude
         // This match is omitted from attendance records and average attendance calculations.
 
     // Change chart data on season selected
-    let seasonChange = e => { 
+    let seasonChange = (e:any) => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
 
         let seasonId = window.location.pathname.split("/").pop();
@@ -80,12 +143,15 @@ export default function Attendances() {
         let seasonValue = seasonId.replace(/-/g, '/');
         setSeason(seasonValue);
         
-        if (attendances) {
+        if (attendancesNew) {
+
+            console.log('data loaded');
+
             
             // Filter attendances by season  
-            let attendancesBySeason;
+            let attendancesBySeason: any = [];
             for (const b of attendances) {
-                attendancesBySeason = attendances.filter(function(m) {
+                attendancesBySeason = attendances.filter(function(m: any) {
                     return (
                         m.season === seasonId
                     )
@@ -114,6 +180,8 @@ export default function Attendances() {
                 myChart.destroy();
             };
 
+        } else {
+            console.log('data not loaded');
         }
     }
 
@@ -152,10 +220,10 @@ export default function Attendances() {
         if (attendances) { 
 
             // Slice original attendances array to prevent mutation
-            attendancesDescending = attendances.slice().sort((a, b) => b.attendance - a.attendance);
-            attendancesAscending = attendances.slice().sort((a, b) => a.attendance - b.attendance);
+            attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
+            attendancesAscending = attendances.slice().sort((a: any, b: any) => a.attendance - b.attendance);
 
-            top10 = attendancesDescending.slice(0, 10).map(i => {
+            top10 = attendancesDescending.slice(0, 10).map((i: any) => {
                 return (
                     <React.Fragment>
                         <AttendancesList
@@ -169,7 +237,7 @@ export default function Attendances() {
                     </React.Fragment>
                 )
             })
-            bottom10 = attendancesAscending.slice(0, 10).map(i => {
+            bottom10 = attendancesAscending.slice(0, 10).map((i: any) => {
                 return (
                     <AttendancesList
                         match_id = {i.match_id}

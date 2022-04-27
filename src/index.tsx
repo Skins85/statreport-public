@@ -1,9 +1,8 @@
 import '../main.scss';
 
-import React, {Suspense, lazy, useEffect, useState} from 'react';
-import { Route, BrowserRouter as Router, Switch, withRouter } from 'react-router-dom';
+import React, {Suspense, lazy} from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import App from './App';
 import ReactDOM from 'react-dom';
 import Spinner from './components/ui/spinner/spinner';
 
@@ -25,9 +24,6 @@ const Players = lazy(() => import(/* webpackChunkName: 'players' */ './page-layo
 const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/teams/teams'));
 const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/season/data/season'));
 
-
-// import { createBrowserHistory } from 'history';
-
 const routing = (
     <Router>
         <Suspense fallback={<Spinner />}>
@@ -36,27 +32,22 @@ const routing = (
                     <Route exact path="/" component={Home} />
                     <Route exact path="/about" component={About} />
                     <Route exact path="/about/bio" component={Bio} />
-                    {/* <Route exact path="/cookies" component={CookiePolicy} />
+                    <Route exact path="/cookies" component={CookiePolicy} />
                     <Route path="/disclaimer" component={Disclaimer} />
                     <Route path="/matches/attendances" component={Attendances} />
                     <Route path="/matches/league-positions" component={LeaguePositions} />
                     <Route exact path="/matches" component={Matches} />
                     <Route path="/players/scorers" component={Goalscorers} />
-                    <Route exact path="/players" component={Players} />
                     <Route path="/players/" component={Players} />
                     <Route path="/matches/seasons" component={Season} />
                     <Route path="/admin/add-result" component={AddResultForm} />
                     <Route path="/admin/add-result-complete" component={AddResultsComplete} />
                     <Route path="/login" component={Login} />
-                    <Route exact path="/teams" component={Teams} /> 
-                    <Route exact="/teams" component={Teams}/> */}
+                    <Route path="/teams" component={Teams} /> 
                 </Switch>
             </ContentWrapper>
         </Suspense>
     </Router>
-)
-
-ReactDOM.render(
-    routing,
-    document.getElementById("root")
 );
+
+ReactDOM.render(routing, document.getElementById("root"));

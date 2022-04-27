@@ -3,7 +3,16 @@ import 'moment-timezone';
 import Moment from 'react-moment';
 import React from 'react';
 
-const attendancesList = (props) => {
+export interface Props {
+    match_id: string,
+    date: string,
+    attendance: number,
+    home_goals: number,
+    away_goals: number,
+    team_away: string
+}
+
+const attendancesList = (props: Props) => {
     return (
         <React.Fragment>
             <tr key={props.match_id}>
