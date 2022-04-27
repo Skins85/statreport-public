@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
-import { IResponse } from '../../types/html';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
@@ -16,54 +15,28 @@ interface Props {
     chartData: number[];
 }
 
+interface Season {
+    season: any;
+}
+
 export default function Attendances({ chartData }: Props) {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState([]);
-    const [attData, setAttData] = useState({});
-    const [aveAttData, setAveAttData] = useState({});
-    const [oppData, setOppData] = useState({});
-    const [season, setSeason] = useState({});
+    // const [data, setData]: { competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any } = useState({});
+    const [attData, setAttData] = useState([]);
+    const [aveAttData, setAveAttData] = useState([]);
+    const [oppData, setOppData] = useState([]);
+    // const [season, setSeason] = useState();
+    const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
-
-    // old
-    // useEffect(() => {
-    //     async function fetchData() {
-            
-    //         // Cache GET requests
-    //         let cache;
-    //         function cacheReq() {
-            
-    //             // Define cache adapter and manage properties
-    //             cache = setupCache({
-    //                 maxAge: 15 * 60 * 1000
-    //             })
-    //         }
-    //         await cacheReq(cache);
-
-    //         // Create cache adapter instance
-    //         const api = axios.create({
-    //             adapter: cache.adapter
-    //         })
-        
-    //         // Cache GET responses and save in state
-    //         await api({
-    //             url: 'https://www.statreport.co.uk/api/json/data-attendances.php',
-    //             method: 'get'
-    //         }).then(async (response) => {
-    //             setData(response.data);
-    //         })
-    //         await setDataLoaded(true);
-    //     }
-    //     fetchData();
-    // },[]);
 
     useEffect(() => {
         async function fetchData() {
             
             // Cache GET requests
-            let cache;
+            let cache: any;
             function cacheReq() {
                 console.log('cache request function')
             
@@ -73,7 +46,7 @@ export default function Attendances({ chartData }: Props) {
                 })
                 console.log('cache: ' + cache)
             }
-            await cacheReq(cache); // Was previously blank/no argument
+            await cacheReq(); // Was previously blank/no argument
 
             // Create cache adapter instance
             const api = axios.create({
@@ -85,20 +58,15 @@ export default function Attendances({ chartData }: Props) {
                 url: 'https://www.statreport.co.uk/api/json/data-attendances.php',
                 method: 'get'
             }).then(async (response) => {
-                setData(response.data);
+                setData(response.data.results);
             })
             await setDataLoaded(true);
         }
         fetchData();
-        console.log(dataLoaded);
+        // console.log(dataLoaded);
     },[]);
 
-    console.log('test');
-    console.log(data.results);
-
     // Global refs/vars
-
-
     interface Data {
         attendance: any
         competition: any
@@ -111,10 +79,11 @@ export default function Attendances({ chartData }: Props) {
         team_home: any
     }
 
-    let attendancesNew: { attendance: any, competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any }[] = data.results];
+    let attendancesNew: { attendance: any, competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any }[] = data;
     console.log(attendancesNew);
+    console.log(dataLoaded);
 
-    let attendances: [] = data.results,
+    let attendances: any[] = attendancesNew,
         attendancesBySeasonArray: any = [],
         opponentBySeasonArray: any = [],
         rollingAverageArray: number[] = [],
@@ -128,7 +97,9 @@ export default function Attendances({ chartData }: Props) {
         bottom10: JSX.Element[];
 
     console.log('attendances var')
-    console.log(attendances);
+    console.log(attendancesNew);
+
+    console.log('season: ' + season);
 
         // Feed exclude
         // This match is omitted from attendance records and average attendance calculations.
@@ -144,9 +115,6 @@ export default function Attendances({ chartData }: Props) {
         setSeason(seasonValue);
         
         if (attendancesNew) {
-
-            console.log('data loaded');
-
             
             // Filter attendances by season  
             let attendancesBySeason: any = [];
@@ -217,7 +185,8 @@ export default function Attendances({ chartData }: Props) {
         });
     } else {
         // Top 10 attendances
-        if (attendances) { 
+        if (attendancesNew) { 
+            console.log('abc')
 
             // Slice original attendances array to prevent mutation
             attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
@@ -263,7 +232,7 @@ export default function Attendances({ chartData }: Props) {
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
                     {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }
-                    <Select 
+                    {/* <Select 
                         labelRequired 
                         labelText={`Season`} 
                         selectName={`results.season`} 
@@ -271,7 +240,7 @@ export default function Attendances({ chartData }: Props) {
                     >
                         <option value="" selected disabled hidden>Select season</option>
                         <SeasonOptions />
-                    </Select>
+                    </Select> */}
                     {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
                     {season ? null : <React.Fragment><h2>Lowest attendances</h2><Table className='width--75'><tbody>{bottom10}</tbody></Table></React.Fragment> }
                     <canvas 

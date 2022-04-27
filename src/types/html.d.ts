@@ -6,7 +6,3 @@ declare module 'react' {
         height?: number;
     }
 }
-
-export interface IResponse<T> {
-    results: T;
-}
