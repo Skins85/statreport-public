@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
+import { InterfaceAttendances } from '../../interfaces/interface-attendances';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
@@ -11,11 +12,7 @@ import axios from 'axios';
 import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
-interface Props {
-    chartData: number[];
-}
-
-export default function Attendances({ chartData }: Props) {
+export default function Attendances() {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState([]);
     const [attData, setAttData] = useState([]);
@@ -60,20 +57,7 @@ export default function Attendances({ chartData }: Props) {
         // console.log(dataLoaded);
     },[]);
 
-    // Global refs/vars
-    interface Data {
-        attendance: any
-        competition: any
-        date: any
-        goals_away: any
-        goals_home: any
-        match_id: any
-        season: any
-        team_away: any
-        team_home: any
-    }
-
-    let attendances: Data[] = data,
+    let attendances: InterfaceAttendances[] = data,
         attendancesBySeasonArray: any = [],
         opponentBySeasonArray: any = [],
         rollingAverageArray: number[] = [],
