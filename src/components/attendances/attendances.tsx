@@ -15,18 +15,12 @@ interface Props {
     chartData: number[];
 }
 
-interface Season {
-    season: any;
-}
-
 export default function Attendances({ chartData }: Props) {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState([]);
-    // const [data, setData]: { competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any } = useState({});
     const [attData, setAttData] = useState([]);
     const [aveAttData, setAveAttData] = useState([]);
     const [oppData, setOppData] = useState([]);
-    // const [season, setSeason] = useState();
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -79,11 +73,7 @@ export default function Attendances({ chartData }: Props) {
         team_home: any
     }
 
-    let attendancesNew: { attendance: any, competition: any, date: any, goals_away: any, goals_home: any, match_id: any, season: any, team_away: any, team_home: any }[] = data;
-    console.log(attendancesNew);
-    console.log(dataLoaded);
-
-    let attendances: any[] = attendancesNew,
+    let attendances: Data[] = data,
         attendancesBySeasonArray: any = [],
         opponentBySeasonArray: any = [],
         rollingAverageArray: number[] = [],
@@ -96,14 +86,6 @@ export default function Attendances({ chartData }: Props) {
         top10: JSX.Element[],
         bottom10: JSX.Element[];
 
-    console.log('attendances var')
-    console.log(attendancesNew);
-
-    console.log('season: ' + season);
-
-        // Feed exclude
-        // This match is omitted from attendance records and average attendance calculations.
-
     // Change chart data on season selected
     let seasonChange = (e:any) => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
@@ -114,7 +96,7 @@ export default function Attendances({ chartData }: Props) {
         let seasonValue = seasonId.replace(/-/g, '/');
         setSeason(seasonValue);
         
-        if (attendancesNew) {
+        if (attendances) {
             
             // Filter attendances by season  
             let attendancesBySeason: any = [];
@@ -185,8 +167,7 @@ export default function Attendances({ chartData }: Props) {
         });
     } else {
         // Top 10 attendances
-        if (attendancesNew) { 
-            console.log('abc')
+        if (attendances) { 
 
             // Slice original attendances array to prevent mutation
             attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
@@ -232,15 +213,15 @@ export default function Attendances({ chartData }: Props) {
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
                     {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }
-                    {/* <Select 
+                    <Select 
                         labelRequired 
                         labelText={`Season`} 
                         selectName={`results.season`} 
                         onChange={seasonChange.bind(this)}
                     >
-                        <option value="" selected disabled hidden>Select season</option>
+                        <option value="" selected >Select season</option>
                         <SeasonOptions />
-                    </Select> */}
+                    </Select>
                     {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
                     {season ? null : <React.Fragment><h2>Lowest attendances</h2><Table className='width--75'><tbody>{bottom10}</tbody></Table></React.Fragment> }
                     <canvas 

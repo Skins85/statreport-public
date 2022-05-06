@@ -1,18 +1,20 @@
 import React from 'react';
 
-const seasons: string[] = ['2021-22', '2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2014-15', '2013-14', '2012-13'];
-
-export interface Props {
-    selected?: string,
+const seasonOptions = () => {
+    return (
+        <>
+            <option key='2021-22' value='2021-22' name='2021-22'>2021-22</option>
+            <option key='2020-21' value='2020-21' name='2020-21'>2020-21</option>
+            <option key='2019-20' value='2019-20' name='2019-20'>2019-20</option>
+            <option key='2018-19' value='2018-19' name='2018-19'>2018-19</option>
+            <option key='2017-18' value='2017-18' name='2017-18'>2017-18</option>
+            <option key='2016-17' value='2016-17' name='2016-17'>2016-17</option>
+            <option key='2015-16' value='2020-21' name='2015-16'>2015-16</option>
+            <option key='2014-15' value='2014-15' name='2014-15'>2014-15</option>
+            <option key='2013-14' value='2013-14' name='2013-14'>2013-14</option>
+            <option key='2012-13' value='2012-13' name='2012-13'>2012-13</option>
+        </>
+    )    
 }
-
-const seasonOptions: Function = (props: Props, seasons: any[]): JSX.Element[] => 
-    seasons.map((season: any) => {
-        return (
-            props.selected === season 
-                ? <option key={season} selected value={season} name={season}>{season}</option>
-                : <option key={season} value={season} name={season}>{season}</option>
-        );
-    });
 
 export default seasonOptions;
