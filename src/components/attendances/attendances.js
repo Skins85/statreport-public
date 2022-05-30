@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
@@ -9,6 +11,7 @@ import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { nameFormat } from '../../util';
+import { seasonSelect } from '../../../redux/actions/attendancesActions';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
@@ -20,9 +23,15 @@ export default function Attendances() {
     const [season, setSeason] = useState();
     const [dataLoaded, setDataLoaded] = useState(false);
 
+    const state = useSelector(state => state);
+    const dispatch = useDispatch();
+
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
+            console.log(state);
+
 
     useEffect(() => {
+
         async function fetchData() {
             
             // Cache GET requests
@@ -73,6 +82,8 @@ export default function Attendances() {
     // Change chart data on season selected
     let seasonChange = e => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
+
+        dispatch(seasonSelect(e.target.value));
 
         let seasonId = window.location.pathname.split("/").pop();
 
