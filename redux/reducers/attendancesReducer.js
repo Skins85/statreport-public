@@ -1,5 +1,5 @@
 const initialState = {
-    season: ''
+    seasonSelected: ''
 }
 
 function attendancesReducer(state = initialState, action) {

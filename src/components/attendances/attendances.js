@@ -27,8 +27,7 @@ export default function Attendances() {
     const dispatch = useDispatch();
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
-            console.log(state);
-
+    console.log(state);
 
     useEffect(() => {
 
@@ -83,6 +82,7 @@ export default function Attendances() {
     let seasonChange = e => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
 
+        // Dispatch selected season to Redux store
         dispatch(seasonSelect(e.target.value));
 
         let seasonId = window.location.pathname.split("/").pop();
