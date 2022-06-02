@@ -3,7 +3,7 @@ function matchReducer(state = {dataLoaded: false}, action) {
         case "FETCH_MATCHES_DATA":
             return {
                 ...state,
-                matchesData: action.matchesData
+                matchesData1: action.matchesData1
         };
         case "FETCH_PLAYERS_DATA":
             return {

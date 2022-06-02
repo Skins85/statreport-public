@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { attendancesData, seasonSelect } from '../../../redux/actions/attendancesActions';
 import { connect, useDispatch, useSelector } from "react-redux";
 import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 
@@ -11,7 +12,6 @@ import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { nameFormat } from '../../util';
-import { seasonSelect } from '../../../redux/actions/attendancesActions';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
@@ -75,8 +75,48 @@ export default function Attendances() {
         top10,
         bottom10;
 
-        // Feed exclude
-        // This match is omitted from attendance records and average attendance calculations.
+    console.log(attendances);
+
+    function buildChart(season, data) {
+        console.log('build chart function')
+        // Filter attendances by season  
+        let attendancesBySeason;
+        if (attendances) {
+            for (const b of attendances) {
+                attendancesBySeason = attendances.filter(function(m) {
+                    return (
+                        m.season === state.attendances.seasonSelected
+                    )
+                }); 
+            }
+            for (const c of attendancesBySeason) {
+                attendancesBySeasonArray.push(parseInt(c.attendance));
+                opponentBySeasonArray.push(c.team_away);
+            }
+            // Calculate rolling average and store in global array
+            for (const d of attendancesBySeasonArray) {
+                rollingTotal = rollingTotal + d;
+                rollingCount = rollingCount + 1;
+                rollingAverageArray.push(Math.round(rollingTotal/rollingCount));
+            }
+            console.log(attendancesBySeasonArray.length);
+            // Update state each new season value is selected
+            if (attendancesBySeasonArray && attendancesBySeasonArray.length>0) {
+                // dispatch(attData('attendancesBySeasonArray'));
+
+                setAttData(attendancesBySeasonArray)
+            }
+            setAveAttData(rollingAverageArray);
+            setOppData(opponentBySeasonArray);
+            // Destroy chart instance so chart isn't duplicated
+            if (myChart) {
+                myChart.destroy();
+            };
+        }
+    }
+
+    // buildChart('2021-22', attendances);
+
 
     // Change chart data on season selected
     let seasonChange = e => { 
@@ -84,6 +124,7 @@ export default function Attendances() {
 
         // Dispatch selected season to Redux store
         dispatch(seasonSelect(e.target.value));
+        dispatch(attendancesData(e.target.value));
 
         let seasonId = window.location.pathname.split("/").pop();
 
@@ -91,44 +132,16 @@ export default function Attendances() {
         let seasonValue = seasonId.replace(/-/g, '/');
         setSeason(seasonValue);
         
-        if (attendances) {
-            
-            // Filter attendances by season  
-            let attendancesBySeason;
-            for (const b of attendances) {
-                attendancesBySeason = attendances.filter(function(m) {
-                    return (
-                        m.season === seasonId
-                    )
-                }); 
-            }
-
-            for (const c of attendancesBySeason) {
-                attendancesBySeasonArray.push(parseInt(c.attendance));
-                opponentBySeasonArray.push(c.team_away);
-            }
-
-            // Calculate rolling average and store in global array
-            for (const d of attendancesBySeasonArray) {
-                rollingTotal = rollingTotal + d;
-                rollingCount = rollingCount + 1;
-                rollingAverageArray.push(Math.round(rollingTotal/rollingCount));
-            }
-
-            // Update state each new season value is selected
-            setAttData(attendancesBySeasonArray);
-            setAveAttData(rollingAverageArray);
-            setOppData(opponentBySeasonArray);
-            
-            // Destroy chart instance so chart isn't duplicated
-            if (myChart) {
-                myChart.destroy();
-            };
-
-        }
+        buildChart(state.attendances.seasonSelected, attendances);
+        
     }
 
-    // Initialise chart and display if attendance data exists
+    // console.log(attendances.length)
+    // if (attendances.length > 0) {
+        // buildChart('2021-22', attendances);
+    // }
+
+
     if (Object.entries(attData).length > 0) {
         myChart = new Chart(ctx, {
             type: 'bar',

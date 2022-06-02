@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
+import { dataLoaded, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ export default function Matches() {
 
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+    console.log(state);
 
     let location;
     
@@ -63,12 +64,12 @@ export default function Matches() {
                 dispatch(fetchAssistsData(response.data));
             })
 
-            await dispatch(dataLoadedd(true));
+            await dispatch(dataLoaded(true));
         }
         fetchData();
     },[]);
 
-    let matches = (state.match.matchesData ? matches = state.match.matchesData.results: null),
+    let matches = (state.match.matchesData1 ? matches = state.match.matchesData1.results: null),
         players = (state.match.playersData ? players = state.match.playersData.results: null),
         scorers = (state.match.playersGoalsData ? scorers = state.match.playersGoalsData.results: null),
         assists = (state.match.assistsData ? assists = state.match.assistsData.results: null),

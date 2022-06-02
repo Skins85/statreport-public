@@ -6,7 +6,7 @@ export const fetchMatchesData = (data) => {
     return dispatch => {
         dispatch({
             type: "FETCH_MATCHES_DATA",
-            matchesData: data
+            matchesData1: data
         })
     }
 }
@@ -56,7 +56,7 @@ export const fetchOppositionGoalsData = (data) => {
     }
 }
 
-export const dataLoadedd = (data) => {
+export const dataLoaded = (data) => {
     return dispatch => {
         dispatch({
             type: "DATA_LOADED",

@@ -1,14 +1,19 @@
 const initialState = {
-    seasonSelected: ''
+    seasonSelected: '',
+    attendancesData: ''
 }
 
 function attendancesReducer(state = initialState, action) {
-    console.log('attendances reducer');
     switch (action.type) {
         case "SEASON_SELCTED":
             return {
                 ...state,
-                seasonSelected: action.seasonSelected
+                seasonSelected: action.seasonSelected, // key must match key in initialState object, value must match action type
+            };
+        case "ATTENDANCES_DATA":
+            return {
+                ...state,
+                attendancesData: action.attendancesData,
             };
         default:
             return state;
