@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { attendancesDataFeed, seasonSelect } from '../../../redux/actions/attendancesActions';
 import { connect, useDispatch, useSelector } from "react-redux";
-import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 
+import AttendancesFeed from '../../feeds/attendances';
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
@@ -10,10 +10,7 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
-import Test from '../../feeds/attendances';
-import axios from 'axios';
 import { nameFormat } from '../../util';
-import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
     const [hasError, setErrors] = useState(false);
@@ -28,42 +25,17 @@ export default function Attendances() {
     const dispatch = useDispatch();
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
-    console.log(state);
 
     useEffect(() => {
-
+        <AttendancesFeed />
         async function fetchData() {
-            
-            // Cache GET requests
-            let cache;
-            function cacheReq() {
-            
-                // Define cache adapter and manage properties
-                cache = setupCache({
-                    maxAge: 15 * 60 * 1000
-                })
-            }
-            await cacheReq(cache);
-
-            // Create cache adapter instance
-            const api = axios.create({
-                adapter: cache.adapter
-            })
-        
-            // Cache GET responses and save in state
-            await api({
-                url: 'https://www.statreport.co.uk/api/json/data-attendances.php',
-                method: 'get'
-            }).then(async (response) => {
-                setData(response.data);
-            })
             await setDataLoaded(true);
         }
         fetchData();
     },[]);
 
     // Global refs/vars
-    let attendances = data.results,
+    let attendances = state.attendances.attendancesDataFeed.results,
         attendancesBySeasonArray = [],
         opponentBySeasonArray = [],
         rollingAverageArray = [],
@@ -76,7 +48,6 @@ export default function Attendances() {
         top10,
         bottom10;
 
-    console.log(attendances);
 
     function buildChart(season, data) {
         console.log('build chart function')
@@ -116,8 +87,6 @@ export default function Attendances() {
         }
     }
 
-    // buildChart('2021-22', attendances);
-
 
     // Change chart data on season selected
     let seasonChange = e => { 
@@ -125,7 +94,6 @@ export default function Attendances() {
 
         // Dispatch selected season to Redux store
         dispatch(seasonSelect(e.target.value));
-        // dispatch(attendancesData(e.target.value));
 
         let seasonId = window.location.pathname.split("/").pop();
 
@@ -137,11 +105,7 @@ export default function Attendances() {
         
     }
 
-    // console.log(attendances.length)
-    // if (attendances.length > 0) {
-        // buildChart('2021-22', attendances);
-    // }
-
+    // console.log(state.attendances.attendancesDataFeed.results.length);
 
     if (Object.entries(attData).length > 0) {
         myChart = new Chart(ctx, {
@@ -173,10 +137,8 @@ export default function Attendances() {
             }
         });
     } else {
-        <Test />
         // Top 10 attendances
         if (attendances) { 
-            <Test />
 
             // Slice original attendances array to prevent mutation
             attendancesDescending = attendances.slice().sort((a, b) => b.attendance - a.attendance);
@@ -219,7 +181,6 @@ export default function Attendances() {
     if (dataLoaded) {
         return (
             <React.Fragment>
-                <Test />
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
                     {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }
