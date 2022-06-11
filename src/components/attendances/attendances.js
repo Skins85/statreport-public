@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { attendancesData, seasonSelect } from '../../../redux/actions/attendancesActions';
+import { attendancesDataFeed, seasonSelect } from '../../../redux/actions/attendancesActions';
 import { connect, useDispatch, useSelector } from "react-redux";
 import { dataLoadedd, fetchAssistsData, fetchMatchesData, fetchOppositionGoalsData, fetchOppositionOwnGoalsData, fetchPlayersData, fetchPlayersGoalsData } from '../../../redux/actions/matchActions';
 
@@ -10,6 +10,7 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
+import Test from '../../feeds/attendances';
 import axios from 'axios';
 import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
@@ -124,7 +125,7 @@ export default function Attendances() {
 
         // Dispatch selected season to Redux store
         dispatch(seasonSelect(e.target.value));
-        dispatch(attendancesData(e.target.value));
+        // dispatch(attendancesData(e.target.value));
 
         let seasonId = window.location.pathname.split("/").pop();
 
@@ -172,8 +173,10 @@ export default function Attendances() {
             }
         });
     } else {
+        <Test />
         // Top 10 attendances
         if (attendances) { 
+            <Test />
 
             // Slice original attendances array to prevent mutation
             attendancesDescending = attendances.slice().sort((a, b) => b.attendance - a.attendance);
@@ -216,6 +219,7 @@ export default function Attendances() {
     if (dataLoaded) {
         return (
             <React.Fragment>
+                <Test />
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
                     {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }

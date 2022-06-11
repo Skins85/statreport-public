@@ -1,6 +1,6 @@
 const initialState = {
     seasonSelected: '',
-    attendancesData: ''
+    attendancesDataFeed: ''
 }
 
 function attendancesReducer(state = initialState, action) {
@@ -10,10 +10,10 @@ function attendancesReducer(state = initialState, action) {
                 ...state,
                 seasonSelected: action.seasonSelected, // key must match key in initialState object, value must match action type
             };
-        case "ATTENDANCES_DATA":
+        case "ATTENDANCES_DATA_FEED":
             return {
                 ...state,
-                attendancesData: action.attendancesData,
+                attendancesDataFeed: action.attendancesDataFeed,
             };
         default:
             return state;

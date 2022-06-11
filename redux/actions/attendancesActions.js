@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 
-export const attendancesData = (data) => {
+export const attendancesDataFeed = (data) => {
     return dispatch => {
         dispatch({
-            type: "ATTENDANCES_DATA",
-            attendancesData: data
+            type: "ATTENDANCES_DATA_FEED",
+            attendancesDataFeed: data
         })
     }
 }
