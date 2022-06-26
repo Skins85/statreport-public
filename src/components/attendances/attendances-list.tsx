@@ -7,6 +7,7 @@ import React from 'react';
 const attendancesList = (props: InterfaceAttendancesShort) => {
     return (
         <tr key={props.match_id}>
+            <td>{props.rank}</td>
             <td><Moment format="DD/MM/YYYY">{props.date}</Moment></td>
             <td>{props.attendance.toLocaleString()}</td>
             <td>Dag & Red

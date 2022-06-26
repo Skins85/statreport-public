@@ -373,6 +373,8 @@ class Players extends Component {
                     }
                 )
 
+                console.log(filterPlayersNoName);
+
                 let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
                 if (appearancesByRank.length > 0) {
                     indexTemplate = appearancesByRank.map(p => 

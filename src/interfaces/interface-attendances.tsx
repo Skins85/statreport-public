@@ -11,6 +11,7 @@ export interface InterfaceAttendances {
 }
 
 export interface InterfaceAttendancesShort {
+    rank: number,
     match_id: string,
     date: string,
     attendance: number,

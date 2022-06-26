@@ -2,7 +2,7 @@
     header('Content-Type: application/json');
 
     include '../../config/db.php';
-    $season_exclude = '2011-12';
+    $season_exclude = '2010-11';
     
     $stmt = $conn->prepare(
         "SELECT Player, first_name, surname, count(*) AS count FROM (

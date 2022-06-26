@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { nameFormat, rankArrayObjects } from '../../util';
 
 import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
@@ -9,7 +10,6 @@ import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
-import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 export default function Attendances() {
@@ -21,6 +21,8 @@ export default function Attendances() {
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
+    let noAttendances;
+
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
 
     useEffect(() => {
@@ -29,13 +31,11 @@ export default function Attendances() {
             // Cache GET requests
             let cache: any;
             function cacheReq() {
-                console.log('cache request function')
             
                 // Define cache adapter and manage properties
                 cache = setupCache({
                     maxAge: 15 * 60 * 1000
                 })
-                console.log('cache: ' + cache)
             }
             await cacheReq(); // Was previously blank/no argument
 
@@ -54,7 +54,6 @@ export default function Attendances() {
             await setDataLoaded(true);
         }
         fetchData();
-        // console.log(dataLoaded);
     },[]);
 
     let attendances: InterfaceAttendances[] = data,
@@ -114,8 +113,6 @@ export default function Attendances() {
                 myChart.destroy();
             };
 
-        } else {
-            console.log('data not loaded');
         }
     }
 
@@ -153,14 +150,35 @@ export default function Attendances() {
         // Top 10 attendances
         if (attendances) { 
 
-            // Slice original attendances array to prevent mutation
-            attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
-            attendancesAscending = attendances.slice().sort((a: any, b: any) => a.attendance - b.attendance);
-
-            top10 = attendancesDescending.slice(0, 10).map((i: any) => {
-                return (
-                    <React.Fragment>
+            if (season) {
+                noAttendances = <p>No attendance data for this season. Please select another season.</p>
+            } else {
+                // Slice original attendances array to prevent mutation
+                attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
+                attendancesAscending = attendances.slice().sort((a: any, b: any) => a.attendance - b.attendance);
+                
+                let attDescRank = rankArrayObjects(attendancesDescending, 'attendance'),
+                    attAscRank = rankArrayObjects(attendancesAscending, 'attendance'); 
+                
+                top10 = attDescRank.slice(0, 10).map((i: any) => {
+                    return (
+                        <React.Fragment>
+                            <AttendancesList
+                                rank = {i.rank}
+                                match_id = {i.match_id}
+                                date = {i.date}
+                                attendance = {parseInt(i.attendance.toLocaleString())}
+                                home_goals = {i.goals_home}
+                                away_goals = {i.goals_away}
+                                team_away = {i.team_away}
+                            />
+                        </React.Fragment>
+                    )
+                })
+                bottom10 = attAscRank.slice(0, 10).map((i: any) => {
+                    return (
                         <AttendancesList
+                            rank = {attendances.length - i.rank}
                             match_id = {i.match_id}
                             date = {i.date}
                             attendance = {parseInt(i.attendance.toLocaleString())}
@@ -168,22 +186,9 @@ export default function Attendances() {
                             away_goals = {i.goals_away}
                             team_away = {i.team_away}
                         />
-                    </React.Fragment>
-                )
-            })
-            bottom10 = attendancesAscending.slice(0, 10).map((i: any) => {
-                return (
-                    <AttendancesList
-                        match_id = {i.match_id}
-                        date = {i.date}
-                        attendance = {parseInt(i.attendance.toLocaleString())}
-                        home_goals = {i.goals_home}
-                        away_goals = {i.goals_away}
-                        team_away = {i.team_away}
-                    />
-                )
-            })
-
+                    )
+                })
+            }
         } else {
             return (
                 <Spinner />
@@ -206,6 +211,7 @@ export default function Attendances() {
                         <option value="" selected >Select season</option>
                         <SeasonOptions />
                     </Select>
+                    {noAttendances}
                     {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
                     {season ? null : <React.Fragment><h2>Lowest attendances</h2><Table className='width--75'><tbody>{bottom10}</tbody></Table></React.Fragment> }
                     <canvas 
