@@ -12,6 +12,9 @@ import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
+import { variables } from '../../abstracts/variables';
+
+console.log(variables);
 
 export default function Attendances() {
     const [hasError, setErrors] = useState(false);
@@ -22,14 +25,7 @@ export default function Attendances() {
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    let noAttendances,
-        baseUrl;
-
-    if (process.env.NODE_ENV === 'development') {
-        baseUrl = 'http://localhost:8080'
-    } else {
-        baseUrl = 'http://www.statreport.co.uk'
-    }
+    let noAttendances;
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
 
@@ -204,15 +200,12 @@ export default function Attendances() {
         }
     }
 
-
-    console.log(process.env.NODE_ENV)
-
     if (dataLoaded) {
         return (
             <React.Fragment>
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
-                    {season ? <p><a href={`${baseUrl}/matches/attendances`}>&lt; Back to Attendances</a></p> : null }
+                    {season ? <p><a href={`${variables.BASE_URL}/matches/attendances`}>&lt; Back to Attendances</a></p> : null }
                     <Select 
                         labelRequired 
                         labelText={`Season`} 
