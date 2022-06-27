@@ -5,6 +5,7 @@ import AttendancesList from './attendances-list';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
 import { InterfaceAttendances } from '../../interfaces/interface-attendances';
+import { Link } from 'react-router-dom';
 import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
@@ -21,7 +22,14 @@ export default function Attendances() {
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    let noAttendances;
+    let noAttendances,
+        baseUrl;
+
+    if (process.env.NODE_ENV === 'development') {
+        baseUrl = 'http://localhost:8080'
+    } else {
+        baseUrl = 'http://www.statreport.co.uk'
+    }
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
 
@@ -196,12 +204,15 @@ export default function Attendances() {
         }
     }
 
+
+    console.log(process.env.NODE_ENV)
+
     if (dataLoaded) {
         return (
             <React.Fragment>
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
-                    {season ? <p><a href="./">&lt; Back to Attendances</a></p> : null }
+                    {season ? <p><a href={`${baseUrl}/matches/attendances`}>&lt; Back to Attendances</a></p> : null }
                     <Select 
                         labelRequired 
                         labelText={`Season`} 
