@@ -14,8 +14,6 @@ import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import { variables } from '../../abstracts/variables';
 
-console.log(variables);
-
 export default function Attendances() {
     const [hasError, setErrors] = useState(false);
     const [data, setData] = useState([]);
@@ -113,11 +111,15 @@ export default function Attendances() {
             setOppData(opponentBySeasonArray);
             
             // Destroy chart instance so chart isn't duplicated
-            if (myChart) {
-                myChart.destroy();
-            };
-
+            myChart ? myChart.destroy() : null;
         }
+    }
+
+    let seasonClearHandler = () => {
+        setSeason(null);
+        setAttData([]);
+        window.history.pushState(null, null, `/matches/attendances`);
+        myChart ? myChart.destroy() : null;
     }
 
     // Initialise chart and display if attendance data exists
@@ -205,14 +207,15 @@ export default function Attendances() {
             <React.Fragment>
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
-                    {season ? <p><a href={`${variables.BASE_URL}/matches/attendances`}>&lt; Back to Attendances</a></p> : null }
+                    {season ? <button onClick={() => seasonClearHandler()}>&lt; Back to Attendances</button> : null }
+                    {/* {season ? <p><a onClick={`${seasonChange('')}`} value='' href={`${variables.BASE_URL}/matches/attendances`}>&lt; Back to Attendances</a></p> : null } */}
                     <Select 
                         labelRequired 
                         labelText={`Season`} 
                         selectName={`results.season`} 
                         onChange={seasonChange.bind(this)}
                     >
-                        <option value="" selected >Select season</option>
+                        { season ? <option value="">Select season</option> : <option value="" selected>Select season</option> }
                         <SeasonOptions />
                     </Select>
                     {noAttendances}
