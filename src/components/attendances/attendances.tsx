@@ -166,13 +166,14 @@ export default function Attendances() {
                 let attDescRank = rankArrayObjects(attendancesDescending, 'attendance'),
                     attAscRank = rankArrayObjects(attendancesAscending, 'attendance'); 
                 
-                top10 = attDescRank.slice(0, 10).map((i: any) => {
+                top10 = attDescRank.slice(0, 20).map((i: any) => {
                     return (
                         <React.Fragment>
                             <AttendancesList
                                 rank = {i.rank}
                                 match_id = {i.match_id}
                                 date = {i.date}
+                                // attendance = {3}
                                 attendance = {parseInt(i.attendance.toLocaleString())}
                                 home_goals = {i.goals_home}
                                 away_goals = {i.goals_away}
@@ -181,12 +182,13 @@ export default function Attendances() {
                         </React.Fragment>
                     )
                 })
-                bottom10 = attAscRank.slice(0, 10).map((i: any) => {
+                bottom10 = attAscRank.slice(0, 34).map((i: any) => {
                     return (
                         <AttendancesList
-                            rank = {attendances.length - i.rank}
+                            rank = {i.rank}
                             match_id = {i.match_id}
                             date = {i.date}
+                            // attendance = {4}
                             attendance = {parseInt(i.attendance.toLocaleString())}
                             home_goals = {i.goals_home}
                             away_goals = {i.goals_away}
