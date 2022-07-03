@@ -115,58 +115,30 @@ const playerGoalsFilter = (data, player_id) => {
  * @param {String} key - The object key to rank on.
  * @return {Array} - An array of objects ranked by key.
  **/
-const rankArrayObjects = (array, key) => {
+const rankArrayObjects = (array, key, direction) => {
     let ranks = Object.keys(array).map(k => array[k][key]),
         orderedRanks = Array.from(ranks).sort((a, b) => b - a),
         prev = '',
         rank = 0,
-        counter = 0,
-        item;
+        counter = 0;
         return (
             Object.keys(array).map((k) => {
                 item = array[k];
+                item.num = orderedRanks.length;
                 let curr = item[key];
-
-                [1,1,1,1,1,7,8,9]
-
-
-                // Same
-                if (curr === prev) {
-                    counter++;
-                    item.rank = rank;
-                } else {
-                    // rank = rank + counter;
-                    rank++;
-                    item.rank = rank + counter;
-                    rank = rank + counter;
-                    counter = 0;
-                }
-
-
-
-                // Sequentially different
-                // if (curr !== prev) {
-                    // Not first val => 
-                    // if (k != 0) {
-                    // rank++;
-                    // item.rank = rank + counter;
-                    // Reset counter
-                    // counter = 0;
-                // Sequentially same => Count how many the same
-                // } else {
-                //     counter++;
-                //     item.rank = rank;
-                // } 
-                // console.log(item);
-                // console.log(rank);
-                // item.rank = parseInt(orderedRanks.indexOf(item[key])) + rank;
+                    if (curr === prev) {
+                        counter++;
+                        item.rank = rank;
+                    } else {
+                        rank++;
+                        item.rank = rank + counter;
+                        rank += counter;
+                        counter = 0;
+                    }
                 prev = item[key];
-                // item.rank = orderedRanks.indexOf(item[key]) + 1;
-                // item.rank === item.rank ? console.log('equal') : null;
                 return item;
             })
         )
-        
 }
 
 module.exports = {

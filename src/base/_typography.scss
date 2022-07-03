@@ -38,4 +38,14 @@ body {
         text-align: center;
     }
 
+    .btn-link {
+        font-family: "Noto Serif KR", "Josefin Slab", "Jura", serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: $rem--one;
+        background: none;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        text-decoration: underline;
+    }    
+
 }

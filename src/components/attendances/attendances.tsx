@@ -163,17 +163,16 @@ export default function Attendances() {
                 attendancesDescending = attendances.slice().sort((a: any, b: any) => b.attendance - a.attendance);
                 attendancesAscending = attendances.slice().sort((a: any, b: any) => a.attendance - b.attendance);
                 
-                let attDescRank = rankArrayObjects(attendancesDescending, 'attendance'),
-                    attAscRank = rankArrayObjects(attendancesAscending, 'attendance'); 
+                let attAscRank = rankArrayObjects(attendancesAscending, 'attendance', 'ascend');
+                let attDescRank = rankArrayObjects(attendancesDescending, 'attendance', 'descend');
                 
-                top10 = attDescRank.slice(0, 20).map((i: any) => {
+                top10 = attDescRank.slice(0, 10).map((i: any) => {
                     return (
                         <React.Fragment>
                             <AttendancesList
                                 rank = {i.rank}
                                 match_id = {i.match_id}
                                 date = {i.date}
-                                // attendance = {3}
                                 attendance = {parseInt(i.attendance.toLocaleString())}
                                 home_goals = {i.goals_home}
                                 away_goals = {i.goals_away}
@@ -182,13 +181,12 @@ export default function Attendances() {
                         </React.Fragment>
                     )
                 })
-                bottom10 = attAscRank.slice(0, 34).map((i: any) => {
+                bottom10 = attAscRank.slice(0, 10).map((i: any) => {
                     return (
                         <AttendancesList
                             rank = {i.rank}
                             match_id = {i.match_id}
                             date = {i.date}
-                            // attendance = {4}
                             attendance = {parseInt(i.attendance.toLocaleString())}
                             home_goals = {i.goals_home}
                             away_goals = {i.goals_away}
@@ -209,8 +207,7 @@ export default function Attendances() {
             <React.Fragment>
                 <div className="wrapper--content__inpage">
                     {season ? <h1>Attendances: {season}</h1> : <h1>Attendances</h1>}
-                    {season ? <button onClick={() => seasonClearHandler()}>&lt; Back to Attendances</button> : null }
-                    {/* {season ? <p><a onClick={`${seasonChange('')}`} value='' href={`${variables.BASE_URL}/matches/attendances`}>&lt; Back to Attendances</a></p> : null } */}
+                    {season ? <button className="btn-link" onClick={() => seasonClearHandler()}>&lt; Back to Attendances</button> : null }
                     <Select 
                         labelRequired 
                         labelText={`Season`} 
