@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { nameFormat, rankArrayObjects } from '../../util';
 
+import { AnyAction } from "redux";
 import AttendancesList from './attendances-list';
+import AttendancesSummary from './attendances-summary';
 import Banner from '../../components/banner/banner';
 import Chart from 'chart.js';
 import { InterfaceAttendances } from '../../interfaces/interface-attendances';
@@ -10,7 +13,9 @@ import SeasonOptions from '../form/options/season';
 import Select from '../form/ui/select/select';
 import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
+import { ThunkDispatch } from "redux-thunk";
 import axios from 'axios';
+import { seasonSelect } from '../../../redux/actions/attendancesActions';
 import { setupCache } from 'axios-cache-adapter';
 import { variables } from '../../abstracts/variables';
 
@@ -22,6 +27,10 @@ export default function Attendances() {
     const [oppData, setOppData] = useState([]);
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
+
+    type State = { };
+    type AppDispatch = ThunkDispatch<State, any, AnyAction>; 
+    const dispatch: AppDispatch = useDispatch();
 
     let noAttendances;
 
@@ -76,6 +85,7 @@ export default function Attendances() {
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
 
         let seasonId = window.location.pathname.split("/").pop();
+        dispatch(seasonSelect(e.target.value));
 
         // Format season value to display as heading
         let seasonValue = seasonId.replace(/-/g, '/');
@@ -92,6 +102,8 @@ export default function Attendances() {
                     )
                 }); 
             }
+
+            console.log(attendancesBySeason);
 
             for (const c of attendancesBySeason) {
                 attendancesBySeasonArray.push(parseInt(c.attendance));
@@ -217,6 +229,7 @@ export default function Attendances() {
                         { season ? <option value="">Select season</option> : <option value="" selected>Select season</option> }
                         <SeasonOptions />
                     </Select>
+                    <AttendancesSummary data={attData} />
                     {noAttendances}
                     {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
                     {season ? null : <React.Fragment><h2>Lowest attendances</h2><Table className='width--75'><tbody>{bottom10}</tbody></Table></React.Fragment> }

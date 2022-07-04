@@ -2,7 +2,11 @@ import '../main.scss';
 
 import React, {Suspense, lazy} from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import configureStore, { history } from '../store';
 
+import { ConnectedRouter } from 'connected-react-router';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Spinner from './components/ui/spinner/spinner';
 
@@ -24,30 +28,38 @@ const Players = lazy(() => import(/* webpackChunkName: 'players' */ './page-layo
 const Teams = lazy(() => import(/* webpackChunkName: 'teams' */ './components/teams/teams'));
 const Season = lazy(() => import(/* webpackChunkName: 'season' */ './components/season/data/season'));
 
+const { store, persistor } = configureStore();
+
 const routing = (
-    <Router>
-        <Suspense fallback={<Spinner />}>
-            <ContentWrapper>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/about" component={About} />
-                    <Route exact path="/about/bio" component={Bio} />
-                    <Route exact path="/cookies" component={CookiePolicy} />
-                    <Route path="/disclaimer" component={Disclaimer} />
-                    <Route path="/matches/attendances" component={Attendances} />
-                    <Route path="/matches/league-positions" component={LeaguePositions} />
-                    <Route exact path="/matches" component={Matches} />
-                    <Route path="/players/scorers" component={Goalscorers} />
-                    <Route path="/players/" component={Players} />
-                    <Route path="/matches/seasons" component={Season} />
-                    <Route path="/admin/add-result" component={AddResultForm} />
-                    <Route path="/admin/add-result-complete" component={AddResultsComplete} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/teams" component={Teams} /> 
-                </Switch>
-            </ContentWrapper>
-        </Suspense>
-    </Router>
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
+            <ConnectedRouter history={history}>
+                <Router>
+                    <Suspense fallback={<Spinner />}>
+                        <ContentWrapper>
+                            <Switch>
+                                <Route exact path="/" component={Home} />
+                                <Route exact path="/about" component={About} />
+                                <Route exact path="/about/bio" component={Bio} />
+                                <Route exact path="/cookies" component={CookiePolicy} />
+                                <Route path="/disclaimer" component={Disclaimer} />
+                                <Route path="/matches/attendances" component={Attendances} />
+                                <Route path="/matches/league-positions" component={LeaguePositions} />
+                                <Route exact path="/matches" component={Matches} />
+                                <Route path="/players/scorers" component={Goalscorers} />
+                                <Route path="/players/" component={Players} />
+                                <Route path="/matches/seasons" component={Season} />
+                                <Route path="/admin/add-result" component={AddResultForm} />
+                                <Route path="/admin/add-result-complete" component={AddResultsComplete} />
+                                <Route path="/login" component={Login} />
+                                <Route path="/teams" component={Teams} /> 
+                            </Switch>
+                        </ContentWrapper>
+                    </Suspense>
+                </Router>
+            </ConnectedRouter>
+        </PersistGate>
+    </Provider>
 );
 
 ReactDOM.render(routing, document.getElementById("root"));
