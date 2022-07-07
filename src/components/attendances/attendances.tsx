@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector, useStore } from "react-redux";
 import { nameFormat, rankArrayObjects } from '../../util';
 
 import { AnyAction } from "redux";
@@ -28,9 +28,14 @@ export default function Attendances() {
     const [season, setSeason] = React.useState<string | null>(null);
     const [dataLoaded, setDataLoaded] = useState(false);
 
+    const store = useStore();
+    console.log(store.getState());
     type State = { };
     type AppDispatch = ThunkDispatch<State, any, AnyAction>; 
+
     const dispatch: AppDispatch = useDispatch();
+    // const state: State = useState();
+    // console.log(store)
 
     let noAttendances;
 
@@ -79,6 +84,7 @@ export default function Attendances() {
         attendancesAscending,
         top10: JSX.Element[],
         bottom10: JSX.Element[];
+        // seasonId = state.attendances.season;
 
     // Change chart data on season selected
     let seasonChange = (e:any) => { 
@@ -129,7 +135,7 @@ export default function Attendances() {
 
     let seasonClearHandler = () => {
         setSeason(null);
-        setAttData([]);
+        dispatch(seasonSelect());
         window.history.pushState(null, null, `/matches/attendances`);
         myChart ? myChart.destroy() : null;
     }

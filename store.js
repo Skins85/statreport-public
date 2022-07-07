@@ -34,5 +34,6 @@ export default function configureStore(preloadedState) {
     ),
   );
   const persistor = persistStore(store);
+  console.log(store);
   return { store, persistor };
 }

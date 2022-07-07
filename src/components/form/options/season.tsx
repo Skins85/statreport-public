@@ -9,7 +9,7 @@ const seasonOptions = () => {
             <option key='2018-19' value='2018-19' name='2018-19'>2018-19</option>
             <option key='2017-18' value='2017-18' name='2017-18'>2017-18</option>
             <option key='2016-17' value='2016-17' name='2016-17'>2016-17</option>
-            <option key='2015-16' value='2020-21' name='2015-16'>2015-16</option>
+            <option key='2015-16' value='2015-16' name='2015-16'>2015-16</option>
             <option key='2014-15' value='2014-15' name='2014-15'>2014-15</option>
             <option key='2013-14' value='2013-14' name='2013-14'>2013-14</option>
             <option key='2012-13' value='2012-13' name='2012-13'>2012-13</option>
