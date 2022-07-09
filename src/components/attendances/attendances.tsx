@@ -20,22 +20,19 @@ import { setupCache } from 'axios-cache-adapter';
 import { variables } from '../../abstracts/variables';
 
 export default function Attendances() {
-    const [hasError, setErrors] = useState(false);
-    const [data, setData] = useState([]);
-    const [attData, setAttData] = useState([]);
-    const [aveAttData, setAveAttData] = useState([]);
-    const [oppData, setOppData] = useState([]);
-    const [season, setSeason] = React.useState<string | null>(null);
-    const [dataLoaded, setDataLoaded] = useState(false);
 
-    const store = useStore();
-    console.log(store.getState());
     type State = { };
     type AppDispatch = ThunkDispatch<State, any, AnyAction>; 
 
-    const dispatch: AppDispatch = useDispatch();
-    // const state: State = useState();
-    // console.log(store)
+    const [hasError, setErrors] = useState(false),
+          [data, setData] = useState([]),
+          [attData, setAttData] = useState([]),
+          [aveAttData, setAveAttData] = useState([]),
+          [oppData, setOppData] = useState([]),
+          [season, setSeason] = React.useState<string | null>(null),
+          [dataLoaded, setDataLoaded] = useState(false),
+          state = useSelector<any, any>(state => state),
+          dispatch: AppDispatch = useDispatch();
 
     let noAttendances;
 
@@ -84,18 +81,12 @@ export default function Attendances() {
         attendancesAscending,
         top10: JSX.Element[],
         bottom10: JSX.Element[];
-        // seasonId = state.attendances.season;
 
     // Change chart data on season selected
     let seasonChange = (e:any) => { 
         window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
 
-        let seasonId = window.location.pathname.split("/").pop();
         dispatch(seasonSelect(e.target.value));
-
-        // Format season value to display as heading
-        let seasonValue = seasonId.replace(/-/g, '/');
-        setSeason(seasonValue);
         
         if (attendances) {
             
@@ -104,12 +95,10 @@ export default function Attendances() {
             for (const b of attendances) {
                 attendancesBySeason = attendances.filter(function(m: any) {
                     return (
-                        m.season === seasonId
+                        m.season === state.attendances.season
                     )
                 }); 
             }
-
-            console.log(attendancesBySeason);
 
             for (const c of attendancesBySeason) {
                 attendancesBySeasonArray.push(parseInt(c.attendance));
@@ -253,5 +242,4 @@ export default function Attendances() {
             <Spinner />
         )
     }
-    
 }
