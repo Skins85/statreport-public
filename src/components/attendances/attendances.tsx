@@ -27,6 +27,10 @@ export default function Attendances() {
 
     document.title = `${nameFormat('Dagenham & Redbridge')} attendances | StatReport`;
 
+    function buildChart(season: any) {
+        console.log(season)
+    }
+
     useEffect(() => {
         async function fetchData() {
             
@@ -52,10 +56,20 @@ export default function Attendances() {
                 method: 'get'
             }).then(async (response) => {
                 setData(response.data.results);
+                const LoadurlSearchParams = new URLSearchParams(window.location.search);
+                const Loadparams = Object.fromEntries(LoadurlSearchParams.entries());
+                let LoadseasonId = Loadparams.season;
+                buildChart(LoadseasonId)
+                console.log(response.data.results);
             })
             await setDataLoaded(true);
         }
         fetchData();
+
+        // if (attendances) {
+        //     buildChart();
+        // }
+    
     },[]);
 
     let attendances: InterfaceAttendances[] = data,
@@ -73,9 +87,14 @@ export default function Attendances() {
 
     // Change chart data on season selected
     let seasonChange = (e:any) => { 
-        window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
+        // window.history.pushState(null, null, `/matches/attendances/${e.target.value}`);
+        window.history.pushState(null, null, `/matches/attendances?season=${e.target.value}`);
 
-        let seasonId = window.location.pathname.split("/").pop();
+        // let seasonId = window.location.pathname.split("/").pop();
+        
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        let seasonId = params.season;
 
         // Format season value to display as heading
         let seasonValue = seasonId.replace(/-/g, '/');
