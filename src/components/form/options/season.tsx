@@ -3,6 +3,7 @@ import React from 'react';
 const seasonOptions = () => {
     return (
         <>
+            <option key='2022-23' value='2022-23' name='2022-23'>2022-23</option>
             <option key='2021-22' value='2021-22' name='2021-22'>2021-22</option>
             <option key='2020-21' value='2020-21' name='2020-21'>2020-21</option>
             <option key='2019-20' value='2019-20' name='2019-20'>2019-20</option>

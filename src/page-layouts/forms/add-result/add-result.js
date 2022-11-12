@@ -16,7 +16,7 @@ class Form extends Component {
             data: '',
             playersData: '',
             snippetsData: '',
-            season: '2021-22',
+            season: '2022-23',
             homeTeam: '',
             awayTeam: '',
             homeGoals: '',

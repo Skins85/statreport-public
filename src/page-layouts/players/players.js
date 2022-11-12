@@ -161,6 +161,7 @@ class Players extends Component {
                     result.scorer_id === playerId
                 )
             });
+            // console.log(filteredGoals)
             
             selectedPlayerName = `${filteredPlayers[0].first_name} ${filteredPlayers[0].surname}`;            
 
@@ -257,6 +258,7 @@ class Players extends Component {
                     </tr>
                 </thead>;
                 filteredAllAppearances.sort((a, b) => (a.date < b.date) ? 1 : -1)
+                console.log(filteredGoals);
                 playerResultsTemplate = filteredAllAppearances.map(key => 
                     <Suspense fallback={<Spinner />}>
                         <PlayerResults
@@ -267,6 +269,7 @@ class Players extends Component {
                             team_away={key.team_away}
                             home_goals={key.goals_home}
                             away_goals={key.goals_away}
+                            goals={filteredGoals}
                         />
                     </Suspense>
                 )
@@ -373,7 +376,7 @@ class Players extends Component {
                     }
                 )
 
-                console.log(filterPlayersNoName);
+                // console.log(filterPlayersNoName);
 
                 let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
                 if (appearancesByRank.length > 0) {
