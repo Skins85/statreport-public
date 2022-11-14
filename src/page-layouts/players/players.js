@@ -161,7 +161,6 @@ class Players extends Component {
                     result.scorer_id === playerId
                 )
             });
-            // console.log(filteredGoals)
             
             selectedPlayerName = `${filteredPlayers[0].first_name} ${filteredPlayers[0].surname}`;            
 
@@ -251,14 +250,15 @@ class Players extends Component {
                 <thead data-content-align='left'>
                     <tr>
                         <th>Date</th>
-                        <th>Season</th>
+                        <th data-display="small">Season</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>;
                 filteredAllAppearances.sort((a, b) => (a.date < b.date) ? 1 : -1)
-                console.log(filteredGoals);
                 playerResultsTemplate = filteredAllAppearances.map(key => 
                     <Suspense fallback={<Spinner />}>
                         <PlayerResults
@@ -291,10 +291,7 @@ class Players extends Component {
                             debut_goals_away={debutGoalsAway}
                             debut_match_id={debutMatchId}
                         />
-                        <Table 
-                            className='width--75'
-                            finalRowHighlight
-                        >
+                        <Table finalRowHighlight>
                             <thead>
                                 <tr>
                                     <th>Season</th>
@@ -321,7 +318,7 @@ class Players extends Component {
                             </button>
                         </p>
                         {this.state.showMatches ? <h3>All {selectedPlayerName} appearances</h3> : null }
-                        <Table className='width--75'>
+                        <Table>
                             {playerResultsTableStart}
                             {playerResultsTemplate}
                         </Table>
@@ -375,8 +372,6 @@ class Players extends Component {
                         return name.count >= 50;
                     }
                 )
-
-                // console.log(filterPlayersNoName);
 
                 let appearancesByRank = rankArrayObjects(filterPlayersNoName, 'count');
                 if (appearancesByRank.length > 0) {

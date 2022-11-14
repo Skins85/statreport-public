@@ -20,17 +20,15 @@ const playerResults = (props) => {
     for (let i = 1; i <= goalMatchIdsFrequency[props.match_id]; i++) {
         tempArr.length = goalMatchIdsFrequency[props.match_id];
     }
-    console.log(tempArr.length)
     return (
         <React.Fragment>
-            {/* <tr props={props.ID} id={props.match_id === '2223-lg-16' ? 'match' : null}> */}
             <tr props={props.ID} id={goalMatchIds.includes(props.match_id) ? 'match ' + goalMatchIdsFrequency[props.match_id] : null}>
                 <td>
                     <Moment format="DD/MM/YY">
                         {props.date}
                     </Moment>
                 </td>
-                <td>{props.season}</td>
+                <td data-display="small">{props.season}</td>
                 <td class='align-right'>{nameFormat(props.team_home)}</td>
                 <td className='no-wrap'>
                     <a href={`../matches?m=${props.match_id}`}> 
@@ -38,20 +36,16 @@ const playerResults = (props) => {
                     </a>
                 </td>
                 <td>{nameFormat(props.team_away)}</td>
-                <td>{goals}</td>
-                 {/* <td>{[...Array(goalMatchIdsFrequency[props.match_id])].map((value, index) => (
-                    <img 
+                <td data-display="small">{goals}</td>
+                <td className="flex-wrapper">{[...Array(tempArr.length)].map(() => (
+                    <span className="wrapper--icon">
+                        <img 
                         src={IconFootball}
                         alt='Goal icon'
                         className='icon'
+                        aria-label="Scored in this match"
                     />
-                ))}</td> */}
-                <td>{[...Array(tempArr.length)].map((value, index) => (
-                    <img 
-                        src={IconFootball}
-                        alt='Goal icon'
-                        className='icon'
-                    />
+                    </span>
                 ))}</td>
             </tr>
         </React.Fragment>

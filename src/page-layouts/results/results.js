@@ -143,8 +143,6 @@ class Results extends Component {
                 } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home < result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away < result.goals_home)) {
                   outcome = 'L';
                 }
-
-                console.log(result);
       
                 return (
                   <Result

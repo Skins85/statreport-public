@@ -184,7 +184,6 @@ export default function Teams(props) {
             firstMatchDate = filteredTeam[filteredTeam.length -1]['date'];
 
             // Get opponent full name
-            console.log(filteredTeam[0])
             filteredTeam[0].team_home === 'Dagenham & Redbridge' ? opponent = filteredTeam[0].team_away : opponent = filteredTeam[0].team_home;
 
             // Results template
