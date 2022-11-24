@@ -47,7 +47,7 @@ export default function Table(props) {
     return (
         <div className='wrapper--table'>
             <table 
-                class={props.className}
+                className={props.className}
                 type={props.type}
                 data-final-row-highlight={props.finalRowHighlight}
             >

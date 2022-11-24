@@ -1,4 +1,5 @@
 import 'moment-timezone';
+import { nanoid } from 'nanoid';
 
 import Moment from 'react-moment';
 import React from 'react';
@@ -29,7 +30,7 @@ const playerResults = (props) => {
                     </Moment>
                 </td>
                 <td data-display="small">{props.season}</td>
-                <td class='align-right'>{nameFormat(props.team_home)}</td>
+                <td className='align-right'>{nameFormat(props.team_home)}</td>
                 <td className='no-wrap'>
                     <a href={`../matches?m=${props.match_id}`}> 
                         {props.home_goals}-{props.away_goals}
@@ -38,13 +39,13 @@ const playerResults = (props) => {
                 <td>{nameFormat(props.team_away)}</td>
                 <td data-display="small">{goals}</td>
                 <td className="flex-wrapper">{[...Array(tempArr.length)].map(() => (
-                    <span className="wrapper--icon">
+                    <span className="wrapper--icon" key={`key${nanoid()}`}>
                         <img 
-                        src={IconFootball}
-                        alt='Goal icon'
-                        className='icon'
-                        aria-label="Scored in this match"
-                    />
+                            src={IconFootball}
+                            alt='Goal icon'
+                            className='icon'
+                            aria-label="Scored in this match"
+                        />
                     </span>
                 ))}</td>
             </tr>

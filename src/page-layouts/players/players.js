@@ -262,6 +262,7 @@ class Players extends Component {
                 playerResultsTemplate = filteredAllAppearances.map(key => 
                     <Suspense fallback={<Spinner />}>
                         <PlayerResults
+                            key={key}
                             date={key.date}
                             season={key.season}
                             match_id={key.match_id}
@@ -313,7 +314,7 @@ class Players extends Component {
                             </tbody>
                         </Table>
                         <p>
-                            <button href="#" onClick={this.showMatchesHandler.bind(this)}>
+                            <button href="#" onClick={this.showMatchesHandler}>
                                 Show all results
                             </button>
                         </p>
