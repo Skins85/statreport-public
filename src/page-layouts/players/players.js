@@ -10,6 +10,7 @@ import Spinner from '../../components/ui/spinner/spinner';
 import Table from '../../components/hoc/table/table';
 import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
+import Chart from '../../components/chart/chart';
 
 const PlayerResults = lazy(() => import(/* webpackChunkName: 'player-results' */ '../../components/player/player-results'));
 
@@ -141,6 +142,7 @@ class Players extends Component {
                     result.player_11 === playerId
                 )
             });
+
             filteredSubs = results.filter(function(result) {
                 return (
                     result.sub_1 === playerId ||
@@ -161,7 +163,7 @@ class Players extends Component {
                     result.scorer_id === playerId
                 )
             });
-            
+
             selectedPlayerName = `${filteredPlayers[0].first_name} ${filteredPlayers[0].surname}`;            
 
             // Get debut date and associated match information
@@ -245,6 +247,32 @@ class Players extends Component {
                 }
             }
 
+            let matchCountArray = [0];
+            let matchGoalCountArray = [0];
+            let filteredGoalMatchIds = [];
+            let matchGoalCount = 0;
+            let matchCount = 0;
+
+            for (const f of filteredGoals) {
+                filteredGoalMatchIds.push(f.match_id);
+            }
+
+            for (const appearance of filteredAllAppearances) {
+                matchCount++;
+                matchCountArray.push(matchCount);
+
+                // If matches with goal(s) scored matches all appearances match ID
+                if (filteredGoalMatchIds.includes(appearance.match_id)) {
+                    // Loop through goals ID objects; as each goal has a unique object, goal count will increment accordingly if multiple goals per game
+                    for (const f of filteredGoals) {
+                        if (appearance.match_id === f.match_id) {
+                            matchGoalCount++;
+                        }
+                    }
+                }
+                matchGoalCountArray.push(matchGoalCount);
+            }
+
             if (showMatches) {
                 playerResultsTableStart = 
                 <thead data-content-align='left'>
@@ -291,6 +319,24 @@ class Players extends Component {
                             debut_goals_home={debutGoalsHome}
                             debut_goals_away={debutGoalsAway}
                             debut_match_id={debutMatchId}
+                        />
+                        <Chart
+                            headingLevel='2'
+                            title='Goals throughout Daggers career'
+                            type='line'
+                            labels={matchCountArray}
+                            dataset1Label='Goals'
+                            dataset1Values={matchGoalCountArray}
+                            dataset1Fill={false}
+                            dataset1Tension='0'
+                            dataset1BorderColor='#f12745'
+                            dataset2Label='Appearances'
+                            yAxesLabel = 'Goals'
+                            xAxesLabel = 'Appearances'
+                            xMin='0'
+                            xMax={matchCountArray.length}
+                            xStep='10'
+                            height='400'
                         />
                         <Table finalRowHighlight>
                             <thead>

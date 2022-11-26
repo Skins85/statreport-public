@@ -44,7 +44,6 @@ const playerResults = (props) => {
                             src={IconFootball}
                             alt='Goal icon'
                             className='icon'
-                            aria-label="Scored in this match"
                         />
                     </span>
                 ))}</td>
