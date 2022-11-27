@@ -233,45 +233,38 @@ class Players extends Component {
 
             filteredAllAppearances = filteredStarts.concat(filteredSubs);
 
-            let arrayOfSeasonsObj = groupArrayOfObjects(filteredAllAppearances, 'season');
-            let seasonObj = Object.entries(arrayOfSeasonsObj);
-            let string;
-            let season;
-            for (const i of seasonObj) {
-                season = i[0];
-                let seasonData = i[1];
-                for (const e of seasonData) {
-                    string = seasonData.map(key =>
-                        <p>{key.match_id}</p>
-                    )
+            // Format data to build appearances and goals arrays for line chart
+            const buildPlayerGoalsArrays = (() => {
+
+                let matchCountArray = [0];
+                let matchGoalCountArray = [0];
+                let filteredGoalMatchIds = [];
+                let matchGoalCount = 0;
+                let matchCount = 0;
+
+                for (const f of filteredGoals) {
+                    filteredGoalMatchIds.push(f.match_id);
                 }
-            }
-
-            let matchCountArray = [0];
-            let matchGoalCountArray = [0];
-            let filteredGoalMatchIds = [];
-            let matchGoalCount = 0;
-            let matchCount = 0;
-
-            for (const f of filteredGoals) {
-                filteredGoalMatchIds.push(f.match_id);
-            }
-
-            for (const appearance of filteredAllAppearances) {
-                matchCount++;
-                matchCountArray.push(matchCount);
-
-                // If matches with goal(s) scored matches all appearances match ID
-                if (filteredGoalMatchIds.includes(appearance.match_id)) {
-                    // Loop through goals ID objects; as each goal has a unique object, goal count will increment accordingly if multiple goals per game
-                    for (const f of filteredGoals) {
-                        if (appearance.match_id === f.match_id) {
-                            matchGoalCount++;
+    
+                for (const appearance of filteredAllAppearances) {
+                    matchCount++;
+                    matchCountArray.push(matchCount);
+    
+                    // If matches with goal(s) scored matches all appearances match ID
+                    if (filteredGoalMatchIds.includes(appearance.match_id)) {
+                        // Loop through goals ID objects; as each goal has a unique object, goal count will increment accordingly if multiple goals per game
+                        for (const f of filteredGoals) {
+                            if (appearance.match_id === f.match_id) {
+                                matchGoalCount++;
+                            }
                         }
                     }
+                    matchGoalCountArray.push(matchGoalCount);
                 }
-                matchGoalCountArray.push(matchGoalCount);
-            }
+                return { matchCountArray, matchGoalCountArray}
+            })();
+
+            let { matchCountArray, matchGoalCountArray} = buildPlayerGoalsArrays;
 
             if (showMatches) {
                 playerResultsTableStart = 
@@ -320,24 +313,6 @@ class Players extends Component {
                             debut_goals_away={debutGoalsAway}
                             debut_match_id={debutMatchId}
                         />
-                        <Chart
-                            headingLevel='2'
-                            title='Goals throughout Daggers career'
-                            type='line'
-                            labels={matchCountArray}
-                            dataset1Label='Goals'
-                            dataset1Values={matchGoalCountArray}
-                            dataset1Fill={false}
-                            dataset1Tension='0'
-                            dataset1BorderColor='#f12745'
-                            dataset2Label='Appearances'
-                            yAxesLabel = 'Goals'
-                            xAxesLabel = 'Appearances'
-                            xMin='0'
-                            xMax={matchCountArray.length}
-                            xStep='10'
-                            height='400'
-                        />
                         <Table finalRowHighlight>
                             <thead>
                                 <tr>
@@ -369,6 +344,27 @@ class Players extends Component {
                             {playerResultsTableStart}
                             {playerResultsTemplate}
                         </Table>
+                        <Chart
+                            headingLevel='2'
+                            title='Goals by games'
+                            type='line'
+                            legendDisplay={false}
+                            labels={matchCountArray}
+                            dataset1Label='Goals'
+                            dataset1Values={matchGoalCountArray}
+                            dataset1Fill={false}
+                            dataset1Tension='0'
+                            dataset1BorderColor='#f12745'
+                            dataset1BorderWidth='2'
+                            dataset1PointRadius='0'
+                            dataset2Label='Appearances'
+                            yAxesLabel = 'Goals'
+                            xAxesLabel = 'Appearances'
+                            xMin='0'
+                            xMax={matchCountArray.length}
+                            xStep='10'
+                            height='400'
+                        />
                     </div>
                 </React.Fragment>
             )
@@ -403,15 +399,6 @@ class Players extends Component {
                         )
                     })
                 }
-
-                // Filter results based on search input
-                let filteredSearchResults = filterPlayersNoName.filter(
-                    (name) => {
-                        return name.first_name.toLowerCase().indexOf(this.state.playerSearchText.toLowerCase()) !== -1
-                        || name.surname.toLowerCase().indexOf(this.state.playerSearchText.toLowerCase()) !== -1;
-
-                    }
-                )
 
                 // Filter players with at least 50 appearances
                 let fiftyApps = filterPlayersNoName.filter(

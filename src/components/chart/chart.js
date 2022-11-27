@@ -4,9 +4,7 @@ import Chart from 'chart.js';
 
 export default function ChartComponent(props) {
 
-    let ctx = document.getElementById('myChart'),
-        myChart,
-        finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    let finalUrlString = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
     useEffect(() => {
         
@@ -27,23 +25,25 @@ export default function ChartComponent(props) {
         let data = {};
 
         const dataset1 = {
-            label: props.dataset1Label,
+            label: [props.dataset1Label],
             backgroundColor: dataset1BackgroundColor,
             borderColor: props.dataset1BorderColor,
-            borderWidth: props.borderWidth ? props.borderWidth : 1,
+            borderWidth: props.dataset1BorderWidth ? props.dataset1BorderWidth : 1,
             data: props.dataset1Values,
             fill: props.dataset1Fill,
-            tension: props.dataset1Tension
+            tension: props.dataset1Tension,
+            pointRadius: props.dataset1PointRadius,
         };
 
         const dataset2 = {
             label: props.dataset2Label,
             backgroundColor: dataset2BackgroundColor,
             borderColor: dataset2BorderColor,
-            borderWidth: props.borderWidth ? props.borderWidth : 1,
+            borderWidth: props.dataset2BorderWidth ? props.dataset2BorderWidth : 1,
             data: props.dataset2Values,
             fill: props.dataset2Fill,
-            tension: props.dataset2Tension
+            tension: props.dataset2Tension,
+            pointRadius: props.dataset2PointRadius
         }
 
         if (props.dataset2Values) {
@@ -71,6 +71,9 @@ export default function ChartComponent(props) {
             type: props.type,
             data: data,
             options: {
+                legend: {
+                    display: props.legendDisplay
+                },
                 scales: {
                     xAxes: [
                         {
@@ -97,9 +100,9 @@ export default function ChartComponent(props) {
                         }
                     ]
                 },
-                showTooltips: false
-                }
+                showTooltips: true,
             }
+        }   
 
         const properties = {
             height: props.height
