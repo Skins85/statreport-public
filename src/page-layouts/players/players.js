@@ -334,16 +334,6 @@ class Players extends Component {
                                 </tr>
                             </tbody>
                         </Table>
-                        <p>
-                            <button href="#" onClick={this.showMatchesHandler}>
-                                Show all results
-                            </button>
-                        </p>
-                        {this.state.showMatches ? <h3>All {selectedPlayerName} appearances</h3> : null }
-                        <Table>
-                            {playerResultsTableStart}
-                            {playerResultsTemplate}
-                        </Table>
                         <Chart
                             headingLevel='2'
                             title='Goals by games'
@@ -365,6 +355,16 @@ class Players extends Component {
                             xStep='10'
                             height='400'
                         />
+                        <p>
+                            <button href="#" onClick={this.showMatchesHandler}>
+                                Show all results
+                            </button>
+                        </p>
+                        {this.state.showMatches ? <h3>All {selectedPlayerName} appearances</h3> : null }
+                        <Table>
+                            {playerResultsTableStart}
+                            {playerResultsTemplate}
+                        </Table>
                     </div>
                 </React.Fragment>
             )
