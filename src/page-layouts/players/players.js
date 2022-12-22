@@ -245,6 +245,8 @@ class Players extends Component {
                 for (const f of filteredGoals) {
                     filteredGoalMatchIds.push(f.match_id);
                 }
+
+                filteredAllAppearances.sort((a, b) => (a.date > b.date) ? 1 : -1)
     
                 for (const appearance of filteredAllAppearances) {
                     matchCount++;
