@@ -3,6 +3,7 @@ import React from 'react';
 const competitionOptions = () => {
     return (
         <React.Fragment>
+            <option selected key='all' value='all' name='all'>All competitions</option>
             <option value="League" name="League">League</option>
             <option value="Playoff" name="Playoff">Playoff</option>
             <option value="FA Cup" name="FA Cup">FA Cup</option>

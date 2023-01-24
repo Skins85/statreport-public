@@ -3,7 +3,7 @@ import React from 'react';
 const select = (props) => {
     return (
         <React.Fragment>
-            {props.labelRequired ? <label for={props.labelTarget}>{props.labelText}</label> : null}
+            {props.labelRequired ? <label for={props.selectId}>{props.labelText}</label> : null}
             <select 
                 className={props.className}
                 id={props.selectId}

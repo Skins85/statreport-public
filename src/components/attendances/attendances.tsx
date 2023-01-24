@@ -215,7 +215,7 @@ export default function Attendances() {
                         onChange={seasonChange.bind(this)}
                     >
                         { season ? <option value="">Select season</option> : <option value="" selected>Select season</option> }
-                        <SeasonOptions />
+                        <SeasonOptions season={season} />
                     </Select>
                     {noAttendances}
                     {season ? null : <React.Fragment><h2>Highest attendances</h2><Table className='width--75'><tbody>{top10}</tbody></Table></React.Fragment> }
