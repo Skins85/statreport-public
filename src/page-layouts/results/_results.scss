@@ -14,3 +14,13 @@
 .team_away {
     overflow-wrap: break-word;
 }
+
+.wrapper--matches__filter__select {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    select {
+        width: 100%;
+    }
+}

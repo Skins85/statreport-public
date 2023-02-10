@@ -36,7 +36,7 @@ const routing = (
                     <Route path="/disclaimer" component={Disclaimer} />
                     <Route path="/matches/attendances" component={Attendances} />
                     <Route path="/matches/league-positions" component={LeaguePositions} />
-                    <Route exact path="/matches" component={Matches} />
+                    <Route path="/matches" component={Matches} />
                     <Route path="/players/scorers" component={Goalscorers} />
                     <Route path="/players/" component={Players} />
                     <Route path="/matches/seasons" component={Season} />

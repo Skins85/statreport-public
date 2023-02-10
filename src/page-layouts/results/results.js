@@ -24,14 +24,22 @@ class Results extends Component {
           competition: 'all',
           teamsData: '',
           filteredResults: '',
-          dataLoaded: false
+          dataLoaded: false,
+          params: []
         };
     }
         
     // Generic onChange handler => updates state
-    onChange = e => this.setState({ 
-        [e.target.name]: e.target.value 
-    });
+    onChange = e => {
+      this.setState({ 
+        [e.target.name]: e.target.value,
+      });
+      const {name, value} = e.target;
+      let params = {...this.state.params, [name] : value}
+      // let params = {...this.state.params, 'key' : name, 'value' : value}
+
+      this.setState({params});
+    };
 
     // Season change handler
     seasonChange = (e) => {
@@ -84,65 +92,75 @@ class Results extends Component {
       document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
 
         // For scoping, define variables needed in template
-        let results = this.state.data.results;
-        let results_template;
-        let table_heading;
-        let team_select;
-        let teamsList;
-        let season_select;
-        let filteredResults;
-        let team_home;
-        let team_away;
-        let season;
-        let opposition;
-        let competition;
-        let outcome;
-        let banner = <Banner
-          name='Matches'
-          description='Results and match information'
-          image={BannerImg}
-          // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
-        />;
+        let results = this.state.data.results,
+          results_template,
+          team_select,
+          teamsList,
+          season_select,
+          filteredResults,
+          team_home,
+          team_away,
+          season,
+          opposition,
+          competition,
+          outcome,
+          filters,
+          paramsUrl = [],
+          banner = <Banner
+            name='Matches'
+            description='Results and match information'
+            image={BannerImg}
+            // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
+          />;
+
+          // Build URL params
+          [this.state.params].map(function (param) {
+            param.location ? paramsUrl.push(`location=${param.location}`) : null;
+            param.competition ? paramsUrl.push(`competition=${param.competition}`) : null;
+            param.opposition ? paramsUrl.push(`opposition=${param.opposition}`) : null;
+          });
+
+          paramsUrl = paramsUrl.join('&');
+          paramsUrl.length > 0 ? window.history.pushState(null, null, 'matches?' + paramsUrl) : null;
+
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          let loc;
+          
+          urlParams.get('location') ? loc = urlParams.get('location') : loc = 'all';
+          
+          const comp = urlParams.get('competition');
+          const opp = urlParams.get('opposition');
+
+          console.log(loc);
 
         if (results) {
 
             // Assign variables to variables (will be used to filter data)
-            this.state.location === 'home' ? team_home = 'Dagenham & Redbridge'
-              : this.state.location === 'away' ? team_away = 'Dagenham & Redbridge'
+            loc === 'home' ? team_home = 'Dagenham & Redbridge'
+              : loc === 'away' ? team_away = 'Dagenham & Redbridge'
               : team_home = ('Dagenham & Redbridge', team_away = 'Dagenham & Redbridge');
             season = this.state.season;
-            opposition = this.state.opposition;
-            competition = this.state.competition;
+            opposition = opp;
+            competition = comp;
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
 
               return (
                 (result.team_home === team_home || result.team_away === team_away) &&
-                (season !== 'all' ? result.season === season : result.season === 
-                  '2020-21' || 
-                  '2019-20' || 
-                  '2018-19' || 
-                  '2017-18' || 
-                  '2016-17' || 
-                  '2015-16' || 
-                  '2014-15' || 
-                  '2013-14' ) &&
+                (season !== 'all' ? result.season === season : result.season) &&
                 (opposition === 'all' 
                   ? (result.team_home === 'Dagenham & Redbridge' 
                     || result.team_away === 'Dagenham & Redbridge') 
                   : (result.team_away === opposition 
                     || result.team_home === opposition)
                 ) &&
-                (competition !== 'all'
-                  ? result.competition === competition
-                  : result.competition
-                )
+                (competition !== 'all' ? result.competition === competition : result.competition)
               )
             });              
       
             if (filteredResults.length > 0) {
-
       
               results_template = filteredResults.map(result => {
       
@@ -223,78 +241,90 @@ class Results extends Component {
           }
         filteredResults = [...new Set(filteredResults)];
 
+        filters = <form 
+            className='matches__filter background-gray2'
+            onSubmit={this.handleSubmit}
+          >
+            <h2>Filter matches</h2>
+			<div className='wrapper--matches__filter__select'>
+				<div className='matches__filter__select'>
+					<Select 
+						labelRequired 
+						selectId={`location`}
+						labelText={`Location`} 
+						selectName={`location`} 
+						onChange={this.onChange}
+					>
+						<option value="all" selected>Home and away</option>
+						<option value="home">Home</option>
+						<option value="away">Away</option>
+					</Select>
+				</div>
+				<div className='matches__filter__select'>
+					<Select 
+						labelRequired
+						selectId={`opposition`}
+						labelText={`Opposition`} 
+						selectName={`opposition`} 
+						onChange={this.onChange}
+					>
+						<option value="all">All teams</option>
+						{teamsList}
+					</Select>
+				</div>
+				<div className='matches__filter__select'>
+					<Select 
+						labelRequired
+						selectId={`season`}
+						labelText={`Season`} 
+						selectName={`results.season`} 
+						onChange={this.seasonChange}
+					>
+						<SeasonOptions season={season} />
+					</Select>
+				</div>
+				<div className='matches__filter__select'>
+					<Select 
+						labelRequired
+						selectId={`competition`}
+						labelText={`Competition`} 
+						selectName={`competition`} 
+						onChange={this.onChange}
+					>
+						<option value="" selected disabled hidden>Select competition</option>
+						<CompetitionOptions />
+					</Select>
+				</div>
+			</div>
+        </form>;
+
         if (filteredResults.length > 0) {
-          return (
-            <React.Fragment>
-              {banner}
-              <div className='wrapper--content__inpage'>
-                <form 
-                  className='matches__filter background-gray2'
-                  onSubmit={this.handleSubmit}
-                >
-                  <h2>Filter matches</h2>
-                  <Select 
-                    labelRequired 
-                    selectId={`location`}
-                    labelText={`Location`} 
-                    selectName={`location`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="all" selected>Home and away</option>
-                    <option value="home">Home</option>
-                    <option value="away">Away</option>
-                  </Select>
-                  <Select 
-                    labelRequired 
-                    labelText={`Opposition`} 
-                    selectName={`opposition`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="all">All teams</option>
-                    {teamsList}
-                  </Select>
-                  <Select 
-                    labelRequired
-                    labelText={`Season`} 
-                    selectName={`results.season`} 
-                    onChange={this.seasonChange}
-                  >
-                    <SeasonOptions season={season} />
-                  </Select>
-                  <Select 
-                    labelRequired
-                    labelText={`Competition`} 
-                    selectName={`competition`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="" selected disabled hidden>Select competition</option>
-                    <CompetitionOptions />
-                  </Select>
-                </form>
-                <Table>
-                  <thead data-content-align='left'>
-                    <tr>
-                      <th data-display-hidden='mobile'><span>Date</span></th>
-                      <th data-display-hidden='mobile'><span>Competition</span></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th 
-                        className="align-right"
-                        data-display="small"
-                      ><abbr title="Attendance">Att</abbr></th>
-                      <th 
-                        className="align-right"
-                        data-display="small"
-                      ><abbr title="League position">Pos</abbr></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {results_template}
-                  </tbody>
-                </Table>
-              </div>
-            </React.Fragment>
+          	return (
+            	<>
+              		{banner}
+					<div className='wrapper--content__inpage'>
+						{filters}
+						<Table>
+						<thead data-content-align='left'>
+							<tr>
+								<th data-display-hidden='mobile'><span>Date</span></th>
+								<th data-display-hidden='mobile' colSpan={4}><span>Competition</span></th>
+								<th 
+									className="align-right"
+									data-display="small"
+								><abbr title="Attendance">Att</abbr></th>
+								<th 
+									className="align-right"
+									data-display="small"
+								><abbr title="League position">Pos</abbr></th>
+							</tr>
+						</thead>
+						<tbody>
+							{results_template}
+						</tbody>
+						</Table>
+					</div>
+			</>
           )  
         } else if (!this.state.dataLoaded) {
           return (
@@ -305,50 +335,7 @@ class Results extends Component {
             <React.Fragment>
               {banner}
               <div className='wrapper--content__inpage'>
-              <form 
-                  className='matches__filter background-gray2'
-                  onSubmit={this.handleSubmit}
-                >
-                  <h2>Filter matches</h2>
-                  <Select 
-                    labelRequired 
-                    selectId={`location`}
-                    labelText={`Location`} 
-                    selectName={`location`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="all" selected>Home and away</option>
-                    <option value="home">Home</option>
-                    <option value="away">Away</option>
-                  </Select>
-                  <Select 
-                    labelRequired 
-                    labelText={`Opposition`} 
-                    selectName={`opposition`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="all">All teams</option>
-                    {teamsList}
-                  </Select>
-                  <Select 
-                    labelRequired
-                    labelText={`Season`} 
-                    selectName={`results.season`} 
-                    onChange={this.seasonChange}
-                  >
-                    <option value="" selected disabled hidden>Select season</option>
-                    <SeasonOptions />
-                  </Select>
-                  <Select 
-                    labelRequired
-                    labelText={`Competition`} 
-                    selectName={`competition`} 
-                    onChange={this.onChange}
-                  >
-                    <option value="" selected disabled hidden>Select competition</option>
-                    <CompetitionOptions />
-                  </Select>
-                </form>
+                {filters}
                 <Warning>
                   <p>No results found. Please try making another selection.</p>
                 </Warning>
