@@ -78,7 +78,7 @@ class Results extends Component {
     render() {
       document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
 
-      console.log(this.state);
+      console.log(this.state.params);
 
 
         // For scoping, define variables needed in template
@@ -110,7 +110,6 @@ class Results extends Component {
             param.season ? paramsUrl.push(`season=${param.season}`) : null;
           });
 
-          console.log(this.state);
 
 
           paramsUrl = paramsUrl.join('&');
@@ -130,7 +129,9 @@ class Results extends Component {
             location === 'home' ? team_home = 'Dagenham & Redbridge'
               : location === 'away' ? team_away = 'Dagenham & Redbridge'
               : team_home = ('Dagenham & Redbridge', team_away = 'Dagenham & Redbridge');
-            season = this.state.season;
+
+            // No query parameters, load all results for current season
+            !window.location.search ? season = '2022-23' : null;
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
