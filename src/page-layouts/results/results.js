@@ -18,12 +18,8 @@ class Results extends Component {
         super(props);
         this.state = {
           data: '',
-          location: '',
           season: '2022-23',
-          opposition: 'all',
-          competition: 'all',
           teamsData: '',
-          filteredResults: '',
           dataLoaded: false,
           params: []
         };
@@ -36,17 +32,8 @@ class Results extends Component {
       });
       const {name, value} = e.target;
       let params = {...this.state.params, [name] : value}
-      // let params = {...this.state.params, 'key' : name, 'value' : value}
-
       this.setState({params});
     };
-
-    // Season change handler
-    seasonChange = (e) => {
-      this.setState({ 
-        season: e.target.value
-      });
-    }
 
     // Stay on page once form submitted
     handleSubmit(event) {
@@ -91,16 +78,18 @@ class Results extends Component {
     render() {
       document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
 
+      console.log(this.state);
+
+
         // For scoping, define variables needed in template
         let results = this.state.data.results,
           results_template,
-          team_select,
           teamsList,
-          season_select,
           filteredResults,
           team_home,
           team_away,
           season,
+          location,
           opposition,
           competition,
           outcome,
@@ -118,31 +107,30 @@ class Results extends Component {
             param.location ? paramsUrl.push(`location=${param.location}`) : null;
             param.competition ? paramsUrl.push(`competition=${param.competition}`) : null;
             param.opposition ? paramsUrl.push(`opposition=${param.opposition}`) : null;
+            param.season ? paramsUrl.push(`season=${param.season}`) : null;
           });
+
+          console.log(this.state);
+
 
           paramsUrl = paramsUrl.join('&');
           paramsUrl.length > 0 ? window.history.pushState(null, null, 'matches?' + paramsUrl) : null;
 
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString);
-          let loc;
           
-          urlParams.get('location') ? loc = urlParams.get('location') : loc = 'all';
-          
-          const comp = urlParams.get('competition');
-          const opp = urlParams.get('opposition');
-
-          console.log(loc);
+          urlParams.get('location') ? location = urlParams.get('location') : location = 'all';
+          urlParams.get('competition') ? competition = urlParams.get('competition') : competition = 'all';
+          urlParams.get('opposition') ? opposition = urlParams.get('opposition') : opposition = 'all';
+          urlParams.get('season') ? season = urlParams.get('season') : season = 'all';
 
         if (results) {
 
             // Assign variables to variables (will be used to filter data)
-            loc === 'home' ? team_home = 'Dagenham & Redbridge'
-              : loc === 'away' ? team_away = 'Dagenham & Redbridge'
+            location === 'home' ? team_home = 'Dagenham & Redbridge'
+              : location === 'away' ? team_away = 'Dagenham & Redbridge'
               : team_home = ('Dagenham & Redbridge', team_away = 'Dagenham & Redbridge');
             season = this.state.season;
-            opposition = opp;
-            competition = comp;
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
@@ -158,7 +146,9 @@ class Results extends Component {
                 ) &&
                 (competition !== 'all' ? result.competition === competition : result.competition)
               )
-            });              
+            });   
+            
+            console.log(competition)
       
             if (filteredResults.length > 0) {
       
@@ -219,25 +209,12 @@ class Results extends Component {
               oppositionArr.push(result.opposition);
             })
             oppositionArr = [...new Set(oppositionArr)];
-            team_select = oppositionArr.map(opposition => { return <option value={opposition}>{opposition}</option> })
             
             let seasonsArr = [];
             results.map(result => { 
               seasonsArr.push(result.season);
             })
             seasonsArr = [...new Set(seasonsArr)];
-            // Set default selected season to state value
-            season_select = seasonsArr.map(season => { 
-              if (season === this.state.season) {
-                return (
-                  <option value={season} selected>{season}</option>
-                )
-              } else {
-                return (
-                  <option value={season}>{season}</option>
-                ) 
-              }
-            })
           }
         filteredResults = [...new Set(filteredResults)];
 
@@ -277,8 +254,8 @@ class Results extends Component {
 						labelRequired
 						selectId={`season`}
 						labelText={`Season`} 
-						selectName={`results.season`} 
-						onChange={this.seasonChange}
+						selectName={`season`} 
+						onChange={this.onChange}
 					>
 						<SeasonOptions season={season} />
 					</Select>
