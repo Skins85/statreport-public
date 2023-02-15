@@ -14,31 +14,31 @@ import { nameFormat } from '../../util';
 import { setupCache } from 'axios-cache-adapter';
 
 class Results extends Component {
+
     constructor(props) {
-        super(props);
+      const queryString = window.location.search;
+      const URLParams = new URLSearchParams(queryString);
+      super(props);
         this.state = {
           data: '',
           season: '2022-23',
           teamsData: '',
           dataLoaded: false,
-          params: []
+          params: {
+            competition: URLParams.get('competition'),
+            location: URLParams.get('location'),
+            season: URLParams.get('season'),
+            opposition: URLParams.get('opposition')
+          }
         };
-    }
+      }
         
     // Generic onChange handler => updates state
     onChange = e => {
-      this.setState({ 
-        [e.target.name]: e.target.value,
-      });
       const {name, value} = e.target;
       let params = {...this.state.params, [name] : value}
       this.setState({params});
     };
-
-    // Stay on page once form submitted
-    handleSubmit(event) {
-        event.preventDefault();
-    }
 
     async componentDidMount() {
       // Cache GET requests
@@ -78,9 +78,6 @@ class Results extends Component {
     render() {
       document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
 
-      console.log(this.state.params);
-
-
         // For scoping, define variables needed in template
         let results = this.state.data.results,
           results_template,
@@ -92,9 +89,9 @@ class Results extends Component {
           location,
           opposition,
           competition,
-          outcome,
           filters,
           paramsUrl = [],
+          url = new URL(window.location.href),
           banner = <Banner
             name='Matches'
             description='Results and match information'
@@ -103,25 +100,23 @@ class Results extends Component {
           />;
 
           // Build URL params
+
+          // Check if there is any URL params saved in the state
+          
           [this.state.params].map(function (param) {
             param.location ? paramsUrl.push(`location=${param.location}`) : null;
             param.competition ? paramsUrl.push(`competition=${param.competition}`) : null;
-            param.opposition ? paramsUrl.push(`opposition=${param.opposition}`) : null;
+            param.opposition ? paramsUrl.push(`opposition=${param.opposition.replace(' ', '+')}`) : null;
             param.season ? paramsUrl.push(`season=${param.season}`) : null;
           });
-
-
 
           paramsUrl = paramsUrl.join('&');
           paramsUrl.length > 0 ? window.history.pushState(null, null, 'matches?' + paramsUrl) : null;
 
-          const queryString = window.location.search;
-          const urlParams = new URLSearchParams(queryString);
-          
-          urlParams.get('location') ? location = urlParams.get('location') : location = 'all';
-          urlParams.get('competition') ? competition = urlParams.get('competition') : competition = 'all';
-          urlParams.get('opposition') ? opposition = urlParams.get('opposition') : opposition = 'all';
-          urlParams.get('season') ? season = urlParams.get('season') : season = 'all';
+          this.state.params.location ? location = this.state.params.location : location = 'all';
+          this.state.params.competition ? competition = this.state.params.competition : competition = 'all';
+          this.state.params.opposition ? opposition = this.state.params.opposition : opposition = 'all';
+          this.state.params.season ? season = this.state.params.season : season = 'all';
 
         if (results) {
 
@@ -131,7 +126,7 @@ class Results extends Component {
               : team_home = ('Dagenham & Redbridge', team_away = 'Dagenham & Redbridge');
 
             // No query parameters, load all results for current season
-            !window.location.search ? season = '2022-23' : null;
+            url.searchParams.has('season') ? null : season = '2022-23';
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
@@ -149,20 +144,13 @@ class Results extends Component {
               )
             });   
             
-            console.log(competition)
-      
+            let oppositionOptions = document.querySelectorAll('#opposition option');
+            for (const option of oppositionOptions) {
+              option.value === opposition ? option.setAttribute('selected', 'selected') : null;
+            }
+
             if (filteredResults.length > 0) {
-      
-              results_template = filteredResults.map(result => {
-      
-                if (result.goals_home === result.goals_away) {
-                  outcome = 'D';
-                } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home > result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away > result.goals_home)) {
-                  outcome = 'W'
-                } else if (result.team_home === ('Dagenham & Redbridge' && result.goals_home < result.goals_away) || (result.team_away === 'Dagenham & Redbridge' && result.goals_away < result.goals_home)) {
-                  outcome = 'L';
-                }
-      
+              results_template = filteredResults.map(result => {      
                 return (
                   <Result
                     key={result.match_id}
@@ -198,6 +186,7 @@ class Results extends Component {
             teamsList = teamsArray.map(t => {
               return <option 
                 key={t.team_id} 
+                id={t.team_id}
                 value={t.team_name}
                 name={t.team_name}
               >
@@ -220,10 +209,9 @@ class Results extends Component {
         filteredResults = [...new Set(filteredResults)];
 
         filters = <form 
-            className='matches__filter background-gray2'
-            onSubmit={this.handleSubmit}
-          >
-            <h2>Filter matches</h2>
+          className='matches__filter background-gray2'
+        >
+      <h2>Filter matches</h2>
 			<div className='wrapper--matches__filter__select'>
 				<div className='matches__filter__select'>
 					<Select 
@@ -245,6 +233,7 @@ class Results extends Component {
 						labelText={`Opposition`} 
 						selectName={`opposition`} 
 						onChange={this.onChange}
+            selected={opposition}
 					>
 						<option value="all">All teams</option>
 						{teamsList}
@@ -321,7 +310,6 @@ class Results extends Component {
             </React.Fragment>
           )
         }
-        
     }
 }
 
