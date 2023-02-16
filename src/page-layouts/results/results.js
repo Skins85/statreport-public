@@ -36,7 +36,7 @@ class Results extends Component {
     // Generic onChange handler => updates state
     onChange = e => {
       const {name, value} = e.target;
-      let params = {...this.state.params, [name] : value}
+      let params = {...this.state.params, [name] : value.toLowerCase()}
       this.setState({params});
     };
 
@@ -102,8 +102,8 @@ class Results extends Component {
           // Build URL params          
           [this.state.params].map(function (param) {
             param.location ? paramsUrl.push(`location=${param.location}`) : null;
-            param.competition ? paramsUrl.push(`competition=${param.competition}`) : null;
-            param.opposition ? paramsUrl.push(`opposition=${param.opposition.replace(' ', '+')}`) : null;
+            param.competition ? paramsUrl.push(`competition=${param.competition.replace(' ', '+').toLowerCase()}`) : null;
+            param.opposition ? paramsUrl.push(`opposition=${param.opposition.replace(' ', '+').toLowerCase()}`) : null;
             param.season ? paramsUrl.push(`season=${param.season}`) : null;
           });
 
@@ -126,24 +126,21 @@ class Results extends Component {
             const aqueryString = window.location.search;
             const aURLParams = new URLSearchParams(aqueryString);
             aURLParams.get('season') ? season = aURLParams.get('season') : season = '2022-23';
-            // url.searchParams.has('season') ? season = this.state.params.season : season = '2022-23';
-            // season = this.state.params.season;
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
-              console.log(season);
+              console.log(competition);
 
               return (
                 (result.team_home === team_home || result.team_away === team_away) &&
                 (season !== 'all' ? result.season === season : result.season) &&
-                // (result.season === season) &&
                 (opposition === 'all' 
                   ? (result.team_home === 'Dagenham & Redbridge' 
                     || result.team_away === 'Dagenham & Redbridge') 
-                  : (result.team_away === opposition 
-                    || result.team_home === opposition)
+                  : (result.team_away.toLowerCase() === opposition 
+                    || result.team_home.toLowerCase() === opposition)
                 ) &&
-                (competition !== 'all' ? result.competition === competition : result.competition)
+                (competition !== 'all' ? result.competition.toLowerCase() === competition : result.competition.toLowerCase())
               )
             });   
             
