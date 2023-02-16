@@ -21,7 +21,7 @@ class Results extends Component {
       super(props);
         this.state = {
           data: '',
-          season: '2022-23',
+          // season: '2022-23',
           teamsData: '',
           dataLoaded: false,
           params: {
@@ -99,10 +99,7 @@ class Results extends Component {
             // Banner image: Photo by <a href="/photographer/alfcb-46394">Alfredo Camacho</a> from <a href="https://freeimages.com/">FreeImages</a>
           />;
 
-          // Build URL params
-
-          // Check if there is any URL params saved in the state
-          
+          // Build URL params          
           [this.state.params].map(function (param) {
             param.location ? paramsUrl.push(`location=${param.location}`) : null;
             param.competition ? paramsUrl.push(`competition=${param.competition}`) : null;
@@ -126,14 +123,20 @@ class Results extends Component {
               : team_home = ('Dagenham & Redbridge', team_away = 'Dagenham & Redbridge');
 
             // No query parameters, load all results for current season
-            url.searchParams.has('season') ? null : season = '2022-23';
+            const aqueryString = window.location.search;
+            const aURLParams = new URLSearchParams(aqueryString);
+            aURLParams.get('season') ? season = aURLParams.get('season') : season = '2022-23';
+            // url.searchParams.has('season') ? season = this.state.params.season : season = '2022-23';
+            // season = this.state.params.season;
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
+              console.log(season);
 
               return (
                 (result.team_home === team_home || result.team_away === team_away) &&
                 (season !== 'all' ? result.season === season : result.season) &&
+                // (result.season === season) &&
                 (opposition === 'all' 
                   ? (result.team_home === 'Dagenham & Redbridge' 
                     || result.team_away === 'Dagenham & Redbridge') 
