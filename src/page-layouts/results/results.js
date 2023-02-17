@@ -21,7 +21,6 @@ class Results extends Component {
       super(props);
         this.state = {
           data: '',
-          // season: '2022-23',
           teamsData: '',
           dataLoaded: false,
           params: {
@@ -76,7 +75,26 @@ class Results extends Component {
     }
 
     render() {
+
       document.title = `${nameFormat('Dagenham & Redbridge')} matches | StatReport`;
+
+      // If URL has query parameter on load, target relevant option elment and add selected attribute
+      for (const param in this.state.params) {
+
+        let id = this.state.params[param],
+          targetSelect = document.getElementById(param),
+          targetOption;
+
+        if (id) {
+          if (param === 'season') {
+            id = `season-${id}`
+          }
+        }
+        id ? id = id.replace(/ /g, '-') : null;
+
+        targetSelect ? targetOption = targetSelect.querySelector(`[id=${id}]`) : null;
+        targetOption ? targetOption.setAttribute('selected', true) : null;
+      }
 
         // For scoping, define variables needed in template
         let results = this.state.data.results,
@@ -102,8 +120,8 @@ class Results extends Component {
           // Build URL params          
           [this.state.params].map(function (param) {
             param.location ? paramsUrl.push(`location=${param.location}`) : null;
-            param.competition ? paramsUrl.push(`competition=${param.competition.replace(' ', '+').toLowerCase()}`) : null;
-            param.opposition ? paramsUrl.push(`opposition=${param.opposition.replace(' ', '+').toLowerCase()}`) : null;
+            param.competition ? paramsUrl.push(`competition=${param.competition.replace(/ /g, '+').toLowerCase()}`) : null;
+            param.opposition ? paramsUrl.push(`opposition=${param.opposition.replace(/ /g, '+').toLowerCase()}`) : null;
             param.season ? paramsUrl.push(`season=${param.season}`) : null;
           });
 
@@ -129,8 +147,6 @@ class Results extends Component {
       
             // Filter results object based on variables set from state 
             filteredResults = results.filter(function(result) {
-              console.log(competition);
-
               return (
                 (result.team_home === team_home || result.team_away === team_away) &&
                 (season !== 'all' ? result.season === season : result.season) &&
@@ -221,9 +237,9 @@ class Results extends Component {
 						selectName={`location`} 
 						onChange={this.onChange}
 					>
-						<option value="all" selected>Home and away</option>
-						<option value="home">Home</option>
-						<option value="away">Away</option>
+						<option id="all" value="all" selected>Home and away</option>
+						<option id="home" value="home">Home</option>
+						<option id="away" value="away">Away</option>
 					</Select>
 				</div>
 				<div className='matches__filter__select'>
