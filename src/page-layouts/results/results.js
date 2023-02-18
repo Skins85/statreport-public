@@ -82,18 +82,25 @@ class Results extends Component {
       for (const param in this.state.params) {
 
         let id = this.state.params[param],
-          targetSelect = document.getElementById(param),
-          targetOption;
+          targetSelect = document.getElementById(param);
 
         if (id) {
           if (param === 'season') {
             id = `season-${id}`
           }
         }
+        
+        // Replace all spaces with hyphens
         id ? id = id.replace(/ /g, '-') : null;
 
-        targetSelect ? targetOption = targetSelect.querySelector(`[id=${id}]`) : null;
-        targetOption ? targetOption.setAttribute('selected', true) : null;
+        // If select element has an active filter, apply class
+        if (id) {
+          if ((id === 'all' || id === 'season-all') && targetSelect) {
+            targetSelect.classList.remove('filter--selected')
+          } else if (targetSelect) {
+            targetSelect.setAttribute('class','filter--selected')
+          }
+        }
       }
 
         // For scoping, define variables needed in template
