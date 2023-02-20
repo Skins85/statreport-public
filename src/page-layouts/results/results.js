@@ -23,6 +23,7 @@ class Results extends Component {
           data: '',
           teamsData: '',
           dataLoaded: false,
+          selectFinished: true,
           params: {
             competition: URLParams.get('competition'),
             location: URLParams.get('location'),
@@ -32,11 +33,17 @@ class Results extends Component {
         };
       }
         
-    // Generic onChange handler => updates state
+    // Generic onChange handler => stores query parameters in state
     onChange = e => {
       const {name, value} = e.target;
       let params = {...this.state.params, [name] : value.toLowerCase()}
-      this.setState({params});
+      this.setState({
+        params,
+        selectFinished : false
+      });
+      setTimeout(() => {
+        this.setState({ selectFinished : true });
+      },500)
     };
 
     async componentDidMount() {
@@ -82,7 +89,8 @@ class Results extends Component {
       for (const param in this.state.params) {
 
         let id = this.state.params[param],
-          targetSelect = document.getElementById(param);
+          targetSelect = document.getElementById(param),
+          targetOption;
 
         if (id) {
           if (param === 'season') {
@@ -93,7 +101,7 @@ class Results extends Component {
         // Replace all spaces with hyphens
         id ? id = id.replace(/ /g, '-') : null;
 
-        // If select element has an active filter, apply class
+        // If select has an active filter, apply class
         if (id) {
           if ((id === 'all' || id === 'season-all') && targetSelect) {
             targetSelect.classList.remove('filter--selected')
@@ -101,6 +109,8 @@ class Results extends Component {
             targetSelect.setAttribute('class','filter--selected')
           }
         }
+        targetSelect ? targetOption = targetSelect.querySelector(`[id=${id}]`) : null;
+        targetOption ? targetOption.setAttribute('selected', true) : null;
       }
 
         // For scoping, define variables needed in template
@@ -288,7 +298,7 @@ class Results extends Component {
 			</div>
         </form>;
 
-        if (filteredResults.length > 0) {
+        if (filteredResults.length > 0 && this.state.selectFinished) {
           	return (
             	<>
               		{banner}
@@ -309,16 +319,22 @@ class Results extends Component {
 								><abbr title="League position">Pos</abbr></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody className='table__body'>
 							{results_template}
 						</tbody>
 						</Table>
 					</div>
 			</>
           )  
-        } else if (!this.state.dataLoaded) {
+        } else if (!this.state.dataLoaded || !this.state.selectFinished) {
           return (
-              <Spinner />
+            <>
+              {banner}
+              <div className='wrapper--content__inpage'>
+                {filters}
+                <Spinner />
+              </div>
+            </>
           )
         } else {
           return (

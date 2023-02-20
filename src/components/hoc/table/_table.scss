@@ -6,11 +6,6 @@
             border-right: 1px solid transparent;
             border-left: 1px solid transparent;
             transition: background-color 0.3s ease-in;
-            &:hover {
-                background-color: $gray2;
-                border-radius: $rem--one;
-                border: $border-fine solid $blue30;
-            }
         }
         &[data-final-row-highlight] {
             tbody {
@@ -46,6 +41,14 @@
                 display: none;
             }
         }
+        tbody {
+            tr {
+                &:hover {
+                    background-color: $gray2;
+                    border-radius: $rem--one;
+                    border: $border-fine solid $blue30;
+                }
+            }
+        }
     }
-    
 }
